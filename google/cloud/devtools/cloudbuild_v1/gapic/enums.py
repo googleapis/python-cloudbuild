@@ -33,6 +33,7 @@ class Build(object):
           INTERNAL_ERROR (int): Build or step failed due to an internal cause.
           TIMEOUT (int): Build or step took longer than was allowed.
           CANCELLED (int): Build or step was canceled by a user.
+          EXPIRED (int): Build was enqueued for longer than the value of ``queue_ttl``.
         """
 
         STATUS_UNKNOWN = 0
@@ -43,6 +44,7 @@ class Build(object):
         INTERNAL_ERROR = 5
         TIMEOUT = 6
         CANCELLED = 7
+        EXPIRED = 9
 
 
 class BuildOptions(object):
