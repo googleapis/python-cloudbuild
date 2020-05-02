@@ -17,16 +17,6 @@ config = {
                 }
             },
             "methods": {
-                "ListBuilds": {
-                    "timeout_millis": 20000,
-                    "retry_codes_name": "idempotent",
-                    "retry_params_name": "default",
-                },
-                "DeleteBuildTrigger": {
-                    "timeout_millis": 5000,
-                    "retry_codes_name": "idempotent",
-                    "retry_params_name": "default",
-                },
                 "CreateBuild": {
                     "timeout_millis": 20000,
                     "retry_codes_name": "non_idempotent",
@@ -37,13 +27,13 @@ config = {
                     "retry_codes_name": "idempotent",
                     "retry_params_name": "default",
                 },
-                "CancelBuild": {
-                    "timeout_millis": 5000,
-                    "retry_codes_name": "non_idempotent",
+                "ListBuilds": {
+                    "timeout_millis": 20000,
+                    "retry_codes_name": "idempotent",
                     "retry_params_name": "default",
                 },
-                "RetryBuild": {
-                    "timeout_millis": 20000,
+                "CancelBuild": {
+                    "timeout_millis": 5000,
                     "retry_codes_name": "non_idempotent",
                     "retry_params_name": "default",
                 },
@@ -62,12 +52,22 @@ config = {
                     "retry_codes_name": "idempotent",
                     "retry_params_name": "default",
                 },
+                "DeleteBuildTrigger": {
+                    "timeout_millis": 5000,
+                    "retry_codes_name": "idempotent",
+                    "retry_params_name": "default",
+                },
                 "UpdateBuildTrigger": {
                     "timeout_millis": 5000,
                     "retry_codes_name": "non_idempotent",
                     "retry_params_name": "default",
                 },
                 "RunBuildTrigger": {
+                    "timeout_millis": 20000,
+                    "retry_codes_name": "non_idempotent",
+                    "retry_params_name": "default",
+                },
+                "RetryBuild": {
                     "timeout_millis": 20000,
                     "retry_codes_name": "non_idempotent",
                     "retry_params_name": "default",

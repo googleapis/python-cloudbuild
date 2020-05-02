@@ -19,8 +19,6 @@
 import mock
 import pytest
 
-from google.rpc import status_pb2
-
 from google.cloud.devtools import cloudbuild_v1
 from google.cloud.devtools.cloudbuild_v1.proto import cloudbuild_pb2
 from google.longrunning import operations_pb2
@@ -64,13 +62,12 @@ class CustomException(Exception):
 
 
 class TestCloudBuildClient(object):
-    def test_list_builds(self):
+    def test_create_build(self):
         # Setup Expected Response
-        next_page_token = ""
-        builds_element = {}
-        builds = [builds_element]
-        expected_response = {"next_page_token": next_page_token, "builds": builds}
-        expected_response = cloudbuild_pb2.ListBuildsResponse(**expected_response)
+        name = "name3373707"
+        done = True
+        expected_response = {"name": name, "done": done}
+        expected_response = operations_pb2.Operation(**expected_response)
 
         # Mock the API response
         channel = ChannelStub(responses=[expected_response])
@@ -81,103 +78,10 @@ class TestCloudBuildClient(object):
 
         # Setup Request
         project_id = "projectId-1969970175"
-
-        paged_list_response = client.list_builds(project_id)
-        resources = list(paged_list_response)
-        assert len(resources) == 1
-
-        assert expected_response.builds[0] == resources[0]
-
-        assert len(channel.requests) == 1
-        expected_request = cloudbuild_pb2.ListBuildsRequest(project_id=project_id)
-        actual_request = channel.requests[0][1]
-        assert expected_request == actual_request
-
-    def test_list_builds_exception(self):
-        channel = ChannelStub(responses=[CustomException()])
-        patch = mock.patch("google.api_core.grpc_helpers.create_channel")
-        with patch as create_channel:
-            create_channel.return_value = channel
-            client = cloudbuild_v1.CloudBuildClient()
-
-        # Setup request
-        project_id = "projectId-1969970175"
-
-        paged_list_response = client.list_builds(project_id)
-        with pytest.raises(CustomException):
-            list(paged_list_response)
-
-    def test_delete_build_trigger(self):
-        channel = ChannelStub()
-        patch = mock.patch("google.api_core.grpc_helpers.create_channel")
-        with patch as create_channel:
-            create_channel.return_value = channel
-            client = cloudbuild_v1.CloudBuildClient()
-
-        # Setup Request
-        project_id = "projectId-1969970175"
-        trigger_id = "triggerId1363517698"
-
-        client.delete_build_trigger(project_id, trigger_id)
-
-        assert len(channel.requests) == 1
-        expected_request = cloudbuild_pb2.DeleteBuildTriggerRequest(
-            project_id=project_id, trigger_id=trigger_id
-        )
-        actual_request = channel.requests[0][1]
-        assert expected_request == actual_request
-
-    def test_delete_build_trigger_exception(self):
-        # Mock the API response
-        channel = ChannelStub(responses=[CustomException()])
-        patch = mock.patch("google.api_core.grpc_helpers.create_channel")
-        with patch as create_channel:
-            create_channel.return_value = channel
-            client = cloudbuild_v1.CloudBuildClient()
-
-        # Setup request
-        project_id = "projectId-1969970175"
-        trigger_id = "triggerId1363517698"
-
-        with pytest.raises(CustomException):
-            client.delete_build_trigger(project_id, trigger_id)
-
-    def test_create_build(self):
-        # Setup Expected Response
-        id_ = "id3355"
-        project_id_2 = "projectId2939242356"
-        status_detail = "statusDetail2089931070"
-        logs_bucket = "logsBucket1565363834"
-        build_trigger_id = "buildTriggerId1105559411"
-        log_url = "logUrl342054388"
-        expected_response = {
-            "id": id_,
-            "project_id": project_id_2,
-            "status_detail": status_detail,
-            "logs_bucket": logs_bucket,
-            "build_trigger_id": build_trigger_id,
-            "log_url": log_url,
-        }
-        expected_response = cloudbuild_pb2.Build(**expected_response)
-        operation = operations_pb2.Operation(
-            name="operations/test_create_build", done=True
-        )
-        operation.response.Pack(expected_response)
-
-        # Mock the API response
-        channel = ChannelStub(responses=[operation])
-        patch = mock.patch("google.api_core.grpc_helpers.create_channel")
-        with patch as create_channel:
-            create_channel.return_value = channel
-            client = cloudbuild_v1.CloudBuildClient()
-
-        # Setup Request
-        project_id = "projectId-1969970175"
         build = {}
 
         response = client.create_build(project_id, build)
-        result = response.result()
-        assert expected_response == result
+        assert expected_response == response
 
         assert len(channel.requests) == 1
         expected_request = cloudbuild_pb2.CreateBuildRequest(
@@ -187,27 +91,19 @@ class TestCloudBuildClient(object):
         assert expected_request == actual_request
 
     def test_create_build_exception(self):
-        # Setup Response
-        error = status_pb2.Status()
-        operation = operations_pb2.Operation(
-            name="operations/test_create_build_exception", done=True
-        )
-        operation.error.CopyFrom(error)
-
         # Mock the API response
-        channel = ChannelStub(responses=[operation])
+        channel = ChannelStub(responses=[CustomException()])
         patch = mock.patch("google.api_core.grpc_helpers.create_channel")
         with patch as create_channel:
             create_channel.return_value = channel
             client = cloudbuild_v1.CloudBuildClient()
 
-        # Setup Request
+        # Setup request
         project_id = "projectId-1969970175"
         build = {}
 
-        response = client.create_build(project_id, build)
-        exception = response.exception()
-        assert exception.errors[0] == error
+        with pytest.raises(CustomException):
+            client.create_build(project_id, build)
 
     def test_get_build(self):
         # Setup Expected Response
@@ -260,6 +156,49 @@ class TestCloudBuildClient(object):
 
         with pytest.raises(CustomException):
             client.get_build(project_id, id_)
+
+    def test_list_builds(self):
+        # Setup Expected Response
+        next_page_token = ""
+        builds_element = {}
+        builds = [builds_element]
+        expected_response = {"next_page_token": next_page_token, "builds": builds}
+        expected_response = cloudbuild_pb2.ListBuildsResponse(**expected_response)
+
+        # Mock the API response
+        channel = ChannelStub(responses=[expected_response])
+        patch = mock.patch("google.api_core.grpc_helpers.create_channel")
+        with patch as create_channel:
+            create_channel.return_value = channel
+            client = cloudbuild_v1.CloudBuildClient()
+
+        # Setup Request
+        project_id = "projectId-1969970175"
+
+        paged_list_response = client.list_builds(project_id)
+        resources = list(paged_list_response)
+        assert len(resources) == 1
+
+        assert expected_response.builds[0] == resources[0]
+
+        assert len(channel.requests) == 1
+        expected_request = cloudbuild_pb2.ListBuildsRequest(project_id=project_id)
+        actual_request = channel.requests[0][1]
+        assert expected_request == actual_request
+
+    def test_list_builds_exception(self):
+        channel = ChannelStub(responses=[CustomException()])
+        patch = mock.patch("google.api_core.grpc_helpers.create_channel")
+        with patch as create_channel:
+            create_channel.return_value = channel
+            client = cloudbuild_v1.CloudBuildClient()
+
+        # Setup request
+        project_id = "projectId-1969970175"
+
+        paged_list_response = client.list_builds(project_id)
+        with pytest.raises(CustomException):
+            list(paged_list_response)
 
     def test_cancel_build(self):
         # Setup Expected Response
@@ -314,73 +253,6 @@ class TestCloudBuildClient(object):
 
         with pytest.raises(CustomException):
             client.cancel_build(project_id, id_)
-
-    def test_retry_build(self):
-        # Setup Expected Response
-        id_2 = "id23227150"
-        project_id_2 = "projectId2939242356"
-        status_detail = "statusDetail2089931070"
-        logs_bucket = "logsBucket1565363834"
-        build_trigger_id = "buildTriggerId1105559411"
-        log_url = "logUrl342054388"
-        expected_response = {
-            "id": id_2,
-            "project_id": project_id_2,
-            "status_detail": status_detail,
-            "logs_bucket": logs_bucket,
-            "build_trigger_id": build_trigger_id,
-            "log_url": log_url,
-        }
-        expected_response = cloudbuild_pb2.Build(**expected_response)
-        operation = operations_pb2.Operation(
-            name="operations/test_retry_build", done=True
-        )
-        operation.response.Pack(expected_response)
-
-        # Mock the API response
-        channel = ChannelStub(responses=[operation])
-        patch = mock.patch("google.api_core.grpc_helpers.create_channel")
-        with patch as create_channel:
-            create_channel.return_value = channel
-            client = cloudbuild_v1.CloudBuildClient()
-
-        # Setup Request
-        project_id = "projectId-1969970175"
-        id_ = "id3355"
-
-        response = client.retry_build(project_id, id_)
-        result = response.result()
-        assert expected_response == result
-
-        assert len(channel.requests) == 1
-        expected_request = cloudbuild_pb2.RetryBuildRequest(
-            project_id=project_id, id=id_
-        )
-        actual_request = channel.requests[0][1]
-        assert expected_request == actual_request
-
-    def test_retry_build_exception(self):
-        # Setup Response
-        error = status_pb2.Status()
-        operation = operations_pb2.Operation(
-            name="operations/test_retry_build_exception", done=True
-        )
-        operation.error.CopyFrom(error)
-
-        # Mock the API response
-        channel = ChannelStub(responses=[operation])
-        patch = mock.patch("google.api_core.grpc_helpers.create_channel")
-        with patch as create_channel:
-            create_channel.return_value = channel
-            client = cloudbuild_v1.CloudBuildClient()
-
-        # Setup Request
-        project_id = "projectId-1969970175"
-        id_ = "id3355"
-
-        response = client.retry_build(project_id, id_)
-        exception = response.exception()
-        assert exception.errors[0] == error
 
     def test_create_build_trigger(self):
         # Setup Expected Response
@@ -488,10 +360,8 @@ class TestCloudBuildClient(object):
 
     def test_list_build_triggers(self):
         # Setup Expected Response
-        next_page_token = ""
-        triggers_element = {}
-        triggers = [triggers_element]
-        expected_response = {"next_page_token": next_page_token, "triggers": triggers}
+        next_page_token = "nextPageToken-1530815211"
+        expected_response = {"next_page_token": next_page_token}
         expected_response = cloudbuild_pb2.ListBuildTriggersResponse(
             **expected_response
         )
@@ -506,11 +376,8 @@ class TestCloudBuildClient(object):
         # Setup Request
         project_id = "projectId-1969970175"
 
-        paged_list_response = client.list_build_triggers(project_id)
-        resources = list(paged_list_response)
-        assert len(resources) == 1
-
-        assert expected_response.triggers[0] == resources[0]
+        response = client.list_build_triggers(project_id)
+        assert expected_response == response
 
         assert len(channel.requests) == 1
         expected_request = cloudbuild_pb2.ListBuildTriggersRequest(
@@ -520,6 +387,7 @@ class TestCloudBuildClient(object):
         assert expected_request == actual_request
 
     def test_list_build_triggers_exception(self):
+        # Mock the API response
         channel = ChannelStub(responses=[CustomException()])
         patch = mock.patch("google.api_core.grpc_helpers.create_channel")
         with patch as create_channel:
@@ -529,9 +397,43 @@ class TestCloudBuildClient(object):
         # Setup request
         project_id = "projectId-1969970175"
 
-        paged_list_response = client.list_build_triggers(project_id)
         with pytest.raises(CustomException):
-            list(paged_list_response)
+            client.list_build_triggers(project_id)
+
+    def test_delete_build_trigger(self):
+        channel = ChannelStub()
+        patch = mock.patch("google.api_core.grpc_helpers.create_channel")
+        with patch as create_channel:
+            create_channel.return_value = channel
+            client = cloudbuild_v1.CloudBuildClient()
+
+        # Setup Request
+        project_id = "projectId-1969970175"
+        trigger_id = "triggerId1363517698"
+
+        client.delete_build_trigger(project_id, trigger_id)
+
+        assert len(channel.requests) == 1
+        expected_request = cloudbuild_pb2.DeleteBuildTriggerRequest(
+            project_id=project_id, trigger_id=trigger_id
+        )
+        actual_request = channel.requests[0][1]
+        assert expected_request == actual_request
+
+    def test_delete_build_trigger_exception(self):
+        # Mock the API response
+        channel = ChannelStub(responses=[CustomException()])
+        patch = mock.patch("google.api_core.grpc_helpers.create_channel")
+        with patch as create_channel:
+            create_channel.return_value = channel
+            client = cloudbuild_v1.CloudBuildClient()
+
+        # Setup request
+        project_id = "projectId-1969970175"
+        trigger_id = "triggerId1363517698"
+
+        with pytest.raises(CustomException):
+            client.delete_build_trigger(project_id, trigger_id)
 
     def test_update_build_trigger(self):
         # Setup Expected Response
@@ -589,28 +491,13 @@ class TestCloudBuildClient(object):
 
     def test_run_build_trigger(self):
         # Setup Expected Response
-        id_ = "id3355"
-        project_id_2 = "projectId2939242356"
-        status_detail = "statusDetail2089931070"
-        logs_bucket = "logsBucket1565363834"
-        build_trigger_id = "buildTriggerId1105559411"
-        log_url = "logUrl342054388"
-        expected_response = {
-            "id": id_,
-            "project_id": project_id_2,
-            "status_detail": status_detail,
-            "logs_bucket": logs_bucket,
-            "build_trigger_id": build_trigger_id,
-            "log_url": log_url,
-        }
-        expected_response = cloudbuild_pb2.Build(**expected_response)
-        operation = operations_pb2.Operation(
-            name="operations/test_run_build_trigger", done=True
-        )
-        operation.response.Pack(expected_response)
+        name = "name3373707"
+        done = True
+        expected_response = {"name": name, "done": done}
+        expected_response = operations_pb2.Operation(**expected_response)
 
         # Mock the API response
-        channel = ChannelStub(responses=[operation])
+        channel = ChannelStub(responses=[expected_response])
         patch = mock.patch("google.api_core.grpc_helpers.create_channel")
         with patch as create_channel:
             create_channel.return_value = channel
@@ -622,8 +509,7 @@ class TestCloudBuildClient(object):
         source = {}
 
         response = client.run_build_trigger(project_id, trigger_id, source)
-        result = response.result()
-        assert expected_response == result
+        assert expected_response == response
 
         assert len(channel.requests) == 1
         expected_request = cloudbuild_pb2.RunBuildTriggerRequest(
@@ -633,15 +519,30 @@ class TestCloudBuildClient(object):
         assert expected_request == actual_request
 
     def test_run_build_trigger_exception(self):
-        # Setup Response
-        error = status_pb2.Status()
-        operation = operations_pb2.Operation(
-            name="operations/test_run_build_trigger_exception", done=True
-        )
-        operation.error.CopyFrom(error)
+        # Mock the API response
+        channel = ChannelStub(responses=[CustomException()])
+        patch = mock.patch("google.api_core.grpc_helpers.create_channel")
+        with patch as create_channel:
+            create_channel.return_value = channel
+            client = cloudbuild_v1.CloudBuildClient()
+
+        # Setup request
+        project_id = "projectId-1969970175"
+        trigger_id = "triggerId1363517698"
+        source = {}
+
+        with pytest.raises(CustomException):
+            client.run_build_trigger(project_id, trigger_id, source)
+
+    def test_retry_build(self):
+        # Setup Expected Response
+        name = "name3373707"
+        done = True
+        expected_response = {"name": name, "done": done}
+        expected_response = operations_pb2.Operation(**expected_response)
 
         # Mock the API response
-        channel = ChannelStub(responses=[operation])
+        channel = ChannelStub(responses=[expected_response])
         patch = mock.patch("google.api_core.grpc_helpers.create_channel")
         with patch as create_channel:
             create_channel.return_value = channel
@@ -649,12 +550,32 @@ class TestCloudBuildClient(object):
 
         # Setup Request
         project_id = "projectId-1969970175"
-        trigger_id = "triggerId1363517698"
-        source = {}
+        id_ = "id3355"
 
-        response = client.run_build_trigger(project_id, trigger_id, source)
-        exception = response.exception()
-        assert exception.errors[0] == error
+        response = client.retry_build(project_id, id_)
+        assert expected_response == response
+
+        assert len(channel.requests) == 1
+        expected_request = cloudbuild_pb2.RetryBuildRequest(
+            project_id=project_id, id=id_
+        )
+        actual_request = channel.requests[0][1]
+        assert expected_request == actual_request
+
+    def test_retry_build_exception(self):
+        # Mock the API response
+        channel = ChannelStub(responses=[CustomException()])
+        patch = mock.patch("google.api_core.grpc_helpers.create_channel")
+        with patch as create_channel:
+            create_channel.return_value = channel
+            client = cloudbuild_v1.CloudBuildClient()
+
+        # Setup request
+        project_id = "projectId-1969970175"
+        id_ = "id3355"
+
+        with pytest.raises(CustomException):
+            client.retry_build(project_id, id_)
 
     def test_create_worker_pool(self):
         # Setup Expected Response
