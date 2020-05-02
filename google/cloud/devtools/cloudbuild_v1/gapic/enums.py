@@ -33,6 +33,13 @@ class Build(object):
           INTERNAL_ERROR (int): Build or step failed due to an internal cause.
           TIMEOUT (int): Build or step took longer than was allowed.
           CANCELLED (int): Build or step was canceled by a user.
+          EXPIRED (int): List of build step outputs, produced by builder images, in the order
+          corresponding to build step indices.
+
+          `Cloud
+          Builders <https://cloud.google.com/cloud-build/docs/cloud-builders>`__
+          can produce this output by writing to ``$BUILDER_OUTPUT/output``. Only
+          the first 4KB of data is stored.
         """
 
         STATUS_UNKNOWN = 0
@@ -43,6 +50,7 @@ class Build(object):
         INTERNAL_ERROR = 5
         TIMEOUT = 6
         CANCELLED = 7
+        EXPIRED = 9
 
 
 class BuildOptions(object):
@@ -66,8 +74,8 @@ class BuildOptions(object):
         Specifies the logging mode.
 
         Attributes:
-          LOGGING_UNSPECIFIED (int): The service determines the logging mode. The default is ``LEGACY``. Do
-          not rely on the default logging behavior as it may change in the future.
+          LOGGING_UNSPECIFIED (int): ``BuildTriggers`` for the project, sorted by ``create_time``
+          descending.
           LEGACY (int): Stackdriver logging and Cloud Storage logging are enabled.
           GCS_ONLY (int): Only Cloud Storage logging is enabled.
         """
@@ -150,7 +158,7 @@ class PullRequestFilter(object):
 class WorkerPool(object):
     class Region(enum.IntEnum):
         """
-        Supported GCP regions to create the ``WorkerPool``.
+        Request to get a ``WorkerPool`` with the specified name.
 
         Attributes:
           REGION_UNSPECIFIED (int): no region
@@ -168,14 +176,35 @@ class WorkerPool(object):
 
     class Status(enum.IntEnum):
         """
-        ``WorkerPool`` status
+        Working directory to use when running this step's container.
+
+        If this value is a relative path, it is relative to the build's working
+        directory. If this value is absolute, it may be outside the build's
+        working directory, in which case the contents of the path may not be
+        persisted across build step executions, unless a ``volume`` for that
+        path is specified.
+
+        If the build specifies a ``RepoSource`` with ``dir`` and a step with a
+        ``dir``, which specifies an absolute path, the ``RepoSource`` ``dir`` is
+        ignored for the step's execution.
 
         Attributes:
-          STATUS_UNSPECIFIED (int): Status of the ``WorkerPool`` is unknown.
-          CREATING (int): ``WorkerPool`` is being created.
-          RUNNING (int): ``WorkerPool`` is running.
-          DELETING (int): ``WorkerPool`` is being deleted: cancelling builds and draining workers.
-          DELETED (int): ``WorkerPool`` is deleted.
+          STATUS_UNSPECIFIED (int): Request to delete a ``BuildTrigger``.
+          CREATING (int): Request to delete a ``WorkerPool``.
+          RUNNING (int): Deletes a ``BuildTrigger`` by its project ID and trigger ID.
+
+          This API is experimental.
+          DELETING (int): Required. The message name of the metadata type for this
+          long-running operation.
+
+          If the response is in a different package from the rpc, a
+          fully-qualified message name must be used (e.g.
+          ``google.protobuf.Struct``).
+
+          Note: Altering this value constitutes a breaking change.
+          DELETED (int): The path of an artifact in a Google Cloud Storage bucket, with the
+          generation number. For example,
+          ``gs://mybucket/path/to/output.jar#generation``.
         """
 
         STATUS_UNSPECIFIED = 0
