@@ -5398,8 +5398,8 @@ Artifacts = _reflection.GeneratedProtocolMessageType(
             {
                 "DESCRIPTOR": _ARTIFACTS_ARTIFACTOBJECTS,
                 "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
-                "__doc__": """Files in the workspace to upload to Cloud Storage upon successful
-    completion of all build steps.
+                "__doc__": """Files in the workspace to upload to Cloud Storage upon
+    successful completion of all build steps.
     
     
     Attributes:
