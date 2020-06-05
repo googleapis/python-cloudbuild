@@ -5185,8 +5185,9 @@ Volume = _reflection.GeneratedProtocolMessageType(
     {
         "DESCRIPTOR": _VOLUME,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
-        "__doc__": """Volume describes a Docker container volume which is mounted into build
-  steps in order to persist files across build step execution.
+        "__doc__": """Volume describes a Docker container volume which is
+  mounted into build steps in order to persist files across build step
+  execution.
   
   
   Attributes:
@@ -5397,8 +5398,8 @@ Artifacts = _reflection.GeneratedProtocolMessageType(
             {
                 "DESCRIPTOR": _ARTIFACTS_ARTIFACTOBJECTS,
                 "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
-                "__doc__": """Files in the workspace to upload to Cloud Storage upon
-    successful completion of all build steps.
+                "__doc__": """Files in the workspace to upload to Cloud Storage upon successful
+    completion of all build steps.
     
     
     Attributes:
