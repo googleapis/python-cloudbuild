@@ -5421,8 +5421,8 @@ Artifacts = _reflection.GeneratedProtocolMessageType(
         ),
         "DESCRIPTOR": _ARTIFACTS,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
-        "__doc__": """Artifacts produced by a build that should be uploaded upon successful
-  completion of all build steps.
+        "__doc__": """Artifacts produced by a build that should be uploaded upon
+  successful completion of all build steps.
   
   
   Attributes:
