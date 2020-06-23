@@ -5334,6 +5334,7 @@ RetryBuildRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _RETRYBUILDREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Specifies a build to retry.
+  
   Attributes:
       project_id:
           Required. ID of the project.
@@ -5352,6 +5353,7 @@ RunBuildTriggerRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _RUNBUILDTRIGGERREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Specifies a build trigger to run and the source to use.
+  
   Attributes:
       project_id:
           Required. ID of the project.
@@ -5372,6 +5374,7 @@ StorageSource = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _STORAGESOURCE,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Location of the source in an archive file in Google Cloud Storage.
+  
   Attributes:
       bucket:
           Google Cloud Storage bucket containing the source (see `Bucket
@@ -5407,6 +5410,7 @@ RepoSource = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _REPOSOURCE,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Location of the source in a Google Cloud Source Repository.
+  
   Attributes:
       project_id:
           ID of the project that owns the Cloud Source Repository. If
@@ -5451,6 +5455,7 @@ Source = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _SOURCE,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Location of the source in a supported storage service.
+  
   Attributes:
       source:
           Location of source.
@@ -5473,6 +5478,7 @@ BuiltImage = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _BUILTIMAGE,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """An image built by the pipeline.
+  
   Attributes:
       name:
           Name used to push the container image to Google Container
@@ -5495,6 +5501,7 @@ BuildStep = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _BUILDSTEP,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """A step in the build pipeline.
+  
   Attributes:
       name:
           Required. The name of the container image that will run this
@@ -5584,6 +5591,7 @@ Volume = _reflection.GeneratedProtocolMessageType(
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Volume describes a Docker container volume which is mounted into build
   steps in order to persist files across build step execution.
+  
   Attributes:
       name:
           Name of the volume to mount.  Volume names must be unique per
@@ -5606,6 +5614,7 @@ Results = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _RESULTS,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Artifacts created by the build pipeline.
+  
   Attributes:
       images:
           Container images that were built as a part of the build.
@@ -5641,6 +5650,7 @@ ArtifactResult = _reflection.GeneratedProtocolMessageType(
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """An artifact that was uploaded during a build. This is a single record
   in the artifact manifest JSON file.
+  
   Attributes:
       location:
           The path of an artifact in a Google Cloud Storage bucket, with
@@ -5690,6 +5700,7 @@ Build = _reflection.GeneratedProtocolMessageType(
   the commit SHA specified by RepoSource    or resolved from the
   specified branch or tag. -  $SHORT_SHA: first 7 characters of
   $REVISION_ID or $COMMIT_SHA.
+  
   Attributes:
       id:
           Output only. Unique identifier of the build.
@@ -5783,6 +5794,7 @@ Artifacts = _reflection.GeneratedProtocolMessageType(
                 "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
                 "__doc__": """Files in the workspace to upload to Cloud Storage upon successful
     completion of all build steps.
+    
     Attributes:
         location:
             Cloud Storage bucket and optional object path, in the form
@@ -5804,6 +5816,7 @@ Artifacts = _reflection.GeneratedProtocolMessageType(
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Artifacts produced by a build that should be uploaded upon successful
   completion of all build steps.
+  
   Attributes:
       images:
           A list of images to be pushed upon the successful completion
@@ -5835,6 +5848,7 @@ TimeSpan = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _TIMESPAN,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Start and end times for a build execution phase.
+  
   Attributes:
       start_time:
           Start of time span.
@@ -5853,6 +5867,7 @@ BuildOperationMetadata = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _BUILDOPERATIONMETADATA,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Metadata for build operations.
+  
   Attributes:
       build:
           The build that the operation is tracking.
@@ -5879,6 +5894,7 @@ SourceProvenance = _reflection.GeneratedProtocolMessageType(
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Provenance of the source. Ways to find the original source, or verify
   that some source was used for this build.
+  
   Attributes:
       resolved_storage_source:
           A copy of the build’s ``source.storage_source``, if exists,
@@ -5912,6 +5928,7 @@ FileHashes = _reflection.GeneratedProtocolMessageType(
         "__doc__": """Container message for hashes of byte content of files, used in
   SourceProvenance messages to verify integrity of source input to the
   build.
+  
   Attributes:
       file_hash:
           Collection of file hashes.
@@ -5928,6 +5945,7 @@ Hash = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _HASH,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Container message for hash values.
+  
   Attributes:
       type:
           The type of hash that was performed.
@@ -5956,6 +5974,7 @@ Secret = _reflection.GeneratedProtocolMessageType(
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Pairs a set of secret environment variables containing encrypted
   values with the Cloud KMS key to use to decrypt the value.
+  
   Attributes:
       kms_key_name:
           Cloud KMS key name to use to decrypt these envs.
@@ -5979,6 +5998,7 @@ CreateBuildRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _CREATEBUILDREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to create a new build.
+  
   Attributes:
       project_id:
           Required. ID of the project.
@@ -5997,6 +6017,7 @@ GetBuildRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _GETBUILDREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to get a build.
+  
   Attributes:
       project_id:
           Required. ID of the project.
@@ -6015,6 +6036,7 @@ ListBuildsRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _LISTBUILDSREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to list builds.
+  
   Attributes:
       project_id:
           Required. ID of the project.
@@ -6037,6 +6059,7 @@ ListBuildsResponse = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _LISTBUILDSRESPONSE,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Response including listed builds.
+  
   Attributes:
       builds:
           Builds will be sorted by ``create_time``, descending.
@@ -6055,6 +6078,7 @@ CancelBuildRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _CANCELBUILDREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to cancel an ongoing build.
+  
   Attributes:
       project_id:
           Required. ID of the project.
@@ -6083,6 +6107,7 @@ BuildTrigger = _reflection.GeneratedProtocolMessageType(
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Configuration for an automated build in response to source repository
   changes.
+  
   Attributes:
       id:
           Output only. Unique identifier of the trigger.
@@ -6155,6 +6180,7 @@ GitHubEventsConfig = _reflection.GeneratedProtocolMessageType(
         "__doc__": """GitHubEventsConfig describes the configuration of a trigger that
   creates a build whenever a GitHub event is received.  This message is
   experimental.
+  
   Attributes:
       installation_id:
           The installationID that emits the GitHub event.
@@ -6187,6 +6213,7 @@ PullRequestFilter = _reflection.GeneratedProtocolMessageType(
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """PullRequestFilter contains filter properties for matching GitHub Pull
   Requests.
+  
   Attributes:
       git_ref:
           Target refs to match. A target ref is the git reference where
@@ -6214,6 +6241,7 @@ PushFilter = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _PUSHFILTER,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Push contains filter properties for matching GitHub git pushes.
+  
   Attributes:
       git_ref:
           Modified refs to match. A modified refs are the refs modified
@@ -6242,6 +6270,7 @@ CreateBuildTriggerRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _CREATEBUILDTRIGGERREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to create a new ``BuildTrigger``.
+  
   Attributes:
       project_id:
           Required. ID of the project for which to configure automatic
@@ -6261,6 +6290,7 @@ GetBuildTriggerRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _GETBUILDTRIGGERREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Returns the ``BuildTrigger`` with the specified ID.
+  
   Attributes:
       project_id:
           Required. ID of the project that owns the trigger.
@@ -6280,6 +6310,7 @@ ListBuildTriggersRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _LISTBUILDTRIGGERSREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to list existing ``BuildTriggers``.
+  
   Attributes:
       project_id:
           Required. ID of the project for which to list BuildTriggers.
@@ -6300,6 +6331,7 @@ ListBuildTriggersResponse = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _LISTBUILDTRIGGERSRESPONSE,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Response containing existing ``BuildTriggers``.
+  
   Attributes:
       triggers:
           \ ``BuildTriggers`` for the project, sorted by ``create_time``
@@ -6319,6 +6351,7 @@ DeleteBuildTriggerRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _DELETEBUILDTRIGGERREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to delete a ``BuildTrigger``.
+  
   Attributes:
       project_id:
           Required. ID of the project that owns the trigger.
@@ -6337,6 +6370,7 @@ UpdateBuildTriggerRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _UPDATEBUILDTRIGGERREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to update an existing ``BuildTrigger``.
+  
   Attributes:
       project_id:
           Required. ID of the project that owns the trigger.
@@ -6357,6 +6391,7 @@ BuildOptions = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _BUILDOPTIONS,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Optional arguments to enable specific features of builds.
+  
   Attributes:
       source_provenance_hash:
           Requested hash for SourceProvenance.
@@ -6425,6 +6460,7 @@ WorkerPool = _reflection.GeneratedProtocolMessageType(
   access private resources on your private network – you can request
   Cloud Build to run the workers in your own project by creating a
   custom workers pool.
+  
   Attributes:
       name:
           User-defined name of the ``WorkerPool``.
@@ -6472,6 +6508,7 @@ WorkerConfig = _reflection.GeneratedProtocolMessageType(
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """WorkerConfig defines the configuration to be used for a creating
   workers in the pool.
+  
   Attributes:
       machine_type:
           Machine Type of the worker, such as n1-standard-1. See
@@ -6514,6 +6551,7 @@ Network = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _NETWORK,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Network describes the GCP network used to create workers in.
+  
   Attributes:
       project_id:
           Project id containing the defined network and subnetwork. For
@@ -6541,6 +6579,7 @@ CreateWorkerPoolRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _CREATEWORKERPOOLREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to create a new ``WorkerPool``.
+  
   Attributes:
       parent:
           ID of the parent project.
@@ -6559,6 +6598,7 @@ GetWorkerPoolRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _GETWORKERPOOLREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to get a ``WorkerPool`` with the specified name.
+  
   Attributes:
       name:
           The field will contain name of the resource requested, for
@@ -6576,6 +6616,7 @@ DeleteWorkerPoolRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _DELETEWORKERPOOLREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to delete a ``WorkerPool``.
+  
   Attributes:
       name:
           The field will contain name of the resource requested, for
@@ -6593,6 +6634,7 @@ UpdateWorkerPoolRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _UPDATEWORKERPOOLREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to update a ``WorkerPool``.
+  
   Attributes:
       name:
           The field will contain name of the resource requested, for
@@ -6612,6 +6654,7 @@ ListWorkerPoolsRequest = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _LISTWORKERPOOLSREQUEST,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Request to list ``WorkerPool``\ s.
+  
   Attributes:
       parent:
           ID of the parent project.
@@ -6628,6 +6671,7 @@ ListWorkerPoolsResponse = _reflection.GeneratedProtocolMessageType(
         "DESCRIPTOR": _LISTWORKERPOOLSRESPONSE,
         "__module__": "google.cloud.devtools.cloudbuild_v1.proto.cloudbuild_pb2",
         "__doc__": """Response containing existing ``WorkerPools``.
+  
   Attributes:
       worker_pools:
           \ ``WorkerPools`` for the project.
