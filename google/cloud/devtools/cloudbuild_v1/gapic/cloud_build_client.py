@@ -43,7 +43,7 @@ from google.longrunning import operations_pb2
 from google.protobuf import empty_pb2
 
 
-_GAPIC_LIBRARY_VERSION = pkg_resources.get_distribution("google-cloud-build").version
+_GAPIC_LIBRARY_VERSION = pkg_resources.get_distribution("google-cloud-build",).version
 
 
 class CloudBuildClient(object):
@@ -172,12 +172,12 @@ class CloudBuildClient(object):
                 self.transport = transport
         else:
             self.transport = cloud_build_grpc_transport.CloudBuildGrpcTransport(
-                address=api_endpoint, channel=channel, credentials=credentials
+                address=api_endpoint, channel=channel, credentials=credentials,
             )
 
         if client_info is None:
             client_info = google.api_core.gapic_v1.client_info.ClientInfo(
-                gapic_version=_GAPIC_LIBRARY_VERSION
+                gapic_version=_GAPIC_LIBRARY_VERSION,
             )
         else:
             client_info.gapic_version = _GAPIC_LIBRARY_VERSION
@@ -188,7 +188,7 @@ class CloudBuildClient(object):
         # (Ordinarily, these are the defaults specified in the `*_config.py`
         # file next to this one.)
         self._method_configs = google.api_core.gapic_v1.config.parse_method_configs(
-            client_config["interfaces"][self._INTERFACE_NAME]
+            client_config["interfaces"][self._INTERFACE_NAME],
         )
 
         # Save a dictionary of cached API call functions.
@@ -277,7 +277,7 @@ class CloudBuildClient(object):
             )
 
         request = cloudbuild_pb2.ListBuildsRequest(
-            project_id=project_id, page_size=page_size, filter=filter_
+            project_id=project_id, page_size=page_size, filter=filter_,
         )
         if metadata is None:
             metadata = []
@@ -364,7 +364,7 @@ class CloudBuildClient(object):
             )
 
         request = cloudbuild_pb2.DeleteBuildTriggerRequest(
-            project_id=project_id, trigger_id=trigger_id
+            project_id=project_id, trigger_id=trigger_id,
         )
         self._inner_api_calls["delete_build_trigger"](
             request, retry=retry, timeout=timeout, metadata=metadata
@@ -443,7 +443,7 @@ class CloudBuildClient(object):
                 client_info=self._client_info,
             )
 
-        request = cloudbuild_pb2.CreateBuildRequest(project_id=project_id, build=build)
+        request = cloudbuild_pb2.CreateBuildRequest(project_id=project_id, build=build,)
         if metadata is None:
             metadata = []
         metadata = list(metadata)
@@ -527,7 +527,7 @@ class CloudBuildClient(object):
                 client_info=self._client_info,
             )
 
-        request = cloudbuild_pb2.GetBuildRequest(project_id=project_id, id=id_)
+        request = cloudbuild_pb2.GetBuildRequest(project_id=project_id, id=id_,)
         return self._inner_api_calls["get_build"](
             request, retry=retry, timeout=timeout, metadata=metadata
         )
@@ -589,7 +589,7 @@ class CloudBuildClient(object):
                 client_info=self._client_info,
             )
 
-        request = cloudbuild_pb2.CancelBuildRequest(project_id=project_id, id=id_)
+        request = cloudbuild_pb2.CancelBuildRequest(project_id=project_id, id=id_,)
         return self._inner_api_calls["cancel_build"](
             request, retry=retry, timeout=timeout, metadata=metadata
         )
@@ -687,7 +687,7 @@ class CloudBuildClient(object):
                 client_info=self._client_info,
             )
 
-        request = cloudbuild_pb2.RetryBuildRequest(project_id=project_id, id=id_)
+        request = cloudbuild_pb2.RetryBuildRequest(project_id=project_id, id=id_,)
         operation = self._inner_api_calls["retry_build"](
             request, retry=retry, timeout=timeout, metadata=metadata
         )
@@ -761,7 +761,7 @@ class CloudBuildClient(object):
             )
 
         request = cloudbuild_pb2.CreateBuildTriggerRequest(
-            project_id=project_id, trigger=trigger
+            project_id=project_id, trigger=trigger,
         )
         if metadata is None:
             metadata = []
@@ -841,7 +841,7 @@ class CloudBuildClient(object):
             )
 
         request = cloudbuild_pb2.GetBuildTriggerRequest(
-            project_id=project_id, trigger_id=trigger_id
+            project_id=project_id, trigger_id=trigger_id,
         )
         return self._inner_api_calls["get_build_trigger"](
             request, retry=retry, timeout=timeout, metadata=metadata
@@ -923,7 +923,7 @@ class CloudBuildClient(object):
             )
 
         request = cloudbuild_pb2.ListBuildTriggersRequest(
-            project_id=project_id, page_size=page_size
+            project_id=project_id, page_size=page_size,
         )
         if metadata is None:
             metadata = []
@@ -1021,7 +1021,7 @@ class CloudBuildClient(object):
             )
 
         request = cloudbuild_pb2.UpdateBuildTriggerRequest(
-            project_id=project_id, trigger_id=trigger_id, trigger=trigger
+            project_id=project_id, trigger_id=trigger_id, trigger=trigger,
         )
         return self._inner_api_calls["update_build_trigger"](
             request, retry=retry, timeout=timeout, metadata=metadata
@@ -1102,7 +1102,7 @@ class CloudBuildClient(object):
             )
 
         request = cloudbuild_pb2.RunBuildTriggerRequest(
-            project_id=project_id, trigger_id=trigger_id, source=source
+            project_id=project_id, trigger_id=trigger_id, source=source,
         )
         operation = self._inner_api_calls["run_build_trigger"](
             request, retry=retry, timeout=timeout, metadata=metadata
@@ -1172,7 +1172,7 @@ class CloudBuildClient(object):
             )
 
         request = cloudbuild_pb2.CreateWorkerPoolRequest(
-            parent=parent, worker_pool=worker_pool
+            parent=parent, worker_pool=worker_pool,
         )
         return self._inner_api_calls["create_worker_pool"](
             request, retry=retry, timeout=timeout, metadata=metadata
@@ -1230,7 +1230,7 @@ class CloudBuildClient(object):
                 client_info=self._client_info,
             )
 
-        request = cloudbuild_pb2.GetWorkerPoolRequest(name=name)
+        request = cloudbuild_pb2.GetWorkerPoolRequest(name=name,)
         return self._inner_api_calls["get_worker_pool"](
             request, retry=retry, timeout=timeout, metadata=metadata
         )
@@ -1284,7 +1284,7 @@ class CloudBuildClient(object):
                 client_info=self._client_info,
             )
 
-        request = cloudbuild_pb2.DeleteWorkerPoolRequest(name=name)
+        request = cloudbuild_pb2.DeleteWorkerPoolRequest(name=name,)
         self._inner_api_calls["delete_worker_pool"](
             request, retry=retry, timeout=timeout, metadata=metadata
         )
@@ -1347,7 +1347,7 @@ class CloudBuildClient(object):
             )
 
         request = cloudbuild_pb2.UpdateWorkerPoolRequest(
-            name=name, worker_pool=worker_pool
+            name=name, worker_pool=worker_pool,
         )
         return self._inner_api_calls["update_worker_pool"](
             request, retry=retry, timeout=timeout, metadata=metadata
@@ -1404,7 +1404,7 @@ class CloudBuildClient(object):
                 client_info=self._client_info,
             )
 
-        request = cloudbuild_pb2.ListWorkerPoolsRequest(parent=parent)
+        request = cloudbuild_pb2.ListWorkerPoolsRequest(parent=parent,)
         return self._inner_api_calls["list_worker_pools"](
             request, retry=retry, timeout=timeout, metadata=metadata
         )
