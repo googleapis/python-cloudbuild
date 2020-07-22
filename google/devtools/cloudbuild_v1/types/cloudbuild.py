@@ -83,6 +83,7 @@ class RetryBuildRequest(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     id = proto.Field(proto.STRING, number=2)
 
 
@@ -100,7 +101,9 @@ class RunBuildTriggerRequest(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     trigger_id = proto.Field(proto.STRING, number=2)
+
     source = proto.Field(proto.MESSAGE, number=3, message="RepoSource",)
 
 
@@ -125,7 +128,9 @@ class StorageSource(proto.Message):
     """
 
     bucket = proto.Field(proto.STRING, number=1)
+
     object = proto.Field(proto.STRING, number=2)
+
     generation = proto.Field(proto.INT64, number=3)
 
 
@@ -168,12 +173,19 @@ class RepoSource(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     repo_name = proto.Field(proto.STRING, number=2)
+
     branch_name = proto.Field(proto.STRING, number=3)
+
     tag_name = proto.Field(proto.STRING, number=4)
+
     commit_sha = proto.Field(proto.STRING, number=5)
+
     dir = proto.Field(proto.STRING, number=7)
+
     invert_regex = proto.Field(proto.BOOL, number=8)
+
     substitutions = proto.MapField(proto.STRING, proto.STRING, number=9)
 
 
@@ -190,6 +202,7 @@ class Source(proto.Message):
     """
 
     storage_source = proto.Field(proto.MESSAGE, number=2, message=StorageSource,)
+
     repo_source = proto.Field(proto.MESSAGE, number=3, message=RepoSource,)
 
 
@@ -208,7 +221,9 @@ class BuiltImage(proto.Message):
     """
 
     name = proto.Field(proto.STRING, number=1)
+
     digest = proto.Field(proto.STRING, number=3)
+
     push_timing = proto.Field(proto.MESSAGE, number=4, message="TimeSpan",)
 
 
@@ -309,17 +324,29 @@ class BuildStep(proto.Message):
     """
 
     name = proto.Field(proto.STRING, number=1)
+
     env = proto.RepeatedField(proto.STRING, number=2)
+
     args = proto.RepeatedField(proto.STRING, number=3)
+
     dir = proto.Field(proto.STRING, number=4)
+
     id = proto.Field(proto.STRING, number=5)
+
     wait_for = proto.RepeatedField(proto.STRING, number=6)
+
     entrypoint = proto.Field(proto.STRING, number=7)
+
     secret_env = proto.RepeatedField(proto.STRING, number=8)
+
     volumes = proto.RepeatedField(proto.MESSAGE, number=9, message="Volume",)
+
     timing = proto.Field(proto.MESSAGE, number=10, message="TimeSpan",)
+
     pull_timing = proto.Field(proto.MESSAGE, number=13, message="TimeSpan",)
+
     timeout = proto.Field(proto.MESSAGE, number=11, message=duration.Duration,)
+
     status = proto.Field(proto.ENUM, number=12, enum="Build.Status",)
 
 
@@ -343,6 +370,7 @@ class Volume(proto.Message):
     """
 
     name = proto.Field(proto.STRING, number=1)
+
     path = proto.Field(proto.STRING, number=2)
 
 
@@ -376,10 +404,15 @@ class Results(proto.Message):
     """
 
     images = proto.RepeatedField(proto.MESSAGE, number=2, message=BuiltImage,)
+
     build_step_images = proto.RepeatedField(proto.STRING, number=3)
+
     artifact_manifest = proto.Field(proto.STRING, number=4)
+
     num_artifacts = proto.Field(proto.INT64, number=5)
+
     build_step_outputs = proto.RepeatedField(proto.BYTES, number=6)
+
     artifact_timing = proto.Field(proto.MESSAGE, number=7, message="TimeSpan",)
 
 
@@ -397,6 +430,7 @@ class ArtifactResult(proto.Message):
     """
 
     location = proto.Field(proto.STRING, number=1)
+
     file_hash = proto.RepeatedField(proto.MESSAGE, number=2, message="FileHashes",)
 
 
@@ -527,29 +561,51 @@ class Build(proto.Message):
         EXPIRED = 9
 
     id = proto.Field(proto.STRING, number=1)
+
     project_id = proto.Field(proto.STRING, number=16)
+
     status = proto.Field(proto.ENUM, number=2, enum=Status,)
+
     status_detail = proto.Field(proto.STRING, number=24)
+
     source = proto.Field(proto.MESSAGE, number=3, message=Source,)
+
     steps = proto.RepeatedField(proto.MESSAGE, number=11, message=BuildStep,)
+
     results = proto.Field(proto.MESSAGE, number=10, message=Results,)
+
     create_time = proto.Field(proto.MESSAGE, number=6, message=timestamp.Timestamp,)
+
     start_time = proto.Field(proto.MESSAGE, number=7, message=timestamp.Timestamp,)
+
     finish_time = proto.Field(proto.MESSAGE, number=8, message=timestamp.Timestamp,)
+
     timeout = proto.Field(proto.MESSAGE, number=12, message=duration.Duration,)
+
     images = proto.RepeatedField(proto.STRING, number=13)
+
     queue_ttl = proto.Field(proto.MESSAGE, number=40, message=duration.Duration,)
+
     artifacts = proto.Field(proto.MESSAGE, number=37, message="Artifacts",)
+
     logs_bucket = proto.Field(proto.STRING, number=19)
+
     source_provenance = proto.Field(
         proto.MESSAGE, number=21, message="SourceProvenance",
     )
+
     build_trigger_id = proto.Field(proto.STRING, number=22)
+
     options = proto.Field(proto.MESSAGE, number=23, message="BuildOptions",)
+
     log_url = proto.Field(proto.STRING, number=25)
+
     substitutions = proto.MapField(proto.STRING, proto.STRING, number=29)
+
     tags = proto.RepeatedField(proto.STRING, number=31)
+
     secrets = proto.RepeatedField(proto.MESSAGE, number=32, message="Secret",)
+
     timing = proto.MapField(proto.STRING, proto.MESSAGE, number=33, message="TimeSpan",)
 
 
@@ -607,10 +663,13 @@ class Artifacts(proto.Message):
         """
 
         location = proto.Field(proto.STRING, number=1)
+
         paths = proto.RepeatedField(proto.STRING, number=2)
+
         timing = proto.Field(proto.MESSAGE, number=3, message="TimeSpan",)
 
     images = proto.RepeatedField(proto.STRING, number=1)
+
     objects = proto.Field(proto.MESSAGE, number=2, message=ArtifactObjects,)
 
 
@@ -625,6 +684,7 @@ class TimeSpan(proto.Message):
     """
 
     start_time = proto.Field(proto.MESSAGE, number=1, message=timestamp.Timestamp,)
+
     end_time = proto.Field(proto.MESSAGE, number=2, message=timestamp.Timestamp,)
 
 
@@ -668,7 +728,9 @@ class SourceProvenance(proto.Message):
     resolved_storage_source = proto.Field(
         proto.MESSAGE, number=3, message=StorageSource,
     )
+
     resolved_repo_source = proto.Field(proto.MESSAGE, number=6, message=RepoSource,)
+
     file_hashes = proto.MapField(
         proto.STRING, proto.MESSAGE, number=4, message="FileHashes",
     )
@@ -704,6 +766,7 @@ class Hash(proto.Message):
         MD5 = 2
 
     type = proto.Field(proto.ENUM, number=1, enum=HashType,)
+
     value = proto.Field(proto.BYTES, number=2)
 
 
@@ -727,6 +790,7 @@ class Secret(proto.Message):
     """
 
     kms_key_name = proto.Field(proto.STRING, number=1)
+
     secret_env = proto.MapField(proto.STRING, proto.BYTES, number=3)
 
 
@@ -741,6 +805,7 @@ class CreateBuildRequest(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     build = proto.Field(proto.MESSAGE, number=2, message=Build,)
 
 
@@ -755,6 +820,7 @@ class GetBuildRequest(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     id = proto.Field(proto.STRING, number=2)
 
 
@@ -774,8 +840,11 @@ class ListBuildsRequest(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     page_size = proto.Field(proto.INT32, number=2)
+
     page_token = proto.Field(proto.STRING, number=3)
+
     filter = proto.Field(proto.STRING, number=8)
 
 
@@ -794,6 +863,7 @@ class ListBuildsResponse(proto.Message):
         return self
 
     builds = proto.RepeatedField(proto.MESSAGE, number=1, message=Build,)
+
     next_page_token = proto.Field(proto.STRING, number=2)
 
 
@@ -808,6 +878,7 @@ class CancelBuildRequest(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     id = proto.Field(proto.STRING, number=2)
 
 
@@ -885,17 +956,29 @@ class BuildTrigger(proto.Message):
     """
 
     id = proto.Field(proto.STRING, number=1)
+
     description = proto.Field(proto.STRING, number=10)
+
     name = proto.Field(proto.STRING, number=21)
+
     tags = proto.RepeatedField(proto.STRING, number=19)
+
     trigger_template = proto.Field(proto.MESSAGE, number=7, message=RepoSource,)
+
     github = proto.Field(proto.MESSAGE, number=13, message="GitHubEventsConfig",)
+
     build = proto.Field(proto.MESSAGE, number=4, message=Build,)
+
     filename = proto.Field(proto.STRING, number=8)
+
     create_time = proto.Field(proto.MESSAGE, number=5, message=timestamp.Timestamp,)
+
     disabled = proto.Field(proto.BOOL, number=9)
+
     substitutions = proto.MapField(proto.STRING, proto.STRING, number=11)
+
     ignored_files = proto.RepeatedField(proto.STRING, number=15)
+
     included_files = proto.RepeatedField(proto.STRING, number=16)
 
 
@@ -926,9 +1009,13 @@ class GitHubEventsConfig(proto.Message):
     """
 
     installation_id = proto.Field(proto.INT64, number=1)
+
     owner = proto.Field(proto.STRING, number=6)
+
     name = proto.Field(proto.STRING, number=7)
+
     pull_request = proto.Field(proto.MESSAGE, number=4, message="PullRequestFilter",)
+
     push = proto.Field(proto.MESSAGE, number=5, message="PushFilter",)
 
 
@@ -956,7 +1043,9 @@ class PullRequestFilter(proto.Message):
         COMMENTS_ENABLED = 1
 
     branch = proto.Field(proto.STRING, number=2)
+
     comment_control = proto.Field(proto.ENUM, number=5, enum=CommentControl,)
+
     invert_regex = proto.Field(proto.BOOL, number=6)
 
 
@@ -981,7 +1070,9 @@ class PushFilter(proto.Message):
     """
 
     branch = proto.Field(proto.STRING, number=2)
+
     tag = proto.Field(proto.STRING, number=3)
+
     invert_regex = proto.Field(proto.BOOL, number=4)
 
 
@@ -997,6 +1088,7 @@ class CreateBuildTriggerRequest(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     trigger = proto.Field(proto.MESSAGE, number=2, message=BuildTrigger,)
 
 
@@ -1013,6 +1105,7 @@ class GetBuildTriggerRequest(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     trigger_id = proto.Field(proto.STRING, number=2)
 
 
@@ -1031,7 +1124,9 @@ class ListBuildTriggersRequest(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     page_size = proto.Field(proto.INT32, number=2)
+
     page_token = proto.Field(proto.STRING, number=3)
 
 
@@ -1051,6 +1146,7 @@ class ListBuildTriggersResponse(proto.Message):
         return self
 
     triggers = proto.RepeatedField(proto.MESSAGE, number=1, message=BuildTrigger,)
+
     next_page_token = proto.Field(proto.STRING, number=2)
 
 
@@ -1066,6 +1162,7 @@ class DeleteBuildTriggerRequest(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     trigger_id = proto.Field(proto.STRING, number=2)
 
 
@@ -1083,7 +1180,9 @@ class UpdateBuildTriggerRequest(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     trigger_id = proto.Field(proto.STRING, number=2)
+
     trigger = proto.Field(proto.MESSAGE, number=3, message=BuildTrigger,)
 
 
@@ -1187,15 +1286,25 @@ class BuildOptions(proto.Message):
     source_provenance_hash = proto.RepeatedField(
         proto.ENUM, number=1, enum=Hash.HashType,
     )
+
     requested_verify_option = proto.Field(proto.ENUM, number=2, enum=VerifyOption,)
+
     machine_type = proto.Field(proto.ENUM, number=3, enum=MachineType,)
+
     disk_size_gb = proto.Field(proto.INT64, number=6)
+
     substitution_option = proto.Field(proto.ENUM, number=4, enum=SubstitutionOption,)
+
     log_streaming_option = proto.Field(proto.ENUM, number=5, enum=LogStreamingOption,)
+
     worker_pool = proto.Field(proto.STRING, number=7)
+
     logging = proto.Field(proto.ENUM, number=11, enum=LoggingMode,)
+
     env = proto.RepeatedField(proto.STRING, number=12)
+
     secret_env = proto.RepeatedField(proto.STRING, number=13)
+
     volumes = proto.RepeatedField(proto.MESSAGE, number=14, message=Volume,)
 
 
@@ -1261,14 +1370,23 @@ class WorkerPool(proto.Message):
         DELETED = 4
 
     name = proto.Field(proto.STRING, number=14)
+
     project_id = proto.Field(proto.STRING, number=2)
+
     service_account_email = proto.Field(proto.STRING, number=3)
+
     worker_count = proto.Field(proto.INT64, number=4)
+
     worker_config = proto.Field(proto.MESSAGE, number=16, message="WorkerConfig",)
+
     regions = proto.RepeatedField(proto.ENUM, number=9, enum=Region,)
+
     create_time = proto.Field(proto.MESSAGE, number=11, message=timestamp.Timestamp,)
+
     update_time = proto.Field(proto.MESSAGE, number=17, message=timestamp.Timestamp,)
+
     delete_time = proto.Field(proto.MESSAGE, number=12, message=timestamp.Timestamp,)
+
     status = proto.Field(proto.ENUM, number=13, enum=Status,)
 
 
@@ -1307,8 +1425,11 @@ class WorkerConfig(proto.Message):
     """
 
     machine_type = proto.Field(proto.STRING, number=1)
+
     disk_size_gb = proto.Field(proto.INT64, number=2)
+
     network = proto.Field(proto.MESSAGE, number=3, message="Network",)
+
     tag = proto.Field(proto.STRING, number=4)
 
 
@@ -1332,7 +1453,9 @@ class Network(proto.Message):
     """
 
     project_id = proto.Field(proto.STRING, number=1)
+
     network = proto.Field(proto.STRING, number=2)
+
     subnetwork = proto.Field(proto.STRING, number=3)
 
 
@@ -1347,6 +1470,7 @@ class CreateWorkerPoolRequest(proto.Message):
     """
 
     parent = proto.Field(proto.STRING, number=1)
+
     worker_pool = proto.Field(proto.MESSAGE, number=2, message=WorkerPool,)
 
 
@@ -1389,6 +1513,7 @@ class UpdateWorkerPoolRequest(proto.Message):
     """
 
     name = proto.Field(proto.STRING, number=2)
+
     worker_pool = proto.Field(proto.MESSAGE, number=3, message=WorkerPool,)
 
 

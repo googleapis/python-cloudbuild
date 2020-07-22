@@ -27,6 +27,7 @@ from google import auth
 from google.api_core import client_options
 from google.api_core import exceptions
 from google.api_core import future
+from google.api_core import gapic_v1
 from google.api_core import grpc_helpers
 from google.api_core import grpc_helpers_async
 from google.api_core import operation_async
@@ -246,7 +247,7 @@ def test_cloud_build_client_client_options(
 def test_cloud_build_client_client_options_scopes(
     client_class, transport_class, transport_name
 ):
-    # Check the case api_endpoint is provided.
+    # Check the case scopes are provided.
     options = client_options.ClientOptions(scopes=["1", "2"],)
     with mock.patch.object(transport_class, "__init__") as patched:
         patched.return_value = None
@@ -254,9 +255,9 @@ def test_cloud_build_client_client_options_scopes(
         patched.assert_called_once_with(
             credentials=None,
             credentials_file=None,
-            host="localhost:7469",
+            host=client.DEFAULT_ENDPOINT,
             scopes=["1", "2"],
-            api_mtls_endpoint="localhost:7469",
+            api_mtls_endpoint=client.DEFAULT_ENDPOINT,
             client_cert_source=None,
         )
 
@@ -275,7 +276,7 @@ def test_cloud_build_client_client_options_scopes(
 def test_cloud_build_client_client_options_credentials_file(
     client_class, transport_class, transport_name
 ):
-    # Check the case api_endpoint is provided.
+    # Check the case credentials file is provided.
     options = client_options.ClientOptions(credentials_file="credentials.json")
     with mock.patch.object(transport_class, "__init__") as patched:
         patched.return_value = None
@@ -283,9 +284,9 @@ def test_cloud_build_client_client_options_credentials_file(
         patched.assert_called_once_with(
             credentials=None,
             credentials_file="credentials.json",
-            host="localhost:7469",
+            host=client.DEFAULT_ENDPOINT,
             scopes=None,
-            api_mtls_endpoint="localhost:7469",
+            api_mtls_endpoint=client.DEFAULT_ENDPOINT,
             client_cert_source=None,
         )
 
@@ -474,14 +475,23 @@ def test_get_build(transport: str = "grpc"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.Build)
+
     assert response.id == "id_value"
+
     assert response.project_id == "project_id_value"
+
     assert response.status == cloudbuild.Build.Status.QUEUED
+
     assert response.status_detail == "status_detail_value"
+
     assert response.images == ["images_value"]
+
     assert response.logs_bucket == "logs_bucket_value"
+
     assert response.build_trigger_id == "build_trigger_id_value"
+
     assert response.log_url == "log_url_value"
+
     assert response.tags == ["tags_value"]
 
 
@@ -524,14 +534,23 @@ async def test_get_build_async(transport: str = "grpc_asyncio"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.Build)
+
     assert response.id == "id_value"
+
     assert response.project_id == "project_id_value"
+
     assert response.status == cloudbuild.Build.Status.QUEUED
+
     assert response.status_detail == "status_detail_value"
+
     assert response.images == ["images_value"]
+
     assert response.logs_bucket == "logs_bucket_value"
+
     assert response.build_trigger_id == "build_trigger_id_value"
+
     assert response.log_url == "log_url_value"
+
     assert response.tags == ["tags_value"]
 
 
@@ -630,6 +649,7 @@ def test_list_builds(transport: str = "grpc"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, pagers.ListBuildsPager)
+
     assert response.next_page_token == "next_page_token_value"
 
 
@@ -662,6 +682,7 @@ async def test_list_builds_async(transport: str = "grpc_asyncio"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, pagers.ListBuildsAsyncPager)
+
     assert response.next_page_token == "next_page_token_value"
 
 
@@ -762,7 +783,13 @@ def test_list_builds_pager():
             ),
             RuntimeError,
         )
-        results = [i for i in client.list_builds(request={},)]
+
+        metadata = ()
+        pager = client.list_builds(request={})
+
+        assert pager._metadata == metadata
+
+        results = [i for i in pager]
         assert len(results) == 6
         assert all(isinstance(i, cloudbuild.Build) for i in results)
 
@@ -893,14 +920,23 @@ def test_cancel_build(transport: str = "grpc"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.Build)
+
     assert response.id == "id_value"
+
     assert response.project_id == "project_id_value"
+
     assert response.status == cloudbuild.Build.Status.QUEUED
+
     assert response.status_detail == "status_detail_value"
+
     assert response.images == ["images_value"]
+
     assert response.logs_bucket == "logs_bucket_value"
+
     assert response.build_trigger_id == "build_trigger_id_value"
+
     assert response.log_url == "log_url_value"
+
     assert response.tags == ["tags_value"]
 
 
@@ -943,14 +979,23 @@ async def test_cancel_build_async(transport: str = "grpc_asyncio"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.Build)
+
     assert response.id == "id_value"
+
     assert response.project_id == "project_id_value"
+
     assert response.status == cloudbuild.Build.Status.QUEUED
+
     assert response.status_detail == "status_detail_value"
+
     assert response.images == ["images_value"]
+
     assert response.logs_bucket == "logs_bucket_value"
+
     assert response.build_trigger_id == "build_trigger_id_value"
+
     assert response.log_url == "log_url_value"
+
     assert response.tags == ["tags_value"]
 
 
@@ -1198,14 +1243,21 @@ def test_create_build_trigger(transport: str = "grpc"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.BuildTrigger)
+
     assert response.id == "id_value"
+
     assert response.description == "description_value"
+
     assert response.name == "name_value"
+
     assert response.tags == ["tags_value"]
+
     assert response.filename == "filename_value"
 
     assert response.disabled is True
+
     assert response.ignored_files == ["ignored_files_value"]
+
     assert response.included_files == ["included_files_value"]
 
 
@@ -1247,14 +1299,21 @@ async def test_create_build_trigger_async(transport: str = "grpc_asyncio"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.BuildTrigger)
+
     assert response.id == "id_value"
+
     assert response.description == "description_value"
+
     assert response.name == "name_value"
+
     assert response.tags == ["tags_value"]
+
     assert response.filename == "filename_value"
 
     assert response.disabled is True
+
     assert response.ignored_files == ["ignored_files_value"]
+
     assert response.included_files == ["included_files_value"]
 
 
@@ -1374,14 +1433,21 @@ def test_get_build_trigger(transport: str = "grpc"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.BuildTrigger)
+
     assert response.id == "id_value"
+
     assert response.description == "description_value"
+
     assert response.name == "name_value"
+
     assert response.tags == ["tags_value"]
+
     assert response.filename == "filename_value"
 
     assert response.disabled is True
+
     assert response.ignored_files == ["ignored_files_value"]
+
     assert response.included_files == ["included_files_value"]
 
 
@@ -1423,14 +1489,21 @@ async def test_get_build_trigger_async(transport: str = "grpc_asyncio"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.BuildTrigger)
+
     assert response.id == "id_value"
+
     assert response.description == "description_value"
+
     assert response.name == "name_value"
+
     assert response.tags == ["tags_value"]
+
     assert response.filename == "filename_value"
 
     assert response.disabled is True
+
     assert response.ignored_files == ["ignored_files_value"]
+
     assert response.included_files == ["included_files_value"]
 
 
@@ -1541,6 +1614,7 @@ def test_list_build_triggers(transport: str = "grpc"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, pagers.ListBuildTriggersPager)
+
     assert response.next_page_token == "next_page_token_value"
 
 
@@ -1575,6 +1649,7 @@ async def test_list_build_triggers_async(transport: str = "grpc_asyncio"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, pagers.ListBuildTriggersAsyncPager)
+
     assert response.next_page_token == "next_page_token_value"
 
 
@@ -1673,7 +1748,13 @@ def test_list_build_triggers_pager():
             ),
             RuntimeError,
         )
-        results = [i for i in client.list_build_triggers(request={},)]
+
+        metadata = ()
+        pager = client.list_build_triggers(request={})
+
+        assert pager._metadata == metadata
+
+        results = [i for i in pager]
         assert len(results) == 6
         assert all(isinstance(i, cloudbuild.BuildTrigger) for i in results)
 
@@ -1953,14 +2034,21 @@ def test_update_build_trigger(transport: str = "grpc"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.BuildTrigger)
+
     assert response.id == "id_value"
+
     assert response.description == "description_value"
+
     assert response.name == "name_value"
+
     assert response.tags == ["tags_value"]
+
     assert response.filename == "filename_value"
 
     assert response.disabled is True
+
     assert response.ignored_files == ["ignored_files_value"]
+
     assert response.included_files == ["included_files_value"]
 
 
@@ -2002,14 +2090,21 @@ async def test_update_build_trigger_async(transport: str = "grpc_asyncio"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.BuildTrigger)
+
     assert response.id == "id_value"
+
     assert response.description == "description_value"
+
     assert response.name == "name_value"
+
     assert response.tags == ["tags_value"]
+
     assert response.filename == "filename_value"
 
     assert response.disabled is True
+
     assert response.ignored_files == ["ignored_files_value"]
+
     assert response.included_files == ["included_files_value"]
 
 
@@ -2279,11 +2374,17 @@ def test_create_worker_pool(transport: str = "grpc"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.WorkerPool)
+
     assert response.name == "name_value"
+
     assert response.project_id == "project_id_value"
+
     assert response.service_account_email == "service_account_email_value"
+
     assert response.worker_count == 1314
+
     assert response.regions == [cloudbuild.WorkerPool.Region.US_CENTRAL1]
+
     assert response.status == cloudbuild.WorkerPool.Status.CREATING
 
 
@@ -2323,11 +2424,17 @@ async def test_create_worker_pool_async(transport: str = "grpc_asyncio"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.WorkerPool)
+
     assert response.name == "name_value"
+
     assert response.project_id == "project_id_value"
+
     assert response.service_account_email == "service_account_email_value"
+
     assert response.worker_count == 1314
+
     assert response.regions == [cloudbuild.WorkerPool.Region.US_CENTRAL1]
+
     assert response.status == cloudbuild.WorkerPool.Status.CREATING
 
 
@@ -2362,11 +2469,17 @@ def test_get_worker_pool(transport: str = "grpc"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.WorkerPool)
+
     assert response.name == "name_value"
+
     assert response.project_id == "project_id_value"
+
     assert response.service_account_email == "service_account_email_value"
+
     assert response.worker_count == 1314
+
     assert response.regions == [cloudbuild.WorkerPool.Region.US_CENTRAL1]
+
     assert response.status == cloudbuild.WorkerPool.Status.CREATING
 
 
@@ -2406,11 +2519,17 @@ async def test_get_worker_pool_async(transport: str = "grpc_asyncio"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.WorkerPool)
+
     assert response.name == "name_value"
+
     assert response.project_id == "project_id_value"
+
     assert response.service_account_email == "service_account_email_value"
+
     assert response.worker_count == 1314
+
     assert response.regions == [cloudbuild.WorkerPool.Region.US_CENTRAL1]
+
     assert response.status == cloudbuild.WorkerPool.Status.CREATING
 
 
@@ -2504,11 +2623,17 @@ def test_update_worker_pool(transport: str = "grpc"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.WorkerPool)
+
     assert response.name == "name_value"
+
     assert response.project_id == "project_id_value"
+
     assert response.service_account_email == "service_account_email_value"
+
     assert response.worker_count == 1314
+
     assert response.regions == [cloudbuild.WorkerPool.Region.US_CENTRAL1]
+
     assert response.status == cloudbuild.WorkerPool.Status.CREATING
 
 
@@ -2548,11 +2673,17 @@ async def test_update_worker_pool_async(transport: str = "grpc_asyncio"):
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.WorkerPool)
+
     assert response.name == "name_value"
+
     assert response.project_id == "project_id_value"
+
     assert response.service_account_email == "service_account_email_value"
+
     assert response.worker_count == 1314
+
     assert response.regions == [cloudbuild.WorkerPool.Region.US_CENTRAL1]
+
     assert response.status == cloudbuild.WorkerPool.Status.CREATING
 
 

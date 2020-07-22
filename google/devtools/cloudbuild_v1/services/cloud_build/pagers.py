@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-from typing import Any, AsyncIterable, Awaitable, Callable, Iterable
+from typing import Any, AsyncIterable, Awaitable, Callable, Iterable, Sequence, Tuple
 
 from google.devtools.cloudbuild_v1.types import cloudbuild
 
@@ -40,9 +40,11 @@ class ListBuildsPager:
 
     def __init__(
         self,
-        method: Callable[[cloudbuild.ListBuildsRequest], cloudbuild.ListBuildsResponse],
+        method: Callable[..., cloudbuild.ListBuildsResponse],
         request: cloudbuild.ListBuildsRequest,
         response: cloudbuild.ListBuildsResponse,
+        *,
+        metadata: Sequence[Tuple[str, str]] = ()
     ):
         """Instantiate the pager.
 
@@ -53,10 +55,13 @@ class ListBuildsPager:
                 The initial request object.
             response (:class:`~.cloudbuild.ListBuildsResponse`):
                 The initial response object.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
         """
         self._method = method
         self._request = cloudbuild.ListBuildsRequest(request)
         self._response = response
+        self._metadata = metadata
 
     def __getattr__(self, name: str) -> Any:
         return getattr(self._response, name)
@@ -66,7 +71,7 @@ class ListBuildsPager:
         yield self._response
         while self._response.next_page_token:
             self._request.page_token = self._response.next_page_token
-            self._response = self._method(self._request)
+            self._response = self._method(self._request, metadata=self._metadata)
             yield self._response
 
     def __iter__(self) -> Iterable[cloudbuild.Build]:
@@ -97,11 +102,11 @@ class ListBuildsAsyncPager:
 
     def __init__(
         self,
-        method: Callable[
-            [cloudbuild.ListBuildsRequest], Awaitable[cloudbuild.ListBuildsResponse]
-        ],
+        method: Callable[..., Awaitable[cloudbuild.ListBuildsResponse]],
         request: cloudbuild.ListBuildsRequest,
         response: cloudbuild.ListBuildsResponse,
+        *,
+        metadata: Sequence[Tuple[str, str]] = ()
     ):
         """Instantiate the pager.
 
@@ -112,10 +117,13 @@ class ListBuildsAsyncPager:
                 The initial request object.
             response (:class:`~.cloudbuild.ListBuildsResponse`):
                 The initial response object.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
         """
         self._method = method
         self._request = cloudbuild.ListBuildsRequest(request)
         self._response = response
+        self._metadata = metadata
 
     def __getattr__(self, name: str) -> Any:
         return getattr(self._response, name)
@@ -125,7 +133,7 @@ class ListBuildsAsyncPager:
         yield self._response
         while self._response.next_page_token:
             self._request.page_token = self._response.next_page_token
-            self._response = await self._method(self._request)
+            self._response = await self._method(self._request, metadata=self._metadata)
             yield self._response
 
     def __aiter__(self) -> AsyncIterable[cloudbuild.Build]:
@@ -160,11 +168,11 @@ class ListBuildTriggersPager:
 
     def __init__(
         self,
-        method: Callable[
-            [cloudbuild.ListBuildTriggersRequest], cloudbuild.ListBuildTriggersResponse
-        ],
+        method: Callable[..., cloudbuild.ListBuildTriggersResponse],
         request: cloudbuild.ListBuildTriggersRequest,
         response: cloudbuild.ListBuildTriggersResponse,
+        *,
+        metadata: Sequence[Tuple[str, str]] = ()
     ):
         """Instantiate the pager.
 
@@ -175,10 +183,13 @@ class ListBuildTriggersPager:
                 The initial request object.
             response (:class:`~.cloudbuild.ListBuildTriggersResponse`):
                 The initial response object.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
         """
         self._method = method
         self._request = cloudbuild.ListBuildTriggersRequest(request)
         self._response = response
+        self._metadata = metadata
 
     def __getattr__(self, name: str) -> Any:
         return getattr(self._response, name)
@@ -188,7 +199,7 @@ class ListBuildTriggersPager:
         yield self._response
         while self._response.next_page_token:
             self._request.page_token = self._response.next_page_token
-            self._response = self._method(self._request)
+            self._response = self._method(self._request, metadata=self._metadata)
             yield self._response
 
     def __iter__(self) -> Iterable[cloudbuild.BuildTrigger]:
@@ -219,12 +230,11 @@ class ListBuildTriggersAsyncPager:
 
     def __init__(
         self,
-        method: Callable[
-            [cloudbuild.ListBuildTriggersRequest],
-            Awaitable[cloudbuild.ListBuildTriggersResponse],
-        ],
+        method: Callable[..., Awaitable[cloudbuild.ListBuildTriggersResponse]],
         request: cloudbuild.ListBuildTriggersRequest,
         response: cloudbuild.ListBuildTriggersResponse,
+        *,
+        metadata: Sequence[Tuple[str, str]] = ()
     ):
         """Instantiate the pager.
 
@@ -235,10 +245,13 @@ class ListBuildTriggersAsyncPager:
                 The initial request object.
             response (:class:`~.cloudbuild.ListBuildTriggersResponse`):
                 The initial response object.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
         """
         self._method = method
         self._request = cloudbuild.ListBuildTriggersRequest(request)
         self._response = response
+        self._metadata = metadata
 
     def __getattr__(self, name: str) -> Any:
         return getattr(self._response, name)
@@ -248,7 +261,7 @@ class ListBuildTriggersAsyncPager:
         yield self._response
         while self._response.next_page_token:
             self._request.page_token = self._response.next_page_token
-            self._response = await self._method(self._request)
+            self._response = await self._method(self._request, metadata=self._metadata)
             yield self._response
 
     def __aiter__(self) -> AsyncIterable[cloudbuild.BuildTrigger]:
