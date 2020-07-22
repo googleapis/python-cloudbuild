@@ -22,6 +22,7 @@ import grpc
 from grpc.experimental import aio
 import math
 import pytest
+from proto.marshal.rules.dates import DurationRule, TimestampRule
 
 from google import auth
 from google.api_core import client_options
@@ -382,7 +383,9 @@ def test_create_build_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].build == cloudbuild.Build(id="id_value")
 
 
@@ -423,7 +426,9 @@ async def test_create_build_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].build == cloudbuild.Build(id="id_value")
 
 
@@ -572,7 +577,9 @@ def test_get_build_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].id == "id_value"
 
 
@@ -607,7 +614,9 @@ async def test_get_build_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].id == "id_value"
 
 
@@ -704,7 +713,9 @@ def test_list_builds_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].filter == "filter_value"
 
 
@@ -745,7 +756,9 @@ async def test_list_builds_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].filter == "filter_value"
 
 
@@ -1017,7 +1030,9 @@ def test_cancel_build_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].id == "id_value"
 
 
@@ -1056,7 +1071,9 @@ async def test_cancel_build_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].id == "id_value"
 
 
@@ -1149,7 +1166,9 @@ def test_retry_build_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].id == "id_value"
 
 
@@ -1190,7 +1209,9 @@ async def test_retry_build_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].id == "id_value"
 
 
@@ -1227,10 +1248,10 @@ def test_create_build_trigger(transport: str = "grpc"):
             description="description_value",
             name="name_value",
             tags=["tags_value"],
-            filename="filename_value",
             disabled=True,
             ignored_files=["ignored_files_value"],
             included_files=["included_files_value"],
+            build=cloudbuild.Build(id="id_value"),
         )
 
         response = client.create_build_trigger(request)
@@ -1251,8 +1272,6 @@ def test_create_build_trigger(transport: str = "grpc"):
     assert response.name == "name_value"
 
     assert response.tags == ["tags_value"]
-
-    assert response.filename == "filename_value"
 
     assert response.disabled is True
 
@@ -1282,7 +1301,6 @@ async def test_create_build_trigger_async(transport: str = "grpc_asyncio"):
                 description="description_value",
                 name="name_value",
                 tags=["tags_value"],
-                filename="filename_value",
                 disabled=True,
                 ignored_files=["ignored_files_value"],
                 included_files=["included_files_value"],
@@ -1307,8 +1325,6 @@ async def test_create_build_trigger_async(transport: str = "grpc_asyncio"):
     assert response.name == "name_value"
 
     assert response.tags == ["tags_value"]
-
-    assert response.filename == "filename_value"
 
     assert response.disabled is True
 
@@ -1338,7 +1354,9 @@ def test_create_build_trigger_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].trigger == cloudbuild.BuildTrigger(id="id_value")
 
 
@@ -1380,7 +1398,9 @@ async def test_create_build_trigger_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].trigger == cloudbuild.BuildTrigger(id="id_value")
 
 
@@ -1417,10 +1437,10 @@ def test_get_build_trigger(transport: str = "grpc"):
             description="description_value",
             name="name_value",
             tags=["tags_value"],
-            filename="filename_value",
             disabled=True,
             ignored_files=["ignored_files_value"],
             included_files=["included_files_value"],
+            build=cloudbuild.Build(id="id_value"),
         )
 
         response = client.get_build_trigger(request)
@@ -1441,8 +1461,6 @@ def test_get_build_trigger(transport: str = "grpc"):
     assert response.name == "name_value"
 
     assert response.tags == ["tags_value"]
-
-    assert response.filename == "filename_value"
 
     assert response.disabled is True
 
@@ -1472,7 +1490,6 @@ async def test_get_build_trigger_async(transport: str = "grpc_asyncio"):
                 description="description_value",
                 name="name_value",
                 tags=["tags_value"],
-                filename="filename_value",
                 disabled=True,
                 ignored_files=["ignored_files_value"],
                 included_files=["included_files_value"],
@@ -1497,8 +1514,6 @@ async def test_get_build_trigger_async(transport: str = "grpc_asyncio"):
     assert response.name == "name_value"
 
     assert response.tags == ["tags_value"]
-
-    assert response.filename == "filename_value"
 
     assert response.disabled is True
 
@@ -1527,7 +1542,9 @@ def test_get_build_trigger_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].trigger_id == "trigger_id_value"
 
 
@@ -1568,7 +1585,9 @@ async def test_get_build_trigger_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].trigger_id == "trigger_id_value"
 
 
@@ -1671,6 +1690,7 @@ def test_list_build_triggers_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
 
 
@@ -1707,6 +1727,7 @@ async def test_list_build_triggers_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
 
 
@@ -1942,7 +1963,9 @@ def test_delete_build_trigger_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].trigger_id == "trigger_id_value"
 
 
@@ -1981,7 +2004,9 @@ async def test_delete_build_trigger_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].trigger_id == "trigger_id_value"
 
 
@@ -2018,10 +2043,10 @@ def test_update_build_trigger(transport: str = "grpc"):
             description="description_value",
             name="name_value",
             tags=["tags_value"],
-            filename="filename_value",
             disabled=True,
             ignored_files=["ignored_files_value"],
             included_files=["included_files_value"],
+            build=cloudbuild.Build(id="id_value"),
         )
 
         response = client.update_build_trigger(request)
@@ -2042,8 +2067,6 @@ def test_update_build_trigger(transport: str = "grpc"):
     assert response.name == "name_value"
 
     assert response.tags == ["tags_value"]
-
-    assert response.filename == "filename_value"
 
     assert response.disabled is True
 
@@ -2073,7 +2096,6 @@ async def test_update_build_trigger_async(transport: str = "grpc_asyncio"):
                 description="description_value",
                 name="name_value",
                 tags=["tags_value"],
-                filename="filename_value",
                 disabled=True,
                 ignored_files=["ignored_files_value"],
                 included_files=["included_files_value"],
@@ -2098,8 +2120,6 @@ async def test_update_build_trigger_async(transport: str = "grpc_asyncio"):
     assert response.name == "name_value"
 
     assert response.tags == ["tags_value"]
-
-    assert response.filename == "filename_value"
 
     assert response.disabled is True
 
@@ -2130,8 +2150,11 @@ def test_update_build_trigger_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].trigger_id == "trigger_id_value"
+
         assert args[0].trigger == cloudbuild.BuildTrigger(id="id_value")
 
 
@@ -2175,8 +2198,11 @@ async def test_update_build_trigger_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].trigger_id == "trigger_id_value"
+
         assert args[0].trigger == cloudbuild.BuildTrigger(id="id_value")
 
 
@@ -2276,8 +2302,11 @@ def test_run_build_trigger_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].trigger_id == "trigger_id_value"
+
         assert args[0].source == cloudbuild.RepoSource(project_id="project_id_value")
 
 
@@ -2321,8 +2350,11 @@ async def test_run_build_trigger_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
+
         assert args[0].project_id == "project_id_value"
+
         assert args[0].trigger_id == "trigger_id_value"
+
         assert args[0].source == cloudbuild.RepoSource(project_id="project_id_value")
 
 

@@ -193,7 +193,7 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.create_build,
-            default_timeout=None,
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -296,7 +296,15 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.get_build,
-            default_timeout=None,
+            default_retry=retries.Retry(
+                initial=0.1,
+                maximum=60.0,
+                multiplier=1.3,
+                predicate=retries.if_exception_type(
+                    exceptions.DeadlineExceeded, exceptions.ServiceUnavailable,
+                ),
+            ),
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -372,7 +380,15 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.list_builds,
-            default_timeout=None,
+            default_retry=retries.Retry(
+                initial=0.1,
+                maximum=60.0,
+                multiplier=1.3,
+                predicate=retries.if_exception_type(
+                    exceptions.DeadlineExceeded, exceptions.ServiceUnavailable,
+                ),
+            ),
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -469,7 +485,7 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.cancel_build,
-            default_timeout=None,
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -594,7 +610,7 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.retry_build,
-            default_timeout=None,
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -678,7 +694,7 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.create_build_trigger,
-            default_timeout=None,
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -755,7 +771,15 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.get_build_trigger,
-            default_timeout=None,
+            default_retry=retries.Retry(
+                initial=0.1,
+                maximum=60.0,
+                multiplier=1.3,
+                predicate=retries.if_exception_type(
+                    exceptions.DeadlineExceeded, exceptions.ServiceUnavailable,
+                ),
+            ),
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -824,7 +848,15 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.list_build_triggers,
-            default_timeout=None,
+            default_retry=retries.Retry(
+                initial=0.1,
+                maximum=60.0,
+                multiplier=1.3,
+                predicate=retries.if_exception_type(
+                    exceptions.DeadlineExceeded, exceptions.ServiceUnavailable,
+                ),
+            ),
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -898,7 +930,15 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.delete_build_trigger,
-            default_timeout=None,
+            default_retry=retries.Retry(
+                initial=0.1,
+                maximum=60.0,
+                multiplier=1.3,
+                predicate=retries.if_exception_type(
+                    exceptions.DeadlineExceeded, exceptions.ServiceUnavailable,
+                ),
+            ),
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -981,7 +1021,7 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.update_build_trigger,
-            default_timeout=None,
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -1086,7 +1126,7 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.run_build_trigger,
-            default_timeout=None,
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -1152,7 +1192,7 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.create_worker_pool,
-            default_timeout=None,
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -1209,7 +1249,15 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.get_worker_pool,
-            default_timeout=None,
+            default_retry=retries.Retry(
+                initial=0.1,
+                maximum=60.0,
+                multiplier=1.3,
+                predicate=retries.if_exception_type(
+                    exceptions.DeadlineExceeded, exceptions.ServiceUnavailable,
+                ),
+            ),
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -1249,7 +1297,7 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.delete_worker_pool,
-            default_timeout=None,
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -1304,7 +1352,7 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.update_worker_pool,
-            default_timeout=None,
+            default_timeout=600.0,
             client_info=_client_info,
         )
 
@@ -1348,7 +1396,15 @@ class CloudBuildAsyncClient:
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
             self._client._transport.list_worker_pools,
-            default_timeout=None,
+            default_retry=retries.Retry(
+                initial=0.1,
+                maximum=60.0,
+                multiplier=1.3,
+                predicate=retries.if_exception_type(
+                    exceptions.DeadlineExceeded, exceptions.ServiceUnavailable,
+                ),
+            ),
+            default_timeout=600.0,
             client_info=_client_info,
         )
 

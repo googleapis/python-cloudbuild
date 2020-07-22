@@ -176,11 +176,11 @@ class RepoSource(proto.Message):
 
     repo_name = proto.Field(proto.STRING, number=2)
 
-    branch_name = proto.Field(proto.STRING, number=3)
+    branch_name = proto.Field(proto.STRING, number=3, oneof="revision")
 
-    tag_name = proto.Field(proto.STRING, number=4)
+    tag_name = proto.Field(proto.STRING, number=4, oneof="revision")
 
-    commit_sha = proto.Field(proto.STRING, number=5)
+    commit_sha = proto.Field(proto.STRING, number=5, oneof="revision")
 
     dir = proto.Field(proto.STRING, number=7)
 
@@ -201,9 +201,13 @@ class Source(proto.Message):
             location in a Cloud Source Repository.
     """
 
-    storage_source = proto.Field(proto.MESSAGE, number=2, message=StorageSource,)
+    storage_source = proto.Field(
+        proto.MESSAGE, number=2, oneof="source", message=StorageSource,
+    )
 
-    repo_source = proto.Field(proto.MESSAGE, number=3, message=RepoSource,)
+    repo_source = proto.Field(
+        proto.MESSAGE, number=3, oneof="source", message=RepoSource,
+    )
 
 
 class BuiltImage(proto.Message):
@@ -967,9 +971,9 @@ class BuildTrigger(proto.Message):
 
     github = proto.Field(proto.MESSAGE, number=13, message="GitHubEventsConfig",)
 
-    build = proto.Field(proto.MESSAGE, number=4, message=Build,)
+    build = proto.Field(proto.MESSAGE, number=4, oneof="build_template", message=Build,)
 
-    filename = proto.Field(proto.STRING, number=8)
+    filename = proto.Field(proto.STRING, number=8, oneof="build_template")
 
     create_time = proto.Field(proto.MESSAGE, number=5, message=timestamp.Timestamp,)
 
@@ -1014,9 +1018,11 @@ class GitHubEventsConfig(proto.Message):
 
     name = proto.Field(proto.STRING, number=7)
 
-    pull_request = proto.Field(proto.MESSAGE, number=4, message="PullRequestFilter",)
+    pull_request = proto.Field(
+        proto.MESSAGE, number=4, oneof="event", message="PullRequestFilter",
+    )
 
-    push = proto.Field(proto.MESSAGE, number=5, message="PushFilter",)
+    push = proto.Field(proto.MESSAGE, number=5, oneof="event", message="PushFilter",)
 
 
 class PullRequestFilter(proto.Message):
@@ -1042,7 +1048,7 @@ class PullRequestFilter(proto.Message):
         COMMENTS_DISABLED = 0
         COMMENTS_ENABLED = 1
 
-    branch = proto.Field(proto.STRING, number=2)
+    branch = proto.Field(proto.STRING, number=2, oneof="git_ref")
 
     comment_control = proto.Field(proto.ENUM, number=5, enum=CommentControl,)
 
@@ -1069,9 +1075,9 @@ class PushFilter(proto.Message):
             NOT match the git_ref regex.
     """
 
-    branch = proto.Field(proto.STRING, number=2)
+    branch = proto.Field(proto.STRING, number=2, oneof="git_ref")
 
-    tag = proto.Field(proto.STRING, number=3)
+    tag = proto.Field(proto.STRING, number=3, oneof="git_ref")
 
     invert_regex = proto.Field(proto.BOOL, number=4)
 
