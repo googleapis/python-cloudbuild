@@ -1524,7 +1524,7 @@ class UpdateWorkerPoolRequest(proto.Message):
 
 
 class ListWorkerPoolsRequest(proto.Message):
-    r"""Request to list ``WorkerPool``\ s.
+    r"""Request to list ``WorkerPools``.
 
     Attributes:
         parent (str):

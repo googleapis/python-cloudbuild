@@ -685,7 +685,7 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     ]:
         r"""Return a callable for the list worker pools method over gRPC.
 
-        List project's ``WorkerPool``\ s.
+        List project's ``WorkerPools``.
 
         This API is experimental.
 

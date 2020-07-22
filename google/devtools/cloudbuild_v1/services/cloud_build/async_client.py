@@ -1370,13 +1370,13 @@ class CloudBuildAsyncClient:
         timeout: float = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> cloudbuild.ListWorkerPoolsResponse:
-        r"""List project's ``WorkerPool``\ s.
+        r"""List project's ``WorkerPools``.
 
         This API is experimental.
 
         Args:
             request (:class:`~.cloudbuild.ListWorkerPoolsRequest`):
-                The request object. Request to list `WorkerPool`s.
+                The request object. Request to list `WorkerPools`.
 
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
