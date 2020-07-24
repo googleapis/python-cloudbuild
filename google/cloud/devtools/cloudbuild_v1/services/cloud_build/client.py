@@ -225,6 +225,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
                 scopes=client_options.scopes,
                 api_mtls_endpoint=client_options.api_endpoint,
                 client_cert_source=client_options.client_cert_source,
+                quota_project_id=client_options.quota_project_id,
             )
 
     def create_build(
