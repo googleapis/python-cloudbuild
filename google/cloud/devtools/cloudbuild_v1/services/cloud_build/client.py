@@ -225,6 +225,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
                 scopes=client_options.scopes,
                 api_mtls_endpoint=client_options.api_endpoint,
                 client_cert_source=client_options.client_cert_source,
+                quota_project_id=client_options.quota_project_id,
             )
 
     def create_build(
@@ -296,29 +297,31 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Create or coerce a protobuf request object.
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        if request is not None and any([project_id, build]):
+        has_flattened_params = any([project_id, build])
+        if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = cloudbuild.CreateBuildRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.CreateBuildRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.CreateBuildRequest):
+            request = cloudbuild.CreateBuildRequest(request)
 
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
 
-        if project_id is not None:
-            request.project_id = project_id
-        if build is not None:
-            request.build = build
+            if project_id is not None:
+                request.project_id = project_id
+            if build is not None:
+                request.build = build
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.create_build,
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.create_build]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -399,37 +402,31 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Create or coerce a protobuf request object.
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        if request is not None and any([project_id, id]):
+        has_flattened_params = any([project_id, id])
+        if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = cloudbuild.GetBuildRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.GetBuildRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.GetBuildRequest):
+            request = cloudbuild.GetBuildRequest(request)
 
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
 
-        if project_id is not None:
-            request.project_id = project_id
-        if id is not None:
-            request.id = id
+            if project_id is not None:
+                request.project_id = project_id
+            if id is not None:
+                request.id = id
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.get_build,
-            default_retry=retries.Retry(
-                initial=0.1,
-                maximum=60.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
-                ),
-            ),
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.get_build]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -483,37 +480,31 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Create or coerce a protobuf request object.
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        if request is not None and any([project_id, filter]):
+        has_flattened_params = any([project_id, filter])
+        if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = cloudbuild.ListBuildsRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.ListBuildsRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.ListBuildsRequest):
+            request = cloudbuild.ListBuildsRequest(request)
 
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
 
-        if project_id is not None:
-            request.project_id = project_id
-        if filter is not None:
-            request.filter = filter
+            if project_id is not None:
+                request.project_id = project_id
+            if filter is not None:
+                request.filter = filter
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.list_builds,
-            default_retry=retries.Retry(
-                initial=0.1,
-                maximum=60.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
-                ),
-            ),
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.list_builds]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -588,29 +579,31 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Create or coerce a protobuf request object.
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        if request is not None and any([project_id, id]):
+        has_flattened_params = any([project_id, id])
+        if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = cloudbuild.CancelBuildRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.CancelBuildRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.CancelBuildRequest):
+            request = cloudbuild.CancelBuildRequest(request)
 
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
 
-        if project_id is not None:
-            request.project_id = project_id
-        if id is not None:
-            request.id = id
+            if project_id is not None:
+                request.project_id = project_id
+            if id is not None:
+                request.id = id
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.cancel_build,
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.cancel_build]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -713,29 +706,31 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Create or coerce a protobuf request object.
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        if request is not None and any([project_id, id]):
+        has_flattened_params = any([project_id, id])
+        if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = cloudbuild.RetryBuildRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.RetryBuildRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.RetryBuildRequest):
+            request = cloudbuild.RetryBuildRequest(request)
 
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
 
-        if project_id is not None:
-            request.project_id = project_id
-        if id is not None:
-            request.id = id
+            if project_id is not None:
+                request.project_id = project_id
+            if id is not None:
+                request.id = id
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.retry_build,
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.retry_build]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -797,29 +792,31 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Create or coerce a protobuf request object.
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        if request is not None and any([project_id, trigger]):
+        has_flattened_params = any([project_id, trigger])
+        if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = cloudbuild.CreateBuildTriggerRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.CreateBuildTriggerRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.CreateBuildTriggerRequest):
+            request = cloudbuild.CreateBuildTriggerRequest(request)
 
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
 
-        if project_id is not None:
-            request.project_id = project_id
-        if trigger is not None:
-            request.trigger = trigger
+            if project_id is not None:
+                request.project_id = project_id
+            if trigger is not None:
+                request.trigger = trigger
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.create_build_trigger,
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.create_build_trigger]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -874,37 +871,31 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Create or coerce a protobuf request object.
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        if request is not None and any([project_id, trigger_id]):
+        has_flattened_params = any([project_id, trigger_id])
+        if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = cloudbuild.GetBuildTriggerRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.GetBuildTriggerRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.GetBuildTriggerRequest):
+            request = cloudbuild.GetBuildTriggerRequest(request)
 
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
 
-        if project_id is not None:
-            request.project_id = project_id
-        if trigger_id is not None:
-            request.trigger_id = trigger_id
+            if project_id is not None:
+                request.project_id = project_id
+            if trigger_id is not None:
+                request.trigger_id = trigger_id
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.get_build_trigger,
-            default_retry=retries.Retry(
-                initial=0.1,
-                maximum=60.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
-                ),
-            ),
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.get_build_trigger]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -953,35 +944,29 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Create or coerce a protobuf request object.
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        if request is not None and any([project_id]):
+        has_flattened_params = any([project_id])
+        if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = cloudbuild.ListBuildTriggersRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.ListBuildTriggersRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.ListBuildTriggersRequest):
+            request = cloudbuild.ListBuildTriggersRequest(request)
 
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
 
-        if project_id is not None:
-            request.project_id = project_id
+            if project_id is not None:
+                request.project_id = project_id
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.list_build_triggers,
-            default_retry=retries.Retry(
-                initial=0.1,
-                maximum=60.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
-                ),
-            ),
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.list_build_triggers]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -1033,37 +1018,31 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Create or coerce a protobuf request object.
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        if request is not None and any([project_id, trigger_id]):
+        has_flattened_params = any([project_id, trigger_id])
+        if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = cloudbuild.DeleteBuildTriggerRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.DeleteBuildTriggerRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.DeleteBuildTriggerRequest):
+            request = cloudbuild.DeleteBuildTriggerRequest(request)
 
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
 
-        if project_id is not None:
-            request.project_id = project_id
-        if trigger_id is not None:
-            request.trigger_id = trigger_id
+            if project_id is not None:
+                request.project_id = project_id
+            if trigger_id is not None:
+                request.trigger_id = trigger_id
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.delete_build_trigger,
-            default_retry=retries.Retry(
-                initial=0.1,
-                maximum=60.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
-                ),
-            ),
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.delete_build_trigger]
 
         # Send the request.
         rpc(
@@ -1122,31 +1101,33 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Create or coerce a protobuf request object.
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        if request is not None and any([project_id, trigger_id, trigger]):
+        has_flattened_params = any([project_id, trigger_id, trigger])
+        if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = cloudbuild.UpdateBuildTriggerRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.UpdateBuildTriggerRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.UpdateBuildTriggerRequest):
+            request = cloudbuild.UpdateBuildTriggerRequest(request)
 
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
 
-        if project_id is not None:
-            request.project_id = project_id
-        if trigger_id is not None:
-            request.trigger_id = trigger_id
-        if trigger is not None:
-            request.trigger = trigger
+            if project_id is not None:
+                request.project_id = project_id
+            if trigger_id is not None:
+                request.trigger_id = trigger_id
+            if trigger is not None:
+                request.trigger = trigger
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.update_build_trigger,
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.update_build_trigger]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -1227,31 +1208,33 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Create or coerce a protobuf request object.
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        if request is not None and any([project_id, trigger_id, source]):
+        has_flattened_params = any([project_id, trigger_id, source])
+        if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = cloudbuild.RunBuildTriggerRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.RunBuildTriggerRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.RunBuildTriggerRequest):
+            request = cloudbuild.RunBuildTriggerRequest(request)
 
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
 
-        if project_id is not None:
-            request.project_id = project_id
-        if trigger_id is not None:
-            request.trigger_id = trigger_id
-        if source is not None:
-            request.source = source
+            if project_id is not None:
+                request.project_id = project_id
+            if trigger_id is not None:
+                request.trigger_id = trigger_id
+            if source is not None:
+                request.source = source
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.run_build_trigger,
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.run_build_trigger]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -1309,15 +1292,16 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         """
         # Create or coerce a protobuf request object.
 
-        request = cloudbuild.CreateWorkerPoolRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.CreateWorkerPoolRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.CreateWorkerPoolRequest):
+            request = cloudbuild.CreateWorkerPoolRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.create_worker_pool,
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.create_worker_pool]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -1366,23 +1350,16 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         """
         # Create or coerce a protobuf request object.
 
-        request = cloudbuild.GetWorkerPoolRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.GetWorkerPoolRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.GetWorkerPoolRequest):
+            request = cloudbuild.GetWorkerPoolRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.get_worker_pool,
-            default_retry=retries.Retry(
-                initial=0.1,
-                maximum=60.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
-                ),
-            ),
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.get_worker_pool]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -1414,15 +1391,16 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         """
         # Create or coerce a protobuf request object.
 
-        request = cloudbuild.DeleteWorkerPoolRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.DeleteWorkerPoolRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.DeleteWorkerPoolRequest):
+            request = cloudbuild.DeleteWorkerPoolRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.delete_worker_pool,
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.delete_worker_pool]
 
         # Send the request.
         rpc(
@@ -1469,15 +1447,16 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         """
         # Create or coerce a protobuf request object.
 
-        request = cloudbuild.UpdateWorkerPoolRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.UpdateWorkerPoolRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.UpdateWorkerPoolRequest):
+            request = cloudbuild.UpdateWorkerPoolRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.update_worker_pool,
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.update_worker_pool]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
@@ -1513,23 +1492,16 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         """
         # Create or coerce a protobuf request object.
 
-        request = cloudbuild.ListWorkerPoolsRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a cloudbuild.ListWorkerPoolsRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, cloudbuild.ListWorkerPoolsRequest):
+            request = cloudbuild.ListWorkerPoolsRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method.wrap_method(
-            self._transport.list_worker_pools,
-            default_retry=retries.Retry(
-                initial=0.1,
-                maximum=60.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
-                ),
-            ),
-            default_timeout=600.0,
-            client_info=_client_info,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.list_worker_pools]
 
         # Send the request.
         response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)

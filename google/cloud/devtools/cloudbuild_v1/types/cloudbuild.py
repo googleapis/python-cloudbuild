@@ -1220,7 +1220,7 @@ class BuildOptions(proto.Message):
             to Google Cloud Storage.
         worker_pool (str):
             Option to specify a ``WorkerPool`` for the build. Format:
-            projects/{project}/workerPools/{workerPool}
+            projects/{project}/locations/{location}/workerPools/{workerPool}
 
             This field is experimental.
         logging (~.cloudbuild.BuildOptions.LoggingMode):
