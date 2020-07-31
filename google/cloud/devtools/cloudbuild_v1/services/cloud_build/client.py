@@ -21,14 +21,14 @@ import re
 from typing import Callable, Dict, Sequence, Tuple, Type, Union
 import pkg_resources
 
-import google.api_core.client_options as ClientOptions # type: ignore
-from google.api_core import exceptions                 # type: ignore
-from google.api_core import gapic_v1                   # type: ignore
-from google.api_core import retry as retries           # type: ignore
-from google.auth import credentials                    # type: ignore
-from google.auth.transport import mtls                 # type: ignore
+import google.api_core.client_options as ClientOptions  # type: ignore
+from google.api_core import exceptions  # type: ignore
+from google.api_core import gapic_v1  # type: ignore
+from google.api_core import retry as retries  # type: ignore
+from google.auth import credentials  # type: ignore
+from google.auth.transport import mtls  # type: ignore
 from google.auth.exceptions import MutualTLSChannelError  # type: ignore
-from google.oauth2 import service_account              # type: ignore
+from google.oauth2 import service_account  # type: ignore
 
 from google.api_core import operation
 from google.api_core import operation_async
@@ -49,13 +49,12 @@ class CloudBuildClientMeta(type):
     support objects (e.g. transport) without polluting the client instance
     objects.
     """
-    _transport_registry = OrderedDict()  # type: Dict[str, Type[CloudBuildTransport]]
-    _transport_registry['grpc'] = CloudBuildGrpcTransport
-    _transport_registry['grpc_asyncio'] = CloudBuildGrpcAsyncIOTransport
 
-    def get_transport_class(cls,
-            label: str = None,
-        ) -> Type[CloudBuildTransport]:
+    _transport_registry = OrderedDict()  # type: Dict[str, Type[CloudBuildTransport]]
+    _transport_registry["grpc"] = CloudBuildGrpcTransport
+    _transport_registry["grpc_asyncio"] = CloudBuildGrpcAsyncIOTransport
+
+    def get_transport_class(cls, label: str = None,) -> Type[CloudBuildTransport]:
         """Return an appropriate transport class.
 
         Args:
@@ -114,7 +113,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         return api_endpoint.replace(".googleapis.com", ".mtls.googleapis.com")
 
-    DEFAULT_ENDPOINT = 'cloudbuild.googleapis.com'
+    DEFAULT_ENDPOINT = "cloudbuild.googleapis.com"
     DEFAULT_MTLS_ENDPOINT = _get_default_mtls_endpoint.__func__(  # type: ignore
         DEFAULT_ENDPOINT
     )
@@ -133,18 +132,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         Returns:
             {@api.name}: The constructed client.
         """
-        credentials = service_account.Credentials.from_service_account_file(
-            filename)
-        kwargs['credentials'] = credentials
+        credentials = service_account.Credentials.from_service_account_file(filename)
+        kwargs["credentials"] = credentials
         return cls(*args, **kwargs)
 
     from_service_account_json = from_service_account_file
 
-    def __init__(self, *,
-            credentials: credentials.Credentials = None,
-            transport: Union[str, CloudBuildTransport] = None,
-            client_options: ClientOptions = None,
-            ) -> None:
+    def __init__(
+        self,
+        *,
+        credentials: credentials.Credentials = None,
+        transport: Union[str, CloudBuildTransport] = None,
+        client_options: ClientOptions = None,
+    ) -> None:
         """Instantiate the cloud build client.
 
         Args:
@@ -191,7 +191,9 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
                     or mtls.has_default_client_cert_source()
                 )
                 client_options.api_endpoint = (
-                    self.DEFAULT_MTLS_ENDPOINT if has_client_cert_source else self.DEFAULT_ENDPOINT
+                    self.DEFAULT_MTLS_ENDPOINT
+                    if has_client_cert_source
+                    else self.DEFAULT_ENDPOINT
                 )
             else:
                 raise MutualTLSChannelError(
@@ -204,8 +206,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         if isinstance(transport, CloudBuildTransport):
             # transport is a CloudBuildTransport instance.
             if credentials or client_options.credentials_file:
-                raise ValueError('When providing a transport instance, '
-                                 'provide its credentials directly.')
+                raise ValueError(
+                    "When providing a transport instance, "
+                    "provide its credentials directly."
+                )
             if client_options.scopes:
                 raise ValueError(
                     "When providing a transport instance, "
@@ -224,15 +228,16 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
                 quota_project_id=client_options.quota_project_id,
             )
 
-    def create_build(self,
-            request: cloudbuild.CreateBuildRequest = None,
-            *,
-            project_id: str = None,
-            build: cloudbuild.Build = None,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> operation.Operation:
+    def create_build(
+        self,
+        request: cloudbuild.CreateBuildRequest = None,
+        *,
+        project_id: str = None,
+        build: cloudbuild.Build = None,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> operation.Operation:
         r"""Starts a build with the specified configuration.
 
         This method returns a long-running ``Operation``, which includes
@@ -294,8 +299,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([project_id, build])
         if request is not None and has_flattened_params:
-            raise ValueError('If the `request` argument is set, then none of '
-                             'the individual field arguments should be set.')
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
 
         # Minor optimization to avoid making a copy if the user passes
         # in a cloudbuild.CreateBuildRequest.
@@ -317,12 +324,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.create_build]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # Wrap the response in an operation future.
         response = operation.from_gapic(
@@ -335,15 +337,16 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Done; return the response.
         return response
 
-    def get_build(self,
-            request: cloudbuild.GetBuildRequest = None,
-            *,
-            project_id: str = None,
-            id: str = None,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> cloudbuild.Build:
+    def get_build(
+        self,
+        request: cloudbuild.GetBuildRequest = None,
+        *,
+        project_id: str = None,
+        id: str = None,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> cloudbuild.Build:
         r"""Returns information about a previously requested build.
 
         The ``Build`` that is returned includes its status (such as
@@ -401,8 +404,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([project_id, id])
         if request is not None and has_flattened_params:
-            raise ValueError('If the `request` argument is set, then none of '
-                             'the individual field arguments should be set.')
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
 
         # Minor optimization to avoid making a copy if the user passes
         # in a cloudbuild.GetBuildRequest.
@@ -424,25 +429,21 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.get_build]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # Done; return the response.
         return response
 
-    def list_builds(self,
-            request: cloudbuild.ListBuildsRequest = None,
-            *,
-            project_id: str = None,
-            filter: str = None,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> pagers.ListBuildsPager:
+    def list_builds(
+        self,
+        request: cloudbuild.ListBuildsRequest = None,
+        *,
+        project_id: str = None,
+        filter: str = None,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> pagers.ListBuildsPager:
         r"""Lists previously requested builds.
         Previously requested builds may still be in-progress, or
         may have finished successfully or unsuccessfully.
@@ -481,8 +482,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([project_id, filter])
         if request is not None and has_flattened_params:
-            raise ValueError('If the `request` argument is set, then none of '
-                             'the individual field arguments should be set.')
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
 
         # Minor optimization to avoid making a copy if the user passes
         # in a cloudbuild.ListBuildsRequest.
@@ -504,34 +507,27 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.list_builds]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # This method is paged; wrap the response in a pager, which provides
         # an `__iter__` convenience method.
         response = pagers.ListBuildsPager(
-            method=rpc,
-            request=request,
-            response=response,
-            metadata=metadata,
+            method=rpc, request=request, response=response, metadata=metadata,
         )
 
         # Done; return the response.
         return response
 
-    def cancel_build(self,
-            request: cloudbuild.CancelBuildRequest = None,
-            *,
-            project_id: str = None,
-            id: str = None,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> cloudbuild.Build:
+    def cancel_build(
+        self,
+        request: cloudbuild.CancelBuildRequest = None,
+        *,
+        project_id: str = None,
+        id: str = None,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> cloudbuild.Build:
         r"""Cancels a build in progress.
 
         Args:
@@ -585,8 +581,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([project_id, id])
         if request is not None and has_flattened_params:
-            raise ValueError('If the `request` argument is set, then none of '
-                             'the individual field arguments should be set.')
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
 
         # Minor optimization to avoid making a copy if the user passes
         # in a cloudbuild.CancelBuildRequest.
@@ -608,25 +606,21 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.cancel_build]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # Done; return the response.
         return response
 
-    def retry_build(self,
-            request: cloudbuild.RetryBuildRequest = None,
-            *,
-            project_id: str = None,
-            id: str = None,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> operation.Operation:
+    def retry_build(
+        self,
+        request: cloudbuild.RetryBuildRequest = None,
+        *,
+        project_id: str = None,
+        id: str = None,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> operation.Operation:
         r"""Creates a new build based on the specified build.
 
         This method creates a new build using the original build
@@ -714,8 +708,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([project_id, id])
         if request is not None and has_flattened_params:
-            raise ValueError('If the `request` argument is set, then none of '
-                             'the individual field arguments should be set.')
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
 
         # Minor optimization to avoid making a copy if the user passes
         # in a cloudbuild.RetryBuildRequest.
@@ -737,12 +733,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.retry_build]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # Wrap the response in an operation future.
         response = operation.from_gapic(
@@ -755,15 +746,16 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Done; return the response.
         return response
 
-    def create_build_trigger(self,
-            request: cloudbuild.CreateBuildTriggerRequest = None,
-            *,
-            project_id: str = None,
-            trigger: cloudbuild.BuildTrigger = None,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> cloudbuild.BuildTrigger:
+    def create_build_trigger(
+        self,
+        request: cloudbuild.CreateBuildTriggerRequest = None,
+        *,
+        project_id: str = None,
+        trigger: cloudbuild.BuildTrigger = None,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> cloudbuild.BuildTrigger:
         r"""Creates a new ``BuildTrigger``.
 
         This API is experimental.
@@ -802,8 +794,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([project_id, trigger])
         if request is not None and has_flattened_params:
-            raise ValueError('If the `request` argument is set, then none of '
-                             'the individual field arguments should be set.')
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
 
         # Minor optimization to avoid making a copy if the user passes
         # in a cloudbuild.CreateBuildTriggerRequest.
@@ -825,25 +819,21 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.create_build_trigger]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # Done; return the response.
         return response
 
-    def get_build_trigger(self,
-            request: cloudbuild.GetBuildTriggerRequest = None,
-            *,
-            project_id: str = None,
-            trigger_id: str = None,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> cloudbuild.BuildTrigger:
+    def get_build_trigger(
+        self,
+        request: cloudbuild.GetBuildTriggerRequest = None,
+        *,
+        project_id: str = None,
+        trigger_id: str = None,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> cloudbuild.BuildTrigger:
         r"""Returns information about a ``BuildTrigger``.
 
         This API is experimental.
@@ -883,8 +873,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([project_id, trigger_id])
         if request is not None and has_flattened_params:
-            raise ValueError('If the `request` argument is set, then none of '
-                             'the individual field arguments should be set.')
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
 
         # Minor optimization to avoid making a copy if the user passes
         # in a cloudbuild.GetBuildTriggerRequest.
@@ -906,24 +898,20 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.get_build_trigger]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # Done; return the response.
         return response
 
-    def list_build_triggers(self,
-            request: cloudbuild.ListBuildTriggersRequest = None,
-            *,
-            project_id: str = None,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> pagers.ListBuildTriggersPager:
+    def list_build_triggers(
+        self,
+        request: cloudbuild.ListBuildTriggersRequest = None,
+        *,
+        project_id: str = None,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> pagers.ListBuildTriggersPager:
         r"""Lists existing ``BuildTrigger``\ s.
 
         This API is experimental.
@@ -958,8 +946,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([project_id])
         if request is not None and has_flattened_params:
-            raise ValueError('If the `request` argument is set, then none of '
-                             'the individual field arguments should be set.')
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
 
         # Minor optimization to avoid making a copy if the user passes
         # in a cloudbuild.ListBuildTriggersRequest.
@@ -979,34 +969,27 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.list_build_triggers]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # This method is paged; wrap the response in a pager, which provides
         # an `__iter__` convenience method.
         response = pagers.ListBuildTriggersPager(
-            method=rpc,
-            request=request,
-            response=response,
-            metadata=metadata,
+            method=rpc, request=request, response=response, metadata=metadata,
         )
 
         # Done; return the response.
         return response
 
-    def delete_build_trigger(self,
-            request: cloudbuild.DeleteBuildTriggerRequest = None,
-            *,
-            project_id: str = None,
-            trigger_id: str = None,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> None:
+    def delete_build_trigger(
+        self,
+        request: cloudbuild.DeleteBuildTriggerRequest = None,
+        *,
+        project_id: str = None,
+        trigger_id: str = None,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> None:
         r"""Deletes a ``BuildTrigger`` by its project ID and trigger ID.
 
         This API is experimental.
@@ -1037,8 +1020,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([project_id, trigger_id])
         if request is not None and has_flattened_params:
-            raise ValueError('If the `request` argument is set, then none of '
-                             'the individual field arguments should be set.')
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
 
         # Minor optimization to avoid making a copy if the user passes
         # in a cloudbuild.DeleteBuildTriggerRequest.
@@ -1061,22 +1046,20 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         # Send the request.
         rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
+            request, retry=retry, timeout=timeout, metadata=metadata,
         )
 
-    def update_build_trigger(self,
-            request: cloudbuild.UpdateBuildTriggerRequest = None,
-            *,
-            project_id: str = None,
-            trigger_id: str = None,
-            trigger: cloudbuild.BuildTrigger = None,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> cloudbuild.BuildTrigger:
+    def update_build_trigger(
+        self,
+        request: cloudbuild.UpdateBuildTriggerRequest = None,
+        *,
+        project_id: str = None,
+        trigger_id: str = None,
+        trigger: cloudbuild.BuildTrigger = None,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> cloudbuild.BuildTrigger:
         r"""Updates a ``BuildTrigger`` by its project ID and trigger ID.
 
         This API is experimental.
@@ -1120,8 +1103,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([project_id, trigger_id, trigger])
         if request is not None and has_flattened_params:
-            raise ValueError('If the `request` argument is set, then none of '
-                             'the individual field arguments should be set.')
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
 
         # Minor optimization to avoid making a copy if the user passes
         # in a cloudbuild.UpdateBuildTriggerRequest.
@@ -1145,26 +1130,22 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.update_build_trigger]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # Done; return the response.
         return response
 
-    def run_build_trigger(self,
-            request: cloudbuild.RunBuildTriggerRequest = None,
-            *,
-            project_id: str = None,
-            trigger_id: str = None,
-            source: cloudbuild.RepoSource = None,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> operation.Operation:
+    def run_build_trigger(
+        self,
+        request: cloudbuild.RunBuildTriggerRequest = None,
+        *,
+        project_id: str = None,
+        trigger_id: str = None,
+        source: cloudbuild.RepoSource = None,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> operation.Operation:
         r"""Runs a ``BuildTrigger`` at a particular source revision.
 
         Args:
@@ -1229,8 +1210,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # gotten any keyword arguments that map to the request.
         has_flattened_params = any([project_id, trigger_id, source])
         if request is not None and has_flattened_params:
-            raise ValueError('If the `request` argument is set, then none of '
-                             'the individual field arguments should be set.')
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
 
         # Minor optimization to avoid making a copy if the user passes
         # in a cloudbuild.RunBuildTriggerRequest.
@@ -1254,12 +1237,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.run_build_trigger]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # Wrap the response in an operation future.
         response = operation.from_gapic(
@@ -1272,13 +1250,14 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # Done; return the response.
         return response
 
-    def create_worker_pool(self,
-            request: cloudbuild.CreateWorkerPoolRequest = None,
-            *,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> cloudbuild.WorkerPool:
+    def create_worker_pool(
+        self,
+        request: cloudbuild.CreateWorkerPoolRequest = None,
+        *,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> cloudbuild.WorkerPool:
         r"""Creates a ``WorkerPool`` to run the builds, and returns the new
         worker pool.
 
@@ -1325,23 +1304,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.create_worker_pool]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # Done; return the response.
         return response
 
-    def get_worker_pool(self,
-            request: cloudbuild.GetWorkerPoolRequest = None,
-            *,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> cloudbuild.WorkerPool:
+    def get_worker_pool(
+        self,
+        request: cloudbuild.GetWorkerPoolRequest = None,
+        *,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> cloudbuild.WorkerPool:
         r"""Returns information about a ``WorkerPool``.
 
         This API is experimental.
@@ -1387,23 +1362,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.get_worker_pool]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # Done; return the response.
         return response
 
-    def delete_worker_pool(self,
-            request: cloudbuild.DeleteWorkerPoolRequest = None,
-            *,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> None:
+    def delete_worker_pool(
+        self,
+        request: cloudbuild.DeleteWorkerPoolRequest = None,
+        *,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> None:
         r"""Deletes a ``WorkerPool`` by its project ID and WorkerPool name.
 
         This API is experimental.
@@ -1433,19 +1404,17 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         # Send the request.
         rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
+            request, retry=retry, timeout=timeout, metadata=metadata,
         )
 
-    def update_worker_pool(self,
-            request: cloudbuild.UpdateWorkerPoolRequest = None,
-            *,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> cloudbuild.WorkerPool:
+    def update_worker_pool(
+        self,
+        request: cloudbuild.UpdateWorkerPoolRequest = None,
+        *,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> cloudbuild.WorkerPool:
         r"""Update a ``WorkerPool``.
 
         This API is experimental.
@@ -1490,23 +1459,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.update_worker_pool]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # Done; return the response.
         return response
 
-    def list_worker_pools(self,
-            request: cloudbuild.ListWorkerPoolsRequest = None,
-            *,
-            retry: retries.Retry = gapic_v1.method.DEFAULT,
-            timeout: float = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-            ) -> cloudbuild.ListWorkerPoolsResponse:
+    def list_worker_pools(
+        self,
+        request: cloudbuild.ListWorkerPoolsRequest = None,
+        *,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> cloudbuild.ListWorkerPoolsResponse:
         r"""List project's ``WorkerPools``.
 
         This API is experimental.
@@ -1539,32 +1504,20 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         rpc = self._transport._wrapped_methods[self._transport.list_worker_pools]
 
         # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
 
         # Done; return the response.
         return response
 
 
-
-
-
-
-
 try:
     _client_info = gapic_v1.client_info.ClientInfo(
         gapic_version=pkg_resources.get_distribution(
-            'google-devtools-cloudbuild',
+            "google-devtools-cloudbuild",
         ).version,
     )
 except pkg_resources.DistributionNotFound:
     _client_info = gapic_v1.client_info.ClientInfo()
 
 
-__all__ = (
-    'CloudBuildClient',
-)
+__all__ = ("CloudBuildClient",)
