@@ -63,7 +63,8 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
         credentials: credentials.Credentials = None,
         credentials_file: Optional[str] = None,
         scopes: Optional[Sequence[str]] = None,
-        **kwargs
+        quota_project_id: Optional[str] = None,
+        **kwargs,
     ) -> aio.Channel:
         """Create and return a gRPC AsyncIO channel object.
         Args:
@@ -79,6 +80,8 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
             scopes (Optional[Sequence[str]]): A optional list of scopes needed for this
                 service. These are only used when credentials are not specified and
                 are passed to :func:`google.auth.default`.
+            quota_project_id (Optional[str]): An optional project to use for billing
+                and quota.
             kwargs (Optional[dict]): Keyword arguments, which are passed to the
                 channel creation.
         Returns:
@@ -90,7 +93,8 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
             credentials=credentials,
             credentials_file=credentials_file,
             scopes=scopes,
-            **kwargs
+            quota_project_id=quota_project_id,
+            **kwargs,
         )
 
     def __init__(
@@ -102,7 +106,8 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
         scopes: Optional[Sequence[str]] = None,
         channel: aio.Channel = None,
         api_mtls_endpoint: str = None,
-        client_cert_source: Callable[[], Tuple[bytes, bytes]] = None
+        client_cert_source: Callable[[], Tuple[bytes, bytes]] = None,
+        quota_project_id=None,
     ) -> None:
         """Instantiate the transport.
 
@@ -130,6 +135,8 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
                 callback to provide client SSL certificate bytes and private key
                 bytes, both in PEM format. It is ignored if ``api_mtls_endpoint``
                 is None.
+            quota_project_id (Optional[str]): An optional project to use for billing
+                and quota.
 
         Raises:
             google.auth.exceptions.MutualTlsChannelError: If mutual TLS transport
@@ -168,6 +175,7 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
                 credentials_file=credentials_file,
                 ssl_credentials=ssl_credentials,
                 scopes=scopes or self.AUTH_SCOPES,
+                quota_project_id=quota_project_id,
             )
 
         # Run the base constructor.
@@ -176,6 +184,7 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
             credentials=credentials,
             credentials_file=credentials_file,
             scopes=scopes or self.AUTH_SCOPES,
+            quota_project_id=quota_project_id,
         )
 
         self._stubs = {}
