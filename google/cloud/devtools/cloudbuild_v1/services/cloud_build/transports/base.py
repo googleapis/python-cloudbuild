@@ -21,7 +21,7 @@ import pkg_resources
 
 from google import auth
 from google.api_core import exceptions  # type: ignore
-from google.api_core import gapic_v1  # type: ignore
+from google.api_core import gapic_v1    # type: ignore
 from google.api_core import retry as retries  # type: ignore
 from google.api_core import operations_v1  # type: ignore
 from google.auth import credentials  # type: ignore
@@ -34,28 +34,28 @@ from google.protobuf import empty_pb2 as empty  # type: ignore
 try:
     _client_info = gapic_v1.client_info.ClientInfo(
         gapic_version=pkg_resources.get_distribution(
-            "google-devtools-cloudbuild",
+            'google-devtools-cloudbuild',
         ).version,
     )
 except pkg_resources.DistributionNotFound:
     _client_info = gapic_v1.client_info.ClientInfo()
 
-
 class CloudBuildTransport(abc.ABC):
     """Abstract transport class for CloudBuild."""
 
-    AUTH_SCOPES = ("https://www.googleapis.com/auth/cloud-platform",)
+    AUTH_SCOPES = (
+        'https://www.googleapis.com/auth/cloud-platform',
+    )
 
     def __init__(
-        self,
-        *,
-        host: str = "cloudbuild.googleapis.com",
-        credentials: credentials.Credentials = None,
-        credentials_file: typing.Optional[str] = None,
-        scopes: typing.Optional[typing.Sequence[str]] = AUTH_SCOPES,
-        quota_project_id: typing.Optional[str] = None,
-        **kwargs,
-    ) -> None:
+            self, *,
+            host: str = 'cloudbuild.googleapis.com',
+            credentials: credentials.Credentials = None,
+            credentials_file: typing.Optional[str] = None,
+            scopes: typing.Optional[typing.Sequence[str]] = AUTH_SCOPES,
+            quota_project_id: typing.Optional[str] = None,
+            **kwargs,
+            ) -> None:
         """Instantiate the transport.
 
         Args:
@@ -73,26 +73,24 @@ class CloudBuildTransport(abc.ABC):
                 and quota.
         """
         # Save the hostname. Default to port 443 (HTTPS) if none is specified.
-        if ":" not in host:
-            host += ":443"
+        if ':' not in host:
+            host += ':443'
         self._host = host
 
         # If no credentials are provided, then determine the appropriate
         # defaults.
         if credentials and credentials_file:
-            raise exceptions.DuplicateCredentialArgs(
-                "'credentials_file' and 'credentials' are mutually exclusive"
-            )
+            raise exceptions.DuplicateCredentialArgs("'credentials_file' and 'credentials' are mutually exclusive")
 
         if credentials_file is not None:
             credentials, _ = auth.load_credentials_from_file(
-                credentials_file, scopes=scopes, quota_project_id=quota_project_id
-            )
+                                credentials_file,
+                                scopes=scopes,
+                                quota_project_id=quota_project_id
+                            )
 
         elif credentials is None:
-            credentials, _ = auth.default(
-                scopes=scopes, quota_project_id=quota_project_id
-            )
+            credentials, _ = auth.default(scopes=scopes, quota_project_id=quota_project_id)
 
         # Save the credentials.
         self._credentials = credentials
@@ -104,7 +102,9 @@ class CloudBuildTransport(abc.ABC):
         # Precompute the wrapped methods.
         self._wrapped_methods = {
             self.create_build: gapic_v1.method.wrap_method(
-                self.create_build, default_timeout=600.0, client_info=_client_info,
+                self.create_build,
+                default_timeout=600.0,
+                client_info=_client_info,
             ),
             self.get_build: gapic_v1.method.wrap_method(
                 self.get_build,
@@ -113,7 +113,8 @@ class CloudBuildTransport(abc.ABC):
                     maximum=60.0,
                     multiplier=1.3,
                     predicate=retries.if_exception_type(
-                        exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                        exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                     ),
                 ),
                 default_timeout=600.0,
@@ -126,17 +127,22 @@ class CloudBuildTransport(abc.ABC):
                     maximum=60.0,
                     multiplier=1.3,
                     predicate=retries.if_exception_type(
-                        exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                        exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                     ),
                 ),
                 default_timeout=600.0,
                 client_info=_client_info,
             ),
             self.cancel_build: gapic_v1.method.wrap_method(
-                self.cancel_build, default_timeout=600.0, client_info=_client_info,
+                self.cancel_build,
+                default_timeout=600.0,
+                client_info=_client_info,
             ),
             self.retry_build: gapic_v1.method.wrap_method(
-                self.retry_build, default_timeout=600.0, client_info=_client_info,
+                self.retry_build,
+                default_timeout=600.0,
+                client_info=_client_info,
             ),
             self.create_build_trigger: gapic_v1.method.wrap_method(
                 self.create_build_trigger,
@@ -150,7 +156,8 @@ class CloudBuildTransport(abc.ABC):
                     maximum=60.0,
                     multiplier=1.3,
                     predicate=retries.if_exception_type(
-                        exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                        exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                     ),
                 ),
                 default_timeout=600.0,
@@ -163,7 +170,8 @@ class CloudBuildTransport(abc.ABC):
                     maximum=60.0,
                     multiplier=1.3,
                     predicate=retries.if_exception_type(
-                        exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                        exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                     ),
                 ),
                 default_timeout=600.0,
@@ -176,7 +184,8 @@ class CloudBuildTransport(abc.ABC):
                     maximum=60.0,
                     multiplier=1.3,
                     predicate=retries.if_exception_type(
-                        exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                        exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                     ),
                 ),
                 default_timeout=600.0,
@@ -188,7 +197,9 @@ class CloudBuildTransport(abc.ABC):
                 client_info=_client_info,
             ),
             self.run_build_trigger: gapic_v1.method.wrap_method(
-                self.run_build_trigger, default_timeout=600.0, client_info=_client_info,
+                self.run_build_trigger,
+                default_timeout=600.0,
+                client_info=_client_info,
             ),
             self.create_worker_pool: gapic_v1.method.wrap_method(
                 self.create_worker_pool,
@@ -202,7 +213,8 @@ class CloudBuildTransport(abc.ABC):
                     maximum=60.0,
                     multiplier=1.3,
                     predicate=retries.if_exception_type(
-                        exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                        exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                     ),
                 ),
                 default_timeout=600.0,
@@ -225,12 +237,14 @@ class CloudBuildTransport(abc.ABC):
                     maximum=60.0,
                     multiplier=1.3,
                     predicate=retries.if_exception_type(
-                        exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                        exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                     ),
                 ),
                 default_timeout=600.0,
                 client_info=_client_info,
             ),
+
         }
 
     @property
@@ -239,163 +253,150 @@ class CloudBuildTransport(abc.ABC):
         raise NotImplementedError()
 
     @property
-    def create_build(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.CreateBuildRequest],
-        typing.Union[operations.Operation, typing.Awaitable[operations.Operation]],
-    ]:
+    def create_build(self) -> typing.Callable[
+            [cloudbuild.CreateBuildRequest],
+            typing.Union[
+                operations.Operation,
+                typing.Awaitable[operations.Operation]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def get_build(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.GetBuildRequest],
-        typing.Union[cloudbuild.Build, typing.Awaitable[cloudbuild.Build]],
-    ]:
+    def get_build(self) -> typing.Callable[
+            [cloudbuild.GetBuildRequest],
+            typing.Union[
+                cloudbuild.Build,
+                typing.Awaitable[cloudbuild.Build]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def list_builds(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.ListBuildsRequest],
-        typing.Union[
-            cloudbuild.ListBuildsResponse,
-            typing.Awaitable[cloudbuild.ListBuildsResponse],
-        ],
-    ]:
+    def list_builds(self) -> typing.Callable[
+            [cloudbuild.ListBuildsRequest],
+            typing.Union[
+                cloudbuild.ListBuildsResponse,
+                typing.Awaitable[cloudbuild.ListBuildsResponse]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def cancel_build(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.CancelBuildRequest],
-        typing.Union[cloudbuild.Build, typing.Awaitable[cloudbuild.Build]],
-    ]:
+    def cancel_build(self) -> typing.Callable[
+            [cloudbuild.CancelBuildRequest],
+            typing.Union[
+                cloudbuild.Build,
+                typing.Awaitable[cloudbuild.Build]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def retry_build(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.RetryBuildRequest],
-        typing.Union[operations.Operation, typing.Awaitable[operations.Operation]],
-    ]:
+    def retry_build(self) -> typing.Callable[
+            [cloudbuild.RetryBuildRequest],
+            typing.Union[
+                operations.Operation,
+                typing.Awaitable[operations.Operation]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def create_build_trigger(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.CreateBuildTriggerRequest],
-        typing.Union[
-            cloudbuild.BuildTrigger, typing.Awaitable[cloudbuild.BuildTrigger]
-        ],
-    ]:
+    def create_build_trigger(self) -> typing.Callable[
+            [cloudbuild.CreateBuildTriggerRequest],
+            typing.Union[
+                cloudbuild.BuildTrigger,
+                typing.Awaitable[cloudbuild.BuildTrigger]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def get_build_trigger(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.GetBuildTriggerRequest],
-        typing.Union[
-            cloudbuild.BuildTrigger, typing.Awaitable[cloudbuild.BuildTrigger]
-        ],
-    ]:
+    def get_build_trigger(self) -> typing.Callable[
+            [cloudbuild.GetBuildTriggerRequest],
+            typing.Union[
+                cloudbuild.BuildTrigger,
+                typing.Awaitable[cloudbuild.BuildTrigger]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def list_build_triggers(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.ListBuildTriggersRequest],
-        typing.Union[
-            cloudbuild.ListBuildTriggersResponse,
-            typing.Awaitable[cloudbuild.ListBuildTriggersResponse],
-        ],
-    ]:
+    def list_build_triggers(self) -> typing.Callable[
+            [cloudbuild.ListBuildTriggersRequest],
+            typing.Union[
+                cloudbuild.ListBuildTriggersResponse,
+                typing.Awaitable[cloudbuild.ListBuildTriggersResponse]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def delete_build_trigger(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.DeleteBuildTriggerRequest],
-        typing.Union[empty.Empty, typing.Awaitable[empty.Empty]],
-    ]:
+    def delete_build_trigger(self) -> typing.Callable[
+            [cloudbuild.DeleteBuildTriggerRequest],
+            typing.Union[
+                empty.Empty,
+                typing.Awaitable[empty.Empty]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def update_build_trigger(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.UpdateBuildTriggerRequest],
-        typing.Union[
-            cloudbuild.BuildTrigger, typing.Awaitable[cloudbuild.BuildTrigger]
-        ],
-    ]:
+    def update_build_trigger(self) -> typing.Callable[
+            [cloudbuild.UpdateBuildTriggerRequest],
+            typing.Union[
+                cloudbuild.BuildTrigger,
+                typing.Awaitable[cloudbuild.BuildTrigger]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def run_build_trigger(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.RunBuildTriggerRequest],
-        typing.Union[operations.Operation, typing.Awaitable[operations.Operation]],
-    ]:
+    def run_build_trigger(self) -> typing.Callable[
+            [cloudbuild.RunBuildTriggerRequest],
+            typing.Union[
+                operations.Operation,
+                typing.Awaitable[operations.Operation]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def create_worker_pool(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.CreateWorkerPoolRequest],
-        typing.Union[cloudbuild.WorkerPool, typing.Awaitable[cloudbuild.WorkerPool]],
-    ]:
+    def create_worker_pool(self) -> typing.Callable[
+            [cloudbuild.CreateWorkerPoolRequest],
+            typing.Union[
+                cloudbuild.WorkerPool,
+                typing.Awaitable[cloudbuild.WorkerPool]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def get_worker_pool(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.GetWorkerPoolRequest],
-        typing.Union[cloudbuild.WorkerPool, typing.Awaitable[cloudbuild.WorkerPool]],
-    ]:
+    def get_worker_pool(self) -> typing.Callable[
+            [cloudbuild.GetWorkerPoolRequest],
+            typing.Union[
+                cloudbuild.WorkerPool,
+                typing.Awaitable[cloudbuild.WorkerPool]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def delete_worker_pool(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.DeleteWorkerPoolRequest],
-        typing.Union[empty.Empty, typing.Awaitable[empty.Empty]],
-    ]:
+    def delete_worker_pool(self) -> typing.Callable[
+            [cloudbuild.DeleteWorkerPoolRequest],
+            typing.Union[
+                empty.Empty,
+                typing.Awaitable[empty.Empty]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def update_worker_pool(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.UpdateWorkerPoolRequest],
-        typing.Union[cloudbuild.WorkerPool, typing.Awaitable[cloudbuild.WorkerPool]],
-    ]:
+    def update_worker_pool(self) -> typing.Callable[
+            [cloudbuild.UpdateWorkerPoolRequest],
+            typing.Union[
+                cloudbuild.WorkerPool,
+                typing.Awaitable[cloudbuild.WorkerPool]
+            ]]:
         raise NotImplementedError()
 
     @property
-    def list_worker_pools(
-        self,
-    ) -> typing.Callable[
-        [cloudbuild.ListWorkerPoolsRequest],
-        typing.Union[
-            cloudbuild.ListWorkerPoolsResponse,
-            typing.Awaitable[cloudbuild.ListWorkerPoolsResponse],
-        ],
-    ]:
+    def list_worker_pools(self) -> typing.Callable[
+            [cloudbuild.ListWorkerPoolsRequest],
+            typing.Union[
+                cloudbuild.ListWorkerPoolsResponse,
+                typing.Awaitable[cloudbuild.ListWorkerPoolsResponse]
+            ]]:
         raise NotImplementedError()
 
 
-__all__ = ("CloudBuildTransport",)
+__all__ = (
+    'CloudBuildTransport',
+)

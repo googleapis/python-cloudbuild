@@ -37,15 +37,12 @@ class ListBuildsPager:
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
-
-    def __init__(
-        self,
-        method: Callable[..., cloudbuild.ListBuildsResponse],
-        request: cloudbuild.ListBuildsRequest,
-        response: cloudbuild.ListBuildsResponse,
-        *,
-        metadata: Sequence[Tuple[str, str]] = ()
-    ):
+    def __init__(self,
+            method: Callable[..., cloudbuild.ListBuildsResponse],
+            request: cloudbuild.ListBuildsRequest,
+            response: cloudbuild.ListBuildsResponse,
+            *,
+            metadata: Sequence[Tuple[str, str]] = ()):
         """Instantiate the pager.
 
         Args:
@@ -79,7 +76,7 @@ class ListBuildsPager:
             yield from page.builds
 
     def __repr__(self) -> str:
-        return "{0}<{1!r}>".format(self.__class__.__name__, self._response)
+        return '{0}<{1!r}>'.format(self.__class__.__name__, self._response)
 
 
 class ListBuildsAsyncPager:
@@ -99,15 +96,12 @@ class ListBuildsAsyncPager:
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
-
-    def __init__(
-        self,
-        method: Callable[..., Awaitable[cloudbuild.ListBuildsResponse]],
-        request: cloudbuild.ListBuildsRequest,
-        response: cloudbuild.ListBuildsResponse,
-        *,
-        metadata: Sequence[Tuple[str, str]] = ()
-    ):
+    def __init__(self,
+            method: Callable[..., Awaitable[cloudbuild.ListBuildsResponse]],
+            request: cloudbuild.ListBuildsRequest,
+            response: cloudbuild.ListBuildsResponse,
+            *,
+            metadata: Sequence[Tuple[str, str]] = ()):
         """Instantiate the pager.
 
         Args:
@@ -145,7 +139,7 @@ class ListBuildsAsyncPager:
         return async_generator()
 
     def __repr__(self) -> str:
-        return "{0}<{1!r}>".format(self.__class__.__name__, self._response)
+        return '{0}<{1!r}>'.format(self.__class__.__name__, self._response)
 
 
 class ListBuildTriggersPager:
@@ -165,15 +159,12 @@ class ListBuildTriggersPager:
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
-
-    def __init__(
-        self,
-        method: Callable[..., cloudbuild.ListBuildTriggersResponse],
-        request: cloudbuild.ListBuildTriggersRequest,
-        response: cloudbuild.ListBuildTriggersResponse,
-        *,
-        metadata: Sequence[Tuple[str, str]] = ()
-    ):
+    def __init__(self,
+            method: Callable[..., cloudbuild.ListBuildTriggersResponse],
+            request: cloudbuild.ListBuildTriggersRequest,
+            response: cloudbuild.ListBuildTriggersResponse,
+            *,
+            metadata: Sequence[Tuple[str, str]] = ()):
         """Instantiate the pager.
 
         Args:
@@ -207,7 +198,7 @@ class ListBuildTriggersPager:
             yield from page.triggers
 
     def __repr__(self) -> str:
-        return "{0}<{1!r}>".format(self.__class__.__name__, self._response)
+        return '{0}<{1!r}>'.format(self.__class__.__name__, self._response)
 
 
 class ListBuildTriggersAsyncPager:
@@ -227,15 +218,12 @@ class ListBuildTriggersAsyncPager:
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
-
-    def __init__(
-        self,
-        method: Callable[..., Awaitable[cloudbuild.ListBuildTriggersResponse]],
-        request: cloudbuild.ListBuildTriggersRequest,
-        response: cloudbuild.ListBuildTriggersResponse,
-        *,
-        metadata: Sequence[Tuple[str, str]] = ()
-    ):
+    def __init__(self,
+            method: Callable[..., Awaitable[cloudbuild.ListBuildTriggersResponse]],
+            request: cloudbuild.ListBuildTriggersRequest,
+            response: cloudbuild.ListBuildTriggersResponse,
+            *,
+            metadata: Sequence[Tuple[str, str]] = ()):
         """Instantiate the pager.
 
         Args:
@@ -273,4 +261,4 @@ class ListBuildTriggersAsyncPager:
         return async_generator()
 
     def __repr__(self) -> str:
-        return "{0}<{1!r}>".format(self.__class__.__name__, self._response)
+        return '{0}<{1!r}>'.format(self.__class__.__name__, self._response)

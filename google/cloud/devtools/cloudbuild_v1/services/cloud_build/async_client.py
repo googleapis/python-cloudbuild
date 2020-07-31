@@ -21,12 +21,12 @@ import re
 from typing import Dict, Sequence, Tuple, Type, Union
 import pkg_resources
 
-import google.api_core.client_options as ClientOptions  # type: ignore
-from google.api_core import exceptions  # type: ignore
-from google.api_core import gapic_v1  # type: ignore
-from google.api_core import retry as retries  # type: ignore
-from google.auth import credentials  # type: ignore
-from google.oauth2 import service_account  # type: ignore
+import google.api_core.client_options as ClientOptions # type: ignore
+from google.api_core import exceptions                 # type: ignore
+from google.api_core import gapic_v1                   # type: ignore
+from google.api_core import retry as retries           # type: ignore
+from google.auth import credentials                    # type: ignore
+from google.oauth2 import service_account              # type: ignore
 
 from google.api_core import operation
 from google.api_core import operation_async
@@ -59,17 +59,13 @@ class CloudBuildAsyncClient:
     from_service_account_file = CloudBuildClient.from_service_account_file
     from_service_account_json = from_service_account_file
 
-    get_transport_class = functools.partial(
-        type(CloudBuildClient).get_transport_class, type(CloudBuildClient)
-    )
+    get_transport_class = functools.partial(type(CloudBuildClient).get_transport_class, type(CloudBuildClient))
 
-    def __init__(
-        self,
-        *,
-        credentials: credentials.Credentials = None,
-        transport: Union[str, CloudBuildTransport] = "grpc_asyncio",
-        client_options: ClientOptions = None,
-    ) -> None:
+    def __init__(self, *,
+            credentials: credentials.Credentials = None,
+            transport: Union[str, CloudBuildTransport] = 'grpc_asyncio',
+            client_options: ClientOptions = None,
+            ) -> None:
         """Instantiate the cloud build client.
 
         Args:
@@ -101,19 +97,20 @@ class CloudBuildAsyncClient:
         """
 
         self._client = CloudBuildClient(
-            credentials=credentials, transport=transport, client_options=client_options,
+            credentials=credentials,
+            transport=transport,
+            client_options=client_options,
         )
 
-    async def create_build(
-        self,
-        request: cloudbuild.CreateBuildRequest = None,
-        *,
-        project_id: str = None,
-        build: cloudbuild.Build = None,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation_async.AsyncOperation:
+    async def create_build(self,
+            request: cloudbuild.CreateBuildRequest = None,
+            *,
+            project_id: str = None,
+            build: cloudbuild.Build = None,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> operation_async.AsyncOperation:
         r"""Starts a build with the specified configuration.
 
         This method returns a long-running ``Operation``, which includes
@@ -174,10 +171,8 @@ class CloudBuildAsyncClient:
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         if request is not None and any([project_id, build]):
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
+            raise ValueError('If the `request` argument is set, then none of '
+                             'the individual field arguments should be set.')
 
         request = cloudbuild.CreateBuildRequest(request)
 
@@ -198,7 +193,12 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Wrap the response in an operation future.
         response = operation_async.from_gapic(
@@ -211,16 +211,15 @@ class CloudBuildAsyncClient:
         # Done; return the response.
         return response
 
-    async def get_build(
-        self,
-        request: cloudbuild.GetBuildRequest = None,
-        *,
-        project_id: str = None,
-        id: str = None,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> cloudbuild.Build:
+    async def get_build(self,
+            request: cloudbuild.GetBuildRequest = None,
+            *,
+            project_id: str = None,
+            id: str = None,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> cloudbuild.Build:
         r"""Returns information about a previously requested build.
 
         The ``Build`` that is returned includes its status (such as
@@ -277,10 +276,8 @@ class CloudBuildAsyncClient:
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         if request is not None and any([project_id, id]):
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
+            raise ValueError('If the `request` argument is set, then none of '
+                             'the individual field arguments should be set.')
 
         request = cloudbuild.GetBuildRequest(request)
 
@@ -301,7 +298,8 @@ class CloudBuildAsyncClient:
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -309,21 +307,25 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
 
-    async def list_builds(
-        self,
-        request: cloudbuild.ListBuildsRequest = None,
-        *,
-        project_id: str = None,
-        filter: str = None,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> pagers.ListBuildsAsyncPager:
+    async def list_builds(self,
+            request: cloudbuild.ListBuildsRequest = None,
+            *,
+            project_id: str = None,
+            filter: str = None,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> pagers.ListBuildsAsyncPager:
         r"""Lists previously requested builds.
         Previously requested builds may still be in-progress, or
         may have finished successfully or unsuccessfully.
@@ -361,10 +363,8 @@ class CloudBuildAsyncClient:
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         if request is not None and any([project_id, filter]):
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
+            raise ValueError('If the `request` argument is set, then none of '
+                             'the individual field arguments should be set.')
 
         request = cloudbuild.ListBuildsRequest(request)
 
@@ -385,7 +385,8 @@ class CloudBuildAsyncClient:
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -393,27 +394,34 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # This method is paged; wrap the response in a pager, which provides
         # an `__aiter__` convenience method.
         response = pagers.ListBuildsAsyncPager(
-            method=rpc, request=request, response=response, metadata=metadata,
+            method=rpc,
+            request=request,
+            response=response,
+            metadata=metadata,
         )
 
         # Done; return the response.
         return response
 
-    async def cancel_build(
-        self,
-        request: cloudbuild.CancelBuildRequest = None,
-        *,
-        project_id: str = None,
-        id: str = None,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> cloudbuild.Build:
+    async def cancel_build(self,
+            request: cloudbuild.CancelBuildRequest = None,
+            *,
+            project_id: str = None,
+            id: str = None,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> cloudbuild.Build:
         r"""Cancels a build in progress.
 
         Args:
@@ -466,10 +474,8 @@ class CloudBuildAsyncClient:
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         if request is not None and any([project_id, id]):
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
+            raise ValueError('If the `request` argument is set, then none of '
+                             'the individual field arguments should be set.')
 
         request = cloudbuild.CancelBuildRequest(request)
 
@@ -490,21 +496,25 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
 
-    async def retry_build(
-        self,
-        request: cloudbuild.RetryBuildRequest = None,
-        *,
-        project_id: str = None,
-        id: str = None,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation_async.AsyncOperation:
+    async def retry_build(self,
+            request: cloudbuild.RetryBuildRequest = None,
+            *,
+            project_id: str = None,
+            id: str = None,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> operation_async.AsyncOperation:
         r"""Creates a new build based on the specified build.
 
         This method creates a new build using the original build
@@ -591,10 +601,8 @@ class CloudBuildAsyncClient:
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         if request is not None and any([project_id, id]):
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
+            raise ValueError('If the `request` argument is set, then none of '
+                             'the individual field arguments should be set.')
 
         request = cloudbuild.RetryBuildRequest(request)
 
@@ -615,7 +623,12 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Wrap the response in an operation future.
         response = operation_async.from_gapic(
@@ -628,16 +641,15 @@ class CloudBuildAsyncClient:
         # Done; return the response.
         return response
 
-    async def create_build_trigger(
-        self,
-        request: cloudbuild.CreateBuildTriggerRequest = None,
-        *,
-        project_id: str = None,
-        trigger: cloudbuild.BuildTrigger = None,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> cloudbuild.BuildTrigger:
+    async def create_build_trigger(self,
+            request: cloudbuild.CreateBuildTriggerRequest = None,
+            *,
+            project_id: str = None,
+            trigger: cloudbuild.BuildTrigger = None,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> cloudbuild.BuildTrigger:
         r"""Creates a new ``BuildTrigger``.
 
         This API is experimental.
@@ -675,10 +687,8 @@ class CloudBuildAsyncClient:
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         if request is not None and any([project_id, trigger]):
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
+            raise ValueError('If the `request` argument is set, then none of '
+                             'the individual field arguments should be set.')
 
         request = cloudbuild.CreateBuildTriggerRequest(request)
 
@@ -699,21 +709,25 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
 
-    async def get_build_trigger(
-        self,
-        request: cloudbuild.GetBuildTriggerRequest = None,
-        *,
-        project_id: str = None,
-        trigger_id: str = None,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> cloudbuild.BuildTrigger:
+    async def get_build_trigger(self,
+            request: cloudbuild.GetBuildTriggerRequest = None,
+            *,
+            project_id: str = None,
+            trigger_id: str = None,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> cloudbuild.BuildTrigger:
         r"""Returns information about a ``BuildTrigger``.
 
         This API is experimental.
@@ -752,10 +766,8 @@ class CloudBuildAsyncClient:
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         if request is not None and any([project_id, trigger_id]):
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
+            raise ValueError('If the `request` argument is set, then none of '
+                             'the individual field arguments should be set.')
 
         request = cloudbuild.GetBuildTriggerRequest(request)
 
@@ -776,7 +788,8 @@ class CloudBuildAsyncClient:
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -784,20 +797,24 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
 
-    async def list_build_triggers(
-        self,
-        request: cloudbuild.ListBuildTriggersRequest = None,
-        *,
-        project_id: str = None,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> pagers.ListBuildTriggersAsyncPager:
+    async def list_build_triggers(self,
+            request: cloudbuild.ListBuildTriggersRequest = None,
+            *,
+            project_id: str = None,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> pagers.ListBuildTriggersAsyncPager:
         r"""Lists existing ``BuildTrigger``\ s.
 
         This API is experimental.
@@ -831,10 +848,8 @@ class CloudBuildAsyncClient:
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         if request is not None and any([project_id]):
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
+            raise ValueError('If the `request` argument is set, then none of '
+                             'the individual field arguments should be set.')
 
         request = cloudbuild.ListBuildTriggersRequest(request)
 
@@ -853,7 +868,8 @@ class CloudBuildAsyncClient:
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -861,27 +877,34 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # This method is paged; wrap the response in a pager, which provides
         # an `__aiter__` convenience method.
         response = pagers.ListBuildTriggersAsyncPager(
-            method=rpc, request=request, response=response, metadata=metadata,
+            method=rpc,
+            request=request,
+            response=response,
+            metadata=metadata,
         )
 
         # Done; return the response.
         return response
 
-    async def delete_build_trigger(
-        self,
-        request: cloudbuild.DeleteBuildTriggerRequest = None,
-        *,
-        project_id: str = None,
-        trigger_id: str = None,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> None:
+    async def delete_build_trigger(self,
+            request: cloudbuild.DeleteBuildTriggerRequest = None,
+            *,
+            project_id: str = None,
+            trigger_id: str = None,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> None:
         r"""Deletes a ``BuildTrigger`` by its project ID and trigger ID.
 
         This API is experimental.
@@ -911,10 +934,8 @@ class CloudBuildAsyncClient:
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         if request is not None and any([project_id, trigger_id]):
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
+            raise ValueError('If the `request` argument is set, then none of '
+                             'the individual field arguments should be set.')
 
         request = cloudbuild.DeleteBuildTriggerRequest(request)
 
@@ -935,7 +956,8 @@ class CloudBuildAsyncClient:
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -944,20 +966,22 @@ class CloudBuildAsyncClient:
 
         # Send the request.
         await rpc(
-            request, retry=retry, timeout=timeout, metadata=metadata,
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
         )
 
-    async def update_build_trigger(
-        self,
-        request: cloudbuild.UpdateBuildTriggerRequest = None,
-        *,
-        project_id: str = None,
-        trigger_id: str = None,
-        trigger: cloudbuild.BuildTrigger = None,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> cloudbuild.BuildTrigger:
+    async def update_build_trigger(self,
+            request: cloudbuild.UpdateBuildTriggerRequest = None,
+            *,
+            project_id: str = None,
+            trigger_id: str = None,
+            trigger: cloudbuild.BuildTrigger = None,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> cloudbuild.BuildTrigger:
         r"""Updates a ``BuildTrigger`` by its project ID and trigger ID.
 
         This API is experimental.
@@ -1000,10 +1024,8 @@ class CloudBuildAsyncClient:
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         if request is not None and any([project_id, trigger_id, trigger]):
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
+            raise ValueError('If the `request` argument is set, then none of '
+                             'the individual field arguments should be set.')
 
         request = cloudbuild.UpdateBuildTriggerRequest(request)
 
@@ -1026,22 +1048,26 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
 
-    async def run_build_trigger(
-        self,
-        request: cloudbuild.RunBuildTriggerRequest = None,
-        *,
-        project_id: str = None,
-        trigger_id: str = None,
-        source: cloudbuild.RepoSource = None,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation_async.AsyncOperation:
+    async def run_build_trigger(self,
+            request: cloudbuild.RunBuildTriggerRequest = None,
+            *,
+            project_id: str = None,
+            trigger_id: str = None,
+            source: cloudbuild.RepoSource = None,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> operation_async.AsyncOperation:
         r"""Runs a ``BuildTrigger`` at a particular source revision.
 
         Args:
@@ -1105,10 +1131,8 @@ class CloudBuildAsyncClient:
         # Sanity check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
         if request is not None and any([project_id, trigger_id, source]):
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
+            raise ValueError('If the `request` argument is set, then none of '
+                             'the individual field arguments should be set.')
 
         request = cloudbuild.RunBuildTriggerRequest(request)
 
@@ -1131,7 +1155,12 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Wrap the response in an operation future.
         response = operation_async.from_gapic(
@@ -1144,14 +1173,13 @@ class CloudBuildAsyncClient:
         # Done; return the response.
         return response
 
-    async def create_worker_pool(
-        self,
-        request: cloudbuild.CreateWorkerPoolRequest = None,
-        *,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> cloudbuild.WorkerPool:
+    async def create_worker_pool(self,
+            request: cloudbuild.CreateWorkerPoolRequest = None,
+            *,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> cloudbuild.WorkerPool:
         r"""Creates a ``WorkerPool`` to run the builds, and returns the new
         worker pool.
 
@@ -1197,19 +1225,23 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
 
-    async def get_worker_pool(
-        self,
-        request: cloudbuild.GetWorkerPoolRequest = None,
-        *,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> cloudbuild.WorkerPool:
+    async def get_worker_pool(self,
+            request: cloudbuild.GetWorkerPoolRequest = None,
+            *,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> cloudbuild.WorkerPool:
         r"""Returns information about a ``WorkerPool``.
 
         This API is experimental.
@@ -1254,7 +1286,8 @@ class CloudBuildAsyncClient:
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -1262,19 +1295,23 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
 
-    async def delete_worker_pool(
-        self,
-        request: cloudbuild.DeleteWorkerPoolRequest = None,
-        *,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> None:
+    async def delete_worker_pool(self,
+            request: cloudbuild.DeleteWorkerPoolRequest = None,
+            *,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> None:
         r"""Deletes a ``WorkerPool`` by its project ID and WorkerPool name.
 
         This API is experimental.
@@ -1303,17 +1340,19 @@ class CloudBuildAsyncClient:
 
         # Send the request.
         await rpc(
-            request, retry=retry, timeout=timeout, metadata=metadata,
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
         )
 
-    async def update_worker_pool(
-        self,
-        request: cloudbuild.UpdateWorkerPoolRequest = None,
-        *,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> cloudbuild.WorkerPool:
+    async def update_worker_pool(self,
+            request: cloudbuild.UpdateWorkerPoolRequest = None,
+            *,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> cloudbuild.WorkerPool:
         r"""Update a ``WorkerPool``.
 
         This API is experimental.
@@ -1357,19 +1396,23 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
 
-    async def list_worker_pools(
-        self,
-        request: cloudbuild.ListWorkerPoolsRequest = None,
-        *,
-        retry: retries.Retry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> cloudbuild.ListWorkerPoolsResponse:
+    async def list_worker_pools(self,
+            request: cloudbuild.ListWorkerPoolsRequest = None,
+            *,
+            retry: retries.Retry = gapic_v1.method.DEFAULT,
+            timeout: float = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+            ) -> cloudbuild.ListWorkerPoolsResponse:
         r"""List project's ``WorkerPools``.
 
         This API is experimental.
@@ -1401,7 +1444,8 @@ class CloudBuildAsyncClient:
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -1409,20 +1453,32 @@ class CloudBuildAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = await rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
 
 
+
+
+
+
+
 try:
     _client_info = gapic_v1.client_info.ClientInfo(
         gapic_version=pkg_resources.get_distribution(
-            "google-devtools-cloudbuild",
+            'google-devtools-cloudbuild',
         ).version,
     )
 except pkg_resources.DistributionNotFound:
     _client_info = gapic_v1.client_info.ClientInfo()
 
 
-__all__ = ("CloudBuildAsyncClient",)
+__all__ = (
+    'CloudBuildAsyncClient',
+)
