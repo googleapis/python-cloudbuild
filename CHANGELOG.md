@@ -4,6 +4,17 @@
 
 [1]: https://pypi.org/project/google-cloud-build/#history
 
+## [3.0.0](https://www.github.com/googleapis/python-cloudbuild/compare/v2.0.0...v3.0.0) (2020-11-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* Rename fields that conflict with builtins:
+
+### Features
+
+* add new build message fields; rename fields that conflict with builtins ([#29](https://www.github.com/googleapis/python-cloudbuild/issues/29)) ([3b27cc3](https://www.github.com/googleapis/python-cloudbuild/commit/3b27cc311d697d881e26c1f1196f0a1fdeb4bb21))
+
 ## [2.0.0](https://www.github.com/googleapis/python-cloudbuild/compare/v1.1.0...v2.0.0) (2020-07-23)
 
 
