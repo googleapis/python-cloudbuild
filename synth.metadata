@@ -4,7 +4,7 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/python-cloudbuild.git",
-        "sha": "a917d058405b8bbf87cbe3f01d2ee12b77c46e2c"
+        "sha": "4a2b8571d11fcf63f5e568d3591218e1a2066b5b"
       }
     },
     {
