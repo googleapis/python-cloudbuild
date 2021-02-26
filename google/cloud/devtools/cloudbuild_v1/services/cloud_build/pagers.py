@@ -24,7 +24,7 @@ class ListBuildsPager:
     """A pager for iterating through ``list_builds`` requests.
 
     This class thinly wraps an initial
-    :class:`google.cloud.devtools.cloudbuild_v1.types.ListBuildsResponse` object, and
+    :class:`~.cloudbuild.ListBuildsResponse` object, and
     provides an ``__iter__`` method to iterate through its
     ``builds`` field.
 
@@ -33,7 +33,7 @@ class ListBuildsPager:
     through the ``builds`` field on the
     corresponding responses.
 
-    All the usual :class:`google.cloud.devtools.cloudbuild_v1.types.ListBuildsResponse`
+    All the usual :class:`~.cloudbuild.ListBuildsResponse`
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
@@ -51,9 +51,9 @@ class ListBuildsPager:
         Args:
             method (Callable): The method that was originally called, and
                 which instantiated this pager.
-            request (google.cloud.devtools.cloudbuild_v1.types.ListBuildsRequest):
+            request (:class:`~.cloudbuild.ListBuildsRequest`):
                 The initial request object.
-            response (google.cloud.devtools.cloudbuild_v1.types.ListBuildsResponse):
+            response (:class:`~.cloudbuild.ListBuildsResponse`):
                 The initial response object.
             metadata (Sequence[Tuple[str, str]]): Strings which should be
                 sent along with the request as metadata.
@@ -86,7 +86,7 @@ class ListBuildsAsyncPager:
     """A pager for iterating through ``list_builds`` requests.
 
     This class thinly wraps an initial
-    :class:`google.cloud.devtools.cloudbuild_v1.types.ListBuildsResponse` object, and
+    :class:`~.cloudbuild.ListBuildsResponse` object, and
     provides an ``__aiter__`` method to iterate through its
     ``builds`` field.
 
@@ -95,7 +95,7 @@ class ListBuildsAsyncPager:
     through the ``builds`` field on the
     corresponding responses.
 
-    All the usual :class:`google.cloud.devtools.cloudbuild_v1.types.ListBuildsResponse`
+    All the usual :class:`~.cloudbuild.ListBuildsResponse`
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
@@ -113,9 +113,9 @@ class ListBuildsAsyncPager:
         Args:
             method (Callable): The method that was originally called, and
                 which instantiated this pager.
-            request (google.cloud.devtools.cloudbuild_v1.types.ListBuildsRequest):
+            request (:class:`~.cloudbuild.ListBuildsRequest`):
                 The initial request object.
-            response (google.cloud.devtools.cloudbuild_v1.types.ListBuildsResponse):
+            response (:class:`~.cloudbuild.ListBuildsResponse`):
                 The initial response object.
             metadata (Sequence[Tuple[str, str]]): Strings which should be
                 sent along with the request as metadata.
@@ -152,7 +152,7 @@ class ListBuildTriggersPager:
     """A pager for iterating through ``list_build_triggers`` requests.
 
     This class thinly wraps an initial
-    :class:`google.cloud.devtools.cloudbuild_v1.types.ListBuildTriggersResponse` object, and
+    :class:`~.cloudbuild.ListBuildTriggersResponse` object, and
     provides an ``__iter__`` method to iterate through its
     ``triggers`` field.
 
@@ -161,7 +161,7 @@ class ListBuildTriggersPager:
     through the ``triggers`` field on the
     corresponding responses.
 
-    All the usual :class:`google.cloud.devtools.cloudbuild_v1.types.ListBuildTriggersResponse`
+    All the usual :class:`~.cloudbuild.ListBuildTriggersResponse`
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
@@ -179,9 +179,9 @@ class ListBuildTriggersPager:
         Args:
             method (Callable): The method that was originally called, and
                 which instantiated this pager.
-            request (google.cloud.devtools.cloudbuild_v1.types.ListBuildTriggersRequest):
+            request (:class:`~.cloudbuild.ListBuildTriggersRequest`):
                 The initial request object.
-            response (google.cloud.devtools.cloudbuild_v1.types.ListBuildTriggersResponse):
+            response (:class:`~.cloudbuild.ListBuildTriggersResponse`):
                 The initial response object.
             metadata (Sequence[Tuple[str, str]]): Strings which should be
                 sent along with the request as metadata.
@@ -214,7 +214,7 @@ class ListBuildTriggersAsyncPager:
     """A pager for iterating through ``list_build_triggers`` requests.
 
     This class thinly wraps an initial
-    :class:`google.cloud.devtools.cloudbuild_v1.types.ListBuildTriggersResponse` object, and
+    :class:`~.cloudbuild.ListBuildTriggersResponse` object, and
     provides an ``__aiter__`` method to iterate through its
     ``triggers`` field.
 
@@ -223,7 +223,7 @@ class ListBuildTriggersAsyncPager:
     through the ``triggers`` field on the
     corresponding responses.
 
-    All the usual :class:`google.cloud.devtools.cloudbuild_v1.types.ListBuildTriggersResponse`
+    All the usual :class:`~.cloudbuild.ListBuildTriggersResponse`
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
@@ -241,9 +241,9 @@ class ListBuildTriggersAsyncPager:
         Args:
             method (Callable): The method that was originally called, and
                 which instantiated this pager.
-            request (google.cloud.devtools.cloudbuild_v1.types.ListBuildTriggersRequest):
+            request (:class:`~.cloudbuild.ListBuildTriggersRequest`):
                 The initial request object.
-            response (google.cloud.devtools.cloudbuild_v1.types.ListBuildTriggersResponse):
+            response (:class:`~.cloudbuild.ListBuildTriggersResponse`):
                 The initial response object.
             metadata (Sequence[Tuple[str, str]]): Strings which should be
                 sent along with the request as metadata.

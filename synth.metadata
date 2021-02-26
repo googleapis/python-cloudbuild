@@ -4,15 +4,15 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/python-cloudbuild.git",
-        "sha": "8be798a90b63d1f5abe730831e1d8c79b7993125"
+        "sha": "f199171267bcec8cbddf5aa5be420647370dadee"
       }
     },
     {
       "git": {
         "name": "googleapis",
         "remote": "https://github.com/googleapis/googleapis.git",
-        "sha": "dd1d2325b189d3bb69c4a6a802185cefbd8e592e",
-        "internalRef": "350388717"
+        "sha": "dd372aa22ded7a8ba6f0e03a80e06358a3fa0907",
+        "internalRef": "347055288"
       }
     },
     {
@@ -87,7 +87,6 @@
     "MANIFEST.in",
     "docs/_static/custom.css",
     "docs/_templates/layout.html",
-    "docs/cloudbuild_v1/cloud_build.rst",
     "docs/cloudbuild_v1/services.rst",
     "docs/cloudbuild_v1/types.rst",
     "docs/conf.py",
