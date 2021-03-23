@@ -4,22 +4,22 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/python-cloudbuild.git",
-        "sha": "3ff9e4f23f46bb056fd9deb362f295918b645de0"
+        "sha": "8be798a90b63d1f5abe730831e1d8c79b7993125"
       }
     },
     {
       "git": {
         "name": "googleapis",
         "remote": "https://github.com/googleapis/googleapis.git",
-        "sha": "dd372aa22ded7a8ba6f0e03a80e06358a3fa0907",
-        "internalRef": "347055288"
+        "sha": "07932bb995e7dc91b43620ea8402c6668c7d102c",
+        "internalRef": "359562873"
       }
     },
     {
       "git": {
         "name": "synthtool",
         "remote": "https://github.com/googleapis/synthtool.git",
-        "sha": "2c54c473779ea731128cea61a3a6c975a08a5378"
+        "sha": "79c8dd7ee768292f933012d3a69a5b4676404cda"
       }
     }
   ],
@@ -66,16 +66,21 @@
     ".kokoro/samples/lint/presubmit.cfg",
     ".kokoro/samples/python3.6/common.cfg",
     ".kokoro/samples/python3.6/continuous.cfg",
+    ".kokoro/samples/python3.6/periodic-head.cfg",
     ".kokoro/samples/python3.6/periodic.cfg",
     ".kokoro/samples/python3.6/presubmit.cfg",
     ".kokoro/samples/python3.7/common.cfg",
     ".kokoro/samples/python3.7/continuous.cfg",
+    ".kokoro/samples/python3.7/periodic-head.cfg",
     ".kokoro/samples/python3.7/periodic.cfg",
     ".kokoro/samples/python3.7/presubmit.cfg",
     ".kokoro/samples/python3.8/common.cfg",
     ".kokoro/samples/python3.8/continuous.cfg",
+    ".kokoro/samples/python3.8/periodic-head.cfg",
     ".kokoro/samples/python3.8/periodic.cfg",
     ".kokoro/samples/python3.8/presubmit.cfg",
+    ".kokoro/test-samples-against-head.sh",
+    ".kokoro/test-samples-impl.sh",
     ".kokoro/test-samples.sh",
     ".kokoro/trampoline.sh",
     ".kokoro/trampoline_v2.sh",
@@ -87,6 +92,7 @@
     "MANIFEST.in",
     "docs/_static/custom.css",
     "docs/_templates/layout.html",
+    "docs/cloudbuild_v1/cloud_build.rst",
     "docs/cloudbuild_v1/services.rst",
     "docs/cloudbuild_v1/types.rst",
     "docs/conf.py",
