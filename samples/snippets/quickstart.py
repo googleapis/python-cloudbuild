@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-# [START cloudbuild_python_quickstart]
+# [START cloudbuild_quickstart]
 from google.cloud.devtools import cloudbuild_v1
 import google.auth
 
@@ -44,7 +44,7 @@ def quickstart():
     result = operation.result()
     # Print the completed status
     print("RESULT:", result.status)
-# [END cloudbuild_python_quickstart]
+# [END cloudbuild_quickstart]
 
 
 if __name__ == "__main__":
