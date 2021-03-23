@@ -43,8 +43,7 @@ def quickstart():
 
     result = operation.result()
     # Print the completed status
-    print("RESULT:")
-    print(result.status)
+    print("RESULT:", result.status)
 # [END cloudbuild_python_quickstart]
 
 
