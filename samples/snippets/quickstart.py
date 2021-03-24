@@ -14,14 +14,13 @@
 
 
 # [START cloudbuild_quickstart]
-from google.cloud.devtools import cloudbuild_v1
 import google.auth
+from google.cloud.devtools import cloudbuild_v1
 
 
 def quickstart():
-    """Create and execute a simple Google Cloud Build configuration, 
+    """Create and execute a simple Google Cloud Build configuration,
     print the in-progress status and print the completed status."""
-
 
     # Authorize the client with Google defaults
     credentials, project_id = google.auth.default()
@@ -30,9 +29,9 @@ def quickstart():
     build = cloudbuild_v1.Build()
 
     # The following build steps will output "hello world"
-    # For more information on build configuration, see 
+    # For more information on build configuration, see
     # https://cloud.google.com/build/docs/configuring-builds/create-basic-configuration
-    build.steps = [{"name": "ubuntu", 
+    build.steps = [{"name": "ubuntu",
                     "entrypoint": "bash",
                     "args": ["-c", "echo hello world"]}]
 

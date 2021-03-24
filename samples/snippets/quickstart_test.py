@@ -13,15 +13,13 @@
 # limitations under the License.
 
 
-import pytest
-
 import quickstart
 
 
 def test_quickstart(capsys):
     quickstart.quickstart()
     out, _ = capsys.readouterr()
-    # Prints in progress message
+    # Prints in-progress message
     assert "hello world" in out
     # Prints final status
     assert "Status.SUCCESS" in out
