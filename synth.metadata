@@ -4,7 +4,7 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/python-cloudbuild.git",
-        "sha": "8be798a90b63d1f5abe730831e1d8c79b7993125"
+        "sha": "580a95925651c8478a47fd588540088104bb9a12"
       }
     },
     {
@@ -19,7 +19,7 @@
       "git": {
         "name": "synthtool",
         "remote": "https://github.com/googleapis/synthtool.git",
-        "sha": "79c8dd7ee768292f933012d3a69a5b4676404cda"
+        "sha": "f5c5904fb0c6aa3b3730eadf4e5a4485afc65726"
       }
     }
   ],
