@@ -196,6 +196,11 @@ class CloudBuildTransport(abc.ABC):
             self.run_build_trigger: gapic_v1.method.wrap_method(
                 self.run_build_trigger, default_timeout=600.0, client_info=client_info,
             ),
+            self.receive_trigger_webhook: gapic_v1.method.wrap_method(
+                self.receive_trigger_webhook,
+                default_timeout=None,
+                client_info=client_info,
+            ),
             self.create_worker_pool: gapic_v1.method.wrap_method(
                 self.create_worker_pool, default_timeout=600.0, client_info=client_info,
             ),
@@ -346,6 +351,18 @@ class CloudBuildTransport(abc.ABC):
     ) -> typing.Callable[
         [cloudbuild.RunBuildTriggerRequest],
         typing.Union[operations.Operation, typing.Awaitable[operations.Operation]],
+    ]:
+        raise NotImplementedError()
+
+    @property
+    def receive_trigger_webhook(
+        self,
+    ) -> typing.Callable[
+        [cloudbuild.ReceiveTriggerWebhookRequest],
+        typing.Union[
+            cloudbuild.ReceiveTriggerWebhookResponse,
+            typing.Awaitable[cloudbuild.ReceiveTriggerWebhookResponse],
+        ],
     ]:
         raise NotImplementedError()
 

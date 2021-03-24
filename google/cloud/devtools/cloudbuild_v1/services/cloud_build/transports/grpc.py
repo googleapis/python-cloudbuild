@@ -609,6 +609,36 @@ class CloudBuildGrpcTransport(CloudBuildTransport):
         return self._stubs["run_build_trigger"]
 
     @property
+    def receive_trigger_webhook(
+        self,
+    ) -> Callable[
+        [cloudbuild.ReceiveTriggerWebhookRequest],
+        cloudbuild.ReceiveTriggerWebhookResponse,
+    ]:
+        r"""Return a callable for the receive trigger webhook method over gRPC.
+
+        ReceiveTriggerWebhook [Experimental] is called when the API
+        receives a webhook request targeted at a specific trigger.
+
+        Returns:
+            Callable[[~.ReceiveTriggerWebhookRequest],
+                    ~.ReceiveTriggerWebhookResponse]:
+                A function that, when called, will call the underlying RPC
+                on the server.
+        """
+        # Generate a "stub function" on-the-fly which will actually make
+        # the request.
+        # gRPC handles serialization and deserialization, so we just need
+        # to pass in the functions for each.
+        if "receive_trigger_webhook" not in self._stubs:
+            self._stubs["receive_trigger_webhook"] = self.grpc_channel.unary_unary(
+                "/google.devtools.cloudbuild.v1.CloudBuild/ReceiveTriggerWebhook",
+                request_serializer=cloudbuild.ReceiveTriggerWebhookRequest.serialize,
+                response_deserializer=cloudbuild.ReceiveTriggerWebhookResponse.deserialize,
+            )
+        return self._stubs["receive_trigger_webhook"]
+
+    @property
     def create_worker_pool(
         self,
     ) -> Callable[[cloudbuild.CreateWorkerPoolRequest], cloudbuild.WorkerPool]:
