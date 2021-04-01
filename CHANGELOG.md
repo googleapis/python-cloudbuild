@@ -4,6 +4,20 @@
 
 [1]: https://pypi.org/project/google-cloud-build/#history
 
+### [3.1.1](https://www.github.com/googleapis/python-cloudbuild/compare/v3.1.0...v3.1.1) (2021-03-26)
+
+
+### Documentation
+
+* Adding samples ([#69](https://www.github.com/googleapis/python-cloudbuild/issues/69)) ([9f35e43](https://www.github.com/googleapis/python-cloudbuild/commit/9f35e432271bfccc2bbd4a1e025efaa5b04a9f68))
+
+## [3.1.0](https://www.github.com/googleapis/python-cloudbuild/compare/v3.0.2...v3.1.0) (2021-03-23)
+
+
+### Features
+
+* add `from_service_account_info` ([#52](https://www.github.com/googleapis/python-cloudbuild/issues/52)) ([580a959](https://www.github.com/googleapis/python-cloudbuild/commit/580a95925651c8478a47fd588540088104bb9a12))
+
 ### [3.0.2](https://www.github.com/googleapis/python-cloudbuild/compare/v3.0.1...v3.0.2) (2021-02-19)
 
 
