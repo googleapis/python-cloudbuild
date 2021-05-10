@@ -544,7 +544,7 @@ class Build(proto.Message):
         build_trigger_id (str):
             Output only. The ID of the ``BuildTrigger`` that triggered
             this build, if it was triggered automatically.
-        options (google.cloud.devtools.cloudbuild_v1.types.BuildOptions):
+        options_ (google.cloud.devtools.cloudbuild_v1.types.BuildOptions):
             Special options for this build.
         log_url (str):
             Output only. URL to logs for this build in
@@ -632,7 +632,7 @@ class Build(proto.Message):
 
     build_trigger_id = proto.Field(proto.STRING, number=22)
 
-    options = proto.Field(proto.MESSAGE, number=23, message="BuildOptions",)
+    options_ = proto.Field(proto.MESSAGE, number=23, message="BuildOptions",)
 
     log_url = proto.Field(proto.STRING, number=25)
 
