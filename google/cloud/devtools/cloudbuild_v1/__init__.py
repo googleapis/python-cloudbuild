@@ -60,6 +60,7 @@ from .types.cloudbuild import Secrets
 from .types.cloudbuild import Source
 from .types.cloudbuild import SourceProvenance
 from .types.cloudbuild import StorageSource
+from .types.cloudbuild import StorageSourceManifest
 from .types.cloudbuild import TimeSpan
 from .types.cloudbuild import UpdateBuildTriggerRequest
 from .types.cloudbuild import UpdateWorkerPoolRequest
@@ -112,6 +113,7 @@ __all__ = (
     "Source",
     "SourceProvenance",
     "StorageSource",
+    "StorageSourceManifest",
     "TimeSpan",
     "UpdateBuildTriggerRequest",
     "UpdateWorkerPoolRequest",

@@ -27,6 +27,7 @@ __protobuf__ = proto.module(
         "RunBuildTriggerRequest",
         "StorageSource",
         "RepoSource",
+        "StorageSourceManifest",
         "Source",
         "BuiltImage",
         "BuildStep",
@@ -180,6 +181,30 @@ class RepoSource(proto.Message):
     substitutions = proto.MapField(proto.STRING, proto.STRING, number=9,)
 
 
+class StorageSourceManifest(proto.Message):
+    r"""Location of the source manifest in Google Cloud Storage.
+    This feature is in Preview.
+
+    Attributes:
+        bucket (str):
+            Google Cloud Storage bucket containing the source manifest
+            (see `Bucket Name
+            Requirements <https://cloud.google.com/storage/docs/bucket-naming#requirements>`__).
+        object_ (str):
+            Google Cloud Storage object containing the
+            source manifest.
+            This object must be a JSON file.
+        generation (int):
+            Google Cloud Storage generation for the
+            object. If the generation is omitted, the latest
+            generation will be used.
+    """
+
+    bucket = proto.Field(proto.STRING, number=1,)
+    object_ = proto.Field(proto.STRING, number=2,)
+    generation = proto.Field(proto.INT64, number=3,)
+
+
 class Source(proto.Message):
     r"""Location of the source in a supported storage service.
     Attributes:
@@ -189,6 +214,10 @@ class Source(proto.Message):
         repo_source (google.cloud.devtools.cloudbuild_v1.types.RepoSource):
             If provided, get the source from this
             location in a Cloud Source Repository.
+        storage_source_manifest (google.cloud.devtools.cloudbuild_v1.types.StorageSourceManifest):
+            If provided, get the source from this
+            manifest in Google Cloud Storage. This feature
+            is in Preview.
     """
 
     storage_source = proto.Field(
@@ -196,6 +225,9 @@ class Source(proto.Message):
     )
     repo_source = proto.Field(
         proto.MESSAGE, number=3, oneof="source", message="RepoSource",
+    )
+    storage_source_manifest = proto.Field(
+        proto.MESSAGE, number=8, oneof="source", message="StorageSourceManifest",
     )
 
 
@@ -675,6 +707,10 @@ class SourceProvenance(proto.Message):
         resolved_repo_source (google.cloud.devtools.cloudbuild_v1.types.RepoSource):
             A copy of the build's ``source.repo_source``, if exists,
             with any revisions resolved.
+        resolved_storage_source_manifest (google.cloud.devtools.cloudbuild_v1.types.StorageSourceManifest):
+            A copy of the build's ``source.storage_source_manifest``, if
+            exists, with any revisions resolved. This feature is in
+            Preview.
         file_hashes (Sequence[google.cloud.devtools.cloudbuild_v1.types.SourceProvenance.FileHashesEntry]):
             Output only. Hash(es) of the build source, which can be used
             to verify that the original source integrity was maintained
@@ -694,6 +730,9 @@ class SourceProvenance(proto.Message):
         proto.MESSAGE, number=3, message="StorageSource",
     )
     resolved_repo_source = proto.Field(proto.MESSAGE, number=6, message="RepoSource",)
+    resolved_storage_source_manifest = proto.Field(
+        proto.MESSAGE, number=9, message="StorageSourceManifest",
+    )
     file_hashes = proto.MapField(
         proto.STRING, proto.MESSAGE, number=4, message="FileHashes",
     )

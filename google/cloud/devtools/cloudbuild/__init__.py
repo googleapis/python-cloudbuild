@@ -76,6 +76,7 @@ from google.cloud.devtools.cloudbuild_v1.types.cloudbuild import Secrets
 from google.cloud.devtools.cloudbuild_v1.types.cloudbuild import Source
 from google.cloud.devtools.cloudbuild_v1.types.cloudbuild import SourceProvenance
 from google.cloud.devtools.cloudbuild_v1.types.cloudbuild import StorageSource
+from google.cloud.devtools.cloudbuild_v1.types.cloudbuild import StorageSourceManifest
 from google.cloud.devtools.cloudbuild_v1.types.cloudbuild import TimeSpan
 from google.cloud.devtools.cloudbuild_v1.types.cloudbuild import (
     UpdateBuildTriggerRequest,
@@ -131,6 +132,7 @@ __all__ = (
     "Source",
     "SourceProvenance",
     "StorageSource",
+    "StorageSourceManifest",
     "TimeSpan",
     "UpdateBuildTriggerRequest",
     "UpdateWorkerPoolRequest",
