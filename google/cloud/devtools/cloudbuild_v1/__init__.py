@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 # Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +16,6 @@
 #
 
 from .services.cloud_build import CloudBuildClient
-
 from .types.cloudbuild import ArtifactResult
 from .types.cloudbuild import Artifacts
 from .types.cloudbuild import Build
@@ -65,6 +65,7 @@ from .types.cloudbuild import UpdateWorkerPoolRequest
 from .types.cloudbuild import Volume
 from .types.cloudbuild import WorkerConfig
 from .types.cloudbuild import WorkerPool
+
 
 __all__ = (
     "ArtifactResult",
