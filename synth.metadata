@@ -4,15 +4,15 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/python-cloudbuild.git",
-        "sha": "bc0bbf85c67f832da68a0e8d06d6c0456b01ee61"
+        "sha": "91078e3c1f1a62cef9c6ea76d854acf0896da804"
       }
     },
     {
       "git": {
         "name": "googleapis",
         "remote": "https://github.com/googleapis/googleapis.git",
-        "sha": "9a9e29627a715077cd8e33c0d2bd549437039bd0",
-        "internalRef": "368533270"
+        "sha": "56fc6d43fed71188d7e18f3ca003544646c4ab35",
+        "internalRef": "366346972"
       }
     }
   ],
