@@ -256,7 +256,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     def create_build(
         self,
     ) -> Callable[[cloudbuild.CreateBuildRequest], Awaitable[operations.Operation]]:
-        r"""Return a callable for the create build method over gRPC.
+        r"""Return a callable for the
+        create build
+          method over gRPC.
 
         Starts a build with the specified configuration.
 
@@ -286,7 +288,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     def get_build(
         self,
     ) -> Callable[[cloudbuild.GetBuildRequest], Awaitable[cloudbuild.Build]]:
-        r"""Return a callable for the get build method over gRPC.
+        r"""Return a callable for the
+        get build
+          method over gRPC.
 
         Returns information about a previously requested build.
 
@@ -318,7 +322,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     ) -> Callable[
         [cloudbuild.ListBuildsRequest], Awaitable[cloudbuild.ListBuildsResponse]
     ]:
-        r"""Return a callable for the list builds method over gRPC.
+        r"""Return a callable for the
+        list builds
+          method over gRPC.
 
         Lists previously requested builds.
         Previously requested builds may still be in-progress, or
@@ -346,7 +352,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     def cancel_build(
         self,
     ) -> Callable[[cloudbuild.CancelBuildRequest], Awaitable[cloudbuild.Build]]:
-        r"""Return a callable for the cancel build method over gRPC.
+        r"""Return a callable for the
+        cancel build
+          method over gRPC.
 
         Cancels a build in progress.
 
@@ -372,7 +380,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     def retry_build(
         self,
     ) -> Callable[[cloudbuild.RetryBuildRequest], Awaitable[operations.Operation]]:
-        r"""Return a callable for the retry build method over gRPC.
+        r"""Return a callable for the
+        retry build
+          method over gRPC.
 
         Creates a new build based on the specified build.
 
@@ -429,7 +439,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     ) -> Callable[
         [cloudbuild.CreateBuildTriggerRequest], Awaitable[cloudbuild.BuildTrigger]
     ]:
-        r"""Return a callable for the create build trigger method over gRPC.
+        r"""Return a callable for the
+        create build trigger
+          method over gRPC.
 
         Creates a new ``BuildTrigger``.
 
@@ -459,7 +471,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     ) -> Callable[
         [cloudbuild.GetBuildTriggerRequest], Awaitable[cloudbuild.BuildTrigger]
     ]:
-        r"""Return a callable for the get build trigger method over gRPC.
+        r"""Return a callable for the
+        get build trigger
+          method over gRPC.
 
         Returns information about a ``BuildTrigger``.
 
@@ -490,7 +504,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
         [cloudbuild.ListBuildTriggersRequest],
         Awaitable[cloudbuild.ListBuildTriggersResponse],
     ]:
-        r"""Return a callable for the list build triggers method over gRPC.
+        r"""Return a callable for the
+        list build triggers
+          method over gRPC.
 
         Lists existing ``BuildTrigger``\ s.
 
@@ -518,7 +534,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     def delete_build_trigger(
         self,
     ) -> Callable[[cloudbuild.DeleteBuildTriggerRequest], Awaitable[empty.Empty]]:
-        r"""Return a callable for the delete build trigger method over gRPC.
+        r"""Return a callable for the
+        delete build trigger
+          method over gRPC.
 
         Deletes a ``BuildTrigger`` by its project ID and trigger ID.
 
@@ -548,7 +566,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     ) -> Callable[
         [cloudbuild.UpdateBuildTriggerRequest], Awaitable[cloudbuild.BuildTrigger]
     ]:
-        r"""Return a callable for the update build trigger method over gRPC.
+        r"""Return a callable for the
+        update build trigger
+          method over gRPC.
 
         Updates a ``BuildTrigger`` by its project ID and trigger ID.
 
@@ -576,7 +596,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     def run_build_trigger(
         self,
     ) -> Callable[[cloudbuild.RunBuildTriggerRequest], Awaitable[operations.Operation]]:
-        r"""Return a callable for the run build trigger method over gRPC.
+        r"""Return a callable for the
+        run build trigger
+          method over gRPC.
 
         Runs a ``BuildTrigger`` at a particular source revision.
 
@@ -605,7 +627,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
         [cloudbuild.ReceiveTriggerWebhookRequest],
         Awaitable[cloudbuild.ReceiveTriggerWebhookResponse],
     ]:
-        r"""Return a callable for the receive trigger webhook method over gRPC.
+        r"""Return a callable for the
+        receive trigger webhook
+          method over gRPC.
 
         ReceiveTriggerWebhook [Experimental] is called when the API
         receives a webhook request targeted at a specific trigger.
@@ -634,7 +658,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     ) -> Callable[
         [cloudbuild.CreateWorkerPoolRequest], Awaitable[cloudbuild.WorkerPool]
     ]:
-        r"""Return a callable for the create worker pool method over gRPC.
+        r"""Return a callable for the
+        create worker pool
+          method over gRPC.
 
         Creates a ``WorkerPool`` to run the builds, and returns the new
         worker pool.
@@ -663,7 +689,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     def get_worker_pool(
         self,
     ) -> Callable[[cloudbuild.GetWorkerPoolRequest], Awaitable[cloudbuild.WorkerPool]]:
-        r"""Return a callable for the get worker pool method over gRPC.
+        r"""Return a callable for the
+        get worker pool
+          method over gRPC.
 
         Returns information about a ``WorkerPool``.
 
@@ -691,7 +719,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     def delete_worker_pool(
         self,
     ) -> Callable[[cloudbuild.DeleteWorkerPoolRequest], Awaitable[empty.Empty]]:
-        r"""Return a callable for the delete worker pool method over gRPC.
+        r"""Return a callable for the
+        delete worker pool
+          method over gRPC.
 
         Deletes a ``WorkerPool`` by its project ID and WorkerPool name.
 
@@ -721,7 +751,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
     ) -> Callable[
         [cloudbuild.UpdateWorkerPoolRequest], Awaitable[cloudbuild.WorkerPool]
     ]:
-        r"""Return a callable for the update worker pool method over gRPC.
+        r"""Return a callable for the
+        update worker pool
+          method over gRPC.
 
         Update a ``WorkerPool``.
 
@@ -752,7 +784,9 @@ class CloudBuildGrpcAsyncIOTransport(CloudBuildTransport):
         [cloudbuild.ListWorkerPoolsRequest],
         Awaitable[cloudbuild.ListWorkerPoolsResponse],
     ]:
-        r"""Return a callable for the list worker pools method over gRPC.
+        r"""Return a callable for the
+        list worker pools
+          method over gRPC.
 
         List project's ``WorkerPools``.
 
