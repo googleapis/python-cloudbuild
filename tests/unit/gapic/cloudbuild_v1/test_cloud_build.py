@@ -1530,6 +1530,7 @@ def test_create_build_trigger(
             disabled=True,
             ignored_files=["ignored_files_value"],
             included_files=["included_files_value"],
+            filter="filter_value",
             build=cloudbuild.Build(name="name_value"),
         )
 
@@ -1558,6 +1559,8 @@ def test_create_build_trigger(
     assert response.ignored_files == ["ignored_files_value"]
 
     assert response.included_files == ["included_files_value"]
+
+    assert response.filter == "filter_value"
 
 
 def test_create_build_trigger_from_dict():
@@ -1608,6 +1611,7 @@ async def test_create_build_trigger_async(
                 disabled=True,
                 ignored_files=["ignored_files_value"],
                 included_files=["included_files_value"],
+                filter="filter_value",
             )
         )
 
@@ -1635,6 +1639,8 @@ async def test_create_build_trigger_async(
     assert response.ignored_files == ["ignored_files_value"]
 
     assert response.included_files == ["included_files_value"]
+
+    assert response.filter == "filter_value"
 
 
 @pytest.mark.asyncio
@@ -1751,6 +1757,7 @@ def test_get_build_trigger(
             disabled=True,
             ignored_files=["ignored_files_value"],
             included_files=["included_files_value"],
+            filter="filter_value",
             build=cloudbuild.Build(name="name_value"),
         )
 
@@ -1779,6 +1786,8 @@ def test_get_build_trigger(
     assert response.ignored_files == ["ignored_files_value"]
 
     assert response.included_files == ["included_files_value"]
+
+    assert response.filter == "filter_value"
 
 
 def test_get_build_trigger_from_dict():
@@ -1829,6 +1838,7 @@ async def test_get_build_trigger_async(
                 disabled=True,
                 ignored_files=["ignored_files_value"],
                 included_files=["included_files_value"],
+                filter="filter_value",
             )
         )
 
@@ -1856,6 +1866,8 @@ async def test_get_build_trigger_async(
     assert response.ignored_files == ["ignored_files_value"]
 
     assert response.included_files == ["included_files_value"]
+
+    assert response.filter == "filter_value"
 
 
 @pytest.mark.asyncio
@@ -2452,6 +2464,7 @@ def test_update_build_trigger(
             disabled=True,
             ignored_files=["ignored_files_value"],
             included_files=["included_files_value"],
+            filter="filter_value",
             build=cloudbuild.Build(name="name_value"),
         )
 
@@ -2480,6 +2493,8 @@ def test_update_build_trigger(
     assert response.ignored_files == ["ignored_files_value"]
 
     assert response.included_files == ["included_files_value"]
+
+    assert response.filter == "filter_value"
 
 
 def test_update_build_trigger_from_dict():
@@ -2530,6 +2545,7 @@ async def test_update_build_trigger_async(
                 disabled=True,
                 ignored_files=["ignored_files_value"],
                 included_files=["included_files_value"],
+                filter="filter_value",
             )
         )
 
@@ -2557,6 +2573,8 @@ async def test_update_build_trigger_async(
     assert response.ignored_files == ["ignored_files_value"]
 
     assert response.included_files == ["included_files_value"]
+
+    assert response.filter == "filter_value"
 
 
 @pytest.mark.asyncio
@@ -3992,8 +4010,52 @@ def test_parse_service_account_path():
     assert expected == actual
 
 
+def test_subscription_path():
+    project = "whelk"
+    subscription = "octopus"
+
+    expected = "projects/{project}/subscriptions/{subscription}".format(
+        project=project, subscription=subscription,
+    )
+    actual = CloudBuildClient.subscription_path(project, subscription)
+    assert expected == actual
+
+
+def test_parse_subscription_path():
+    expected = {
+        "project": "oyster",
+        "subscription": "nudibranch",
+    }
+    path = CloudBuildClient.subscription_path(**expected)
+
+    # Check that the path construction is reversible.
+    actual = CloudBuildClient.parse_subscription_path(path)
+    assert expected == actual
+
+
+def test_topic_path():
+    project = "cuttlefish"
+    topic = "mussel"
+
+    expected = "projects/{project}/topics/{topic}".format(project=project, topic=topic,)
+    actual = CloudBuildClient.topic_path(project, topic)
+    assert expected == actual
+
+
+def test_parse_topic_path():
+    expected = {
+        "project": "winkle",
+        "topic": "nautilus",
+    }
+    path = CloudBuildClient.topic_path(**expected)
+
+    # Check that the path construction is reversible.
+    actual = CloudBuildClient.parse_topic_path(path)
+    assert expected == actual
+
+
 def test_common_billing_account_path():
-    billing_account = "whelk"
+    billing_account = "scallop"
 
     expected = "billingAccounts/{billing_account}".format(
         billing_account=billing_account,
@@ -4004,7 +4066,7 @@ def test_common_billing_account_path():
 
 def test_parse_common_billing_account_path():
     expected = {
-        "billing_account": "octopus",
+        "billing_account": "abalone",
     }
     path = CloudBuildClient.common_billing_account_path(**expected)
 
@@ -4014,7 +4076,7 @@ def test_parse_common_billing_account_path():
 
 
 def test_common_folder_path():
-    folder = "oyster"
+    folder = "squid"
 
     expected = "folders/{folder}".format(folder=folder,)
     actual = CloudBuildClient.common_folder_path(folder)
@@ -4023,7 +4085,7 @@ def test_common_folder_path():
 
 def test_parse_common_folder_path():
     expected = {
-        "folder": "nudibranch",
+        "folder": "clam",
     }
     path = CloudBuildClient.common_folder_path(**expected)
 
@@ -4033,7 +4095,7 @@ def test_parse_common_folder_path():
 
 
 def test_common_organization_path():
-    organization = "cuttlefish"
+    organization = "whelk"
 
     expected = "organizations/{organization}".format(organization=organization,)
     actual = CloudBuildClient.common_organization_path(organization)
@@ -4042,7 +4104,7 @@ def test_common_organization_path():
 
 def test_parse_common_organization_path():
     expected = {
-        "organization": "mussel",
+        "organization": "octopus",
     }
     path = CloudBuildClient.common_organization_path(**expected)
 
@@ -4052,7 +4114,7 @@ def test_parse_common_organization_path():
 
 
 def test_common_project_path():
-    project = "winkle"
+    project = "oyster"
 
     expected = "projects/{project}".format(project=project,)
     actual = CloudBuildClient.common_project_path(project)
@@ -4061,7 +4123,7 @@ def test_common_project_path():
 
 def test_parse_common_project_path():
     expected = {
-        "project": "nautilus",
+        "project": "nudibranch",
     }
     path = CloudBuildClient.common_project_path(**expected)
 
@@ -4071,8 +4133,8 @@ def test_parse_common_project_path():
 
 
 def test_common_location_path():
-    project = "scallop"
-    location = "abalone"
+    project = "cuttlefish"
+    location = "mussel"
 
     expected = "projects/{project}/locations/{location}".format(
         project=project, location=location,
@@ -4083,8 +4145,8 @@ def test_common_location_path():
 
 def test_parse_common_location_path():
     expected = {
-        "project": "squid",
-        "location": "clam",
+        "project": "winkle",
+        "location": "nautilus",
     }
     path = CloudBuildClient.common_location_path(**expected)
 

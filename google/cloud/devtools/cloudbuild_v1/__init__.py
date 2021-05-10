@@ -44,6 +44,7 @@ from .types.cloudbuild import ListBuildsResponse
 from .types.cloudbuild import ListWorkerPoolsRequest
 from .types.cloudbuild import ListWorkerPoolsResponse
 from .types.cloudbuild import Network
+from .types.cloudbuild import PubsubConfig
 from .types.cloudbuild import PullRequestFilter
 from .types.cloudbuild import PushFilter
 from .types.cloudbuild import ReceiveTriggerWebhookRequest
@@ -95,6 +96,7 @@ __all__ = (
     "ListWorkerPoolsRequest",
     "ListWorkerPoolsResponse",
     "Network",
+    "PubsubConfig",
     "PullRequestFilter",
     "PushFilter",
     "ReceiveTriggerWebhookRequest",

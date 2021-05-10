@@ -54,6 +54,7 @@ __protobuf__ = proto.module(
         "CancelBuildRequest",
         "BuildTrigger",
         "GitHubEventsConfig",
+        "PubsubConfig",
         "PullRequestFilter",
         "PushFilter",
         "CreateBuildTriggerRequest",
@@ -1052,6 +1053,10 @@ class BuildTrigger(proto.Message):
             that creates a build whenever a GitHub event is received.
 
             Mutually exclusive with ``trigger_template``.
+        pubsub_config (google.cloud.devtools.cloudbuild_v1.types.PubsubConfig):
+            Optional. PubsubConfig describes the
+            configuration of a trigger that creates a build
+            whenever a Pub/Sub message is published.
         build (google.cloud.devtools.cloudbuild_v1.types.Build):
             Contents of the build template.
         filename (str):
@@ -1088,6 +1093,9 @@ class BuildTrigger(proto.Message):
             ignored_files filter and included_files is not empty, then
             we make sure that at least one of those files matches a
             included_files glob. If not, then we do not trigger a build.
+        filter (str):
+            Optional. A Common Expression Language
+            string.
     """
 
     id = proto.Field(proto.STRING, number=1)
@@ -1101,6 +1109,8 @@ class BuildTrigger(proto.Message):
     trigger_template = proto.Field(proto.MESSAGE, number=7, message="RepoSource",)
 
     github = proto.Field(proto.MESSAGE, number=13, message="GitHubEventsConfig",)
+
+    pubsub_config = proto.Field(proto.MESSAGE, number=29, message="PubsubConfig",)
 
     build = proto.Field(
         proto.MESSAGE, number=4, oneof="build_template", message="Build",
@@ -1117,6 +1127,8 @@ class BuildTrigger(proto.Message):
     ignored_files = proto.RepeatedField(proto.STRING, number=15)
 
     included_files = proto.RepeatedField(proto.STRING, number=16)
+
+    filter = proto.Field(proto.STRING, number=30)
 
 
 class GitHubEventsConfig(proto.Message):
@@ -1156,6 +1168,46 @@ class GitHubEventsConfig(proto.Message):
     )
 
     push = proto.Field(proto.MESSAGE, number=5, oneof="event", message="PushFilter",)
+
+
+class PubsubConfig(proto.Message):
+    r"""PubsubConfig describes the configuration of a trigger that
+    creates a build whenever a Pub/Sub message is published.
+
+    Attributes:
+        subscription (str):
+            Output only. Name of the subscription. Format is
+            ``projects/{project}/subscriptions/{subscription}``.
+        topic (str):
+            The name of the topic from which this subscription is
+            receiving messages. Format is
+            ``projects/{project}/topics/{topic}``.
+        service_account_email (str):
+            Service account that will make the push
+            request.
+        state (google.cloud.devtools.cloudbuild_v1.types.PubsubConfig.State):
+            Potential issues with the underlying Pub/Sub
+            subscription configuration. Only populated on
+            get requests.
+    """
+
+    class State(proto.Enum):
+        r"""Enumerates potential issues with the underlying Pub/Sub
+        subscription configuration.
+        """
+        STATE_UNSPECIFIED = 0
+        OK = 1
+        SUBSCRIPTION_DELETED = 2
+        TOPIC_DELETED = 3
+        SUBSCRIPTION_MISCONFIGURED = 4
+
+    subscription = proto.Field(proto.STRING, number=1)
+
+    topic = proto.Field(proto.STRING, number=2)
+
+    service_account_email = proto.Field(proto.STRING, number=3)
+
+    state = proto.Field(proto.ENUM, number=4, enum=State,)
 
 
 class PullRequestFilter(proto.Message):
