@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 # Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 import os
 import mock
+import packaging.version
 
 import grpc
 from grpc.experimental import aio
@@ -24,17 +23,17 @@ import math
 import pytest
 from proto.marshal.rules.dates import DurationRule, TimestampRule
 
-from google import auth
-from google.api import httpbody_pb2 as httpbody  # type: ignore
+
+from google.api import httpbody_pb2  # type: ignore
 from google.api_core import client_options
-from google.api_core import exceptions
+from google.api_core import exceptions as core_exceptions
 from google.api_core import future
 from google.api_core import gapic_v1
 from google.api_core import grpc_helpers
 from google.api_core import grpc_helpers_async
 from google.api_core import operation_async  # type: ignore
 from google.api_core import operations_v1
-from google.auth import credentials
+from google.auth import credentials as ga_credentials
 from google.auth.exceptions import MutualTLSChannelError
 from google.cloud.devtools.cloudbuild_v1.services.cloud_build import (
     CloudBuildAsyncClient,
@@ -42,12 +41,42 @@ from google.cloud.devtools.cloudbuild_v1.services.cloud_build import (
 from google.cloud.devtools.cloudbuild_v1.services.cloud_build import CloudBuildClient
 from google.cloud.devtools.cloudbuild_v1.services.cloud_build import pagers
 from google.cloud.devtools.cloudbuild_v1.services.cloud_build import transports
+from google.cloud.devtools.cloudbuild_v1.services.cloud_build.transports.base import (
+    _API_CORE_VERSION,
+)
+from google.cloud.devtools.cloudbuild_v1.services.cloud_build.transports.base import (
+    _GOOGLE_AUTH_VERSION,
+)
 from google.cloud.devtools.cloudbuild_v1.types import cloudbuild
 from google.longrunning import operations_pb2
 from google.oauth2 import service_account
-from google.protobuf import any_pb2 as gp_any  # type: ignore
-from google.protobuf import duration_pb2 as duration  # type: ignore
-from google.protobuf import timestamp_pb2 as timestamp  # type: ignore
+from google.protobuf import any_pb2  # type: ignore
+from google.protobuf import duration_pb2  # type: ignore
+from google.protobuf import timestamp_pb2  # type: ignore
+import google.auth
+
+
+# TODO(busunkim): Once google-api-core >= 1.26.0 is required:
+# - Delete all the api-core and auth "less than" test cases
+# - Delete these pytest markers (Make the "greater than or equal to" tests the default).
+requires_google_auth_lt_1_25_0 = pytest.mark.skipif(
+    packaging.version.parse(_GOOGLE_AUTH_VERSION) >= packaging.version.parse("1.25.0"),
+    reason="This test requires google-auth < 1.25.0",
+)
+requires_google_auth_gte_1_25_0 = pytest.mark.skipif(
+    packaging.version.parse(_GOOGLE_AUTH_VERSION) < packaging.version.parse("1.25.0"),
+    reason="This test requires google-auth >= 1.25.0",
+)
+
+requires_api_core_lt_1_26_0 = pytest.mark.skipif(
+    packaging.version.parse(_API_CORE_VERSION) >= packaging.version.parse("1.26.0"),
+    reason="This test requires google-api-core < 1.26.0",
+)
+
+requires_api_core_gte_1_26_0 = pytest.mark.skipif(
+    packaging.version.parse(_API_CORE_VERSION) < packaging.version.parse("1.26.0"),
+    reason="This test requires google-api-core >= 1.26.0",
+)
 
 
 def client_cert_source_callback():
@@ -93,7 +122,7 @@ def test__get_default_mtls_endpoint():
 
 @pytest.mark.parametrize("client_class", [CloudBuildClient, CloudBuildAsyncClient,])
 def test_cloud_build_client_from_service_account_info(client_class):
-    creds = credentials.AnonymousCredentials()
+    creds = ga_credentials.AnonymousCredentials()
     with mock.patch.object(
         service_account.Credentials, "from_service_account_info"
     ) as factory:
@@ -108,7 +137,7 @@ def test_cloud_build_client_from_service_account_info(client_class):
 
 @pytest.mark.parametrize("client_class", [CloudBuildClient, CloudBuildAsyncClient,])
 def test_cloud_build_client_from_service_account_file(client_class):
-    creds = credentials.AnonymousCredentials()
+    creds = ga_credentials.AnonymousCredentials()
     with mock.patch.object(
         service_account.Credentials, "from_service_account_file"
     ) as factory:
@@ -159,7 +188,7 @@ def test_cloud_build_client_client_options(
 ):
     # Check that if channel is provided we won't create a new one.
     with mock.patch.object(CloudBuildClient, "get_transport_class") as gtc:
-        transport = transport_class(credentials=credentials.AnonymousCredentials())
+        transport = transport_class(credentials=ga_credentials.AnonymousCredentials())
         client = client_class(transport=transport)
         gtc.assert_not_called()
 
@@ -443,7 +472,7 @@ def test_create_build(
     transport: str = "grpc", request_type=cloudbuild.CreateBuildRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -454,13 +483,11 @@ def test_create_build(
     with mock.patch.object(type(client.transport.create_build), "__call__") as call:
         # Designate an appropriate return value for the call.
         call.return_value = operations_pb2.Operation(name="operations/spam")
-
         response = client.create_build(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.CreateBuildRequest()
 
     # Establish that the response is the type that we expect.
@@ -475,7 +502,7 @@ def test_create_build_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -483,7 +510,6 @@ def test_create_build_empty_call():
         client.create_build()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.CreateBuildRequest()
 
 
@@ -492,7 +518,7 @@ async def test_create_build_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.CreateBuildRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -505,13 +531,11 @@ async def test_create_build_async(
         call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(
             operations_pb2.Operation(name="operations/spam")
         )
-
         response = await client.create_build(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.CreateBuildRequest()
 
     # Establish that the response is the type that we expect.
@@ -524,13 +548,12 @@ async def test_create_build_async_from_dict():
 
 
 def test_create_build_flattened():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(type(client.transport.create_build), "__call__") as call:
         # Designate an appropriate return value for the call.
         call.return_value = operations_pb2.Operation(name="operations/op")
-
         # Call the method with a truthy value for each flattened field,
         # using the keyword arguments to the method.
         client.create_build(
@@ -541,14 +564,12 @@ def test_create_build_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].build == cloudbuild.Build(name="name_value")
 
 
 def test_create_build_flattened_error():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -562,7 +583,7 @@ def test_create_build_flattened_error():
 
 @pytest.mark.asyncio
 async def test_create_build_flattened_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(type(client.transport.create_build), "__call__") as call:
@@ -582,15 +603,13 @@ async def test_create_build_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].build == cloudbuild.Build(name="name_value")
 
 
 @pytest.mark.asyncio
 async def test_create_build_flattened_error_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -604,7 +623,7 @@ async def test_create_build_flattened_error_async():
 
 def test_get_build(transport: str = "grpc", request_type=cloudbuild.GetBuildRequest):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -627,39 +646,25 @@ def test_get_build(transport: str = "grpc", request_type=cloudbuild.GetBuildRequ
             tags=["tags_value"],
             service_account="service_account_value",
         )
-
         response = client.get_build(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.GetBuildRequest()
 
     # Establish that the response is the type that we expect.
-
     assert isinstance(response, cloudbuild.Build)
-
     assert response.name == "name_value"
-
     assert response.id == "id_value"
-
     assert response.project_id == "project_id_value"
-
     assert response.status == cloudbuild.Build.Status.QUEUED
-
     assert response.status_detail == "status_detail_value"
-
     assert response.images == ["images_value"]
-
     assert response.logs_bucket == "logs_bucket_value"
-
     assert response.build_trigger_id == "build_trigger_id_value"
-
     assert response.log_url == "log_url_value"
-
     assert response.tags == ["tags_value"]
-
     assert response.service_account == "service_account_value"
 
 
@@ -671,7 +676,7 @@ def test_get_build_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -679,7 +684,6 @@ def test_get_build_empty_call():
         client.get_build()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.GetBuildRequest()
 
 
@@ -688,7 +692,7 @@ async def test_get_build_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.GetBuildRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -713,38 +717,25 @@ async def test_get_build_async(
                 service_account="service_account_value",
             )
         )
-
         response = await client.get_build(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.GetBuildRequest()
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.Build)
-
     assert response.name == "name_value"
-
     assert response.id == "id_value"
-
     assert response.project_id == "project_id_value"
-
     assert response.status == cloudbuild.Build.Status.QUEUED
-
     assert response.status_detail == "status_detail_value"
-
     assert response.images == ["images_value"]
-
     assert response.logs_bucket == "logs_bucket_value"
-
     assert response.build_trigger_id == "build_trigger_id_value"
-
     assert response.log_url == "log_url_value"
-
     assert response.tags == ["tags_value"]
-
     assert response.service_account == "service_account_value"
 
 
@@ -754,13 +745,12 @@ async def test_get_build_async_from_dict():
 
 
 def test_get_build_flattened():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(type(client.transport.get_build), "__call__") as call:
         # Designate an appropriate return value for the call.
         call.return_value = cloudbuild.Build()
-
         # Call the method with a truthy value for each flattened field,
         # using the keyword arguments to the method.
         client.get_build(
@@ -771,14 +761,12 @@ def test_get_build_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].id == "id_value"
 
 
 def test_get_build_flattened_error():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -790,7 +778,7 @@ def test_get_build_flattened_error():
 
 @pytest.mark.asyncio
 async def test_get_build_flattened_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(type(client.transport.get_build), "__call__") as call:
@@ -806,15 +794,13 @@ async def test_get_build_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].id == "id_value"
 
 
 @pytest.mark.asyncio
 async def test_get_build_flattened_error_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -828,7 +814,7 @@ def test_list_builds(
     transport: str = "grpc", request_type=cloudbuild.ListBuildsRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -841,19 +827,15 @@ def test_list_builds(
         call.return_value = cloudbuild.ListBuildsResponse(
             next_page_token="next_page_token_value",
         )
-
         response = client.list_builds(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.ListBuildsRequest()
 
     # Establish that the response is the type that we expect.
-
     assert isinstance(response, pagers.ListBuildsPager)
-
     assert response.next_page_token == "next_page_token_value"
 
 
@@ -865,7 +847,7 @@ def test_list_builds_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -873,7 +855,6 @@ def test_list_builds_empty_call():
         client.list_builds()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.ListBuildsRequest()
 
 
@@ -882,7 +863,7 @@ async def test_list_builds_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.ListBuildsRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -895,18 +876,15 @@ async def test_list_builds_async(
         call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(
             cloudbuild.ListBuildsResponse(next_page_token="next_page_token_value",)
         )
-
         response = await client.list_builds(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.ListBuildsRequest()
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, pagers.ListBuildsAsyncPager)
-
     assert response.next_page_token == "next_page_token_value"
 
 
@@ -916,13 +894,12 @@ async def test_list_builds_async_from_dict():
 
 
 def test_list_builds_flattened():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(type(client.transport.list_builds), "__call__") as call:
         # Designate an appropriate return value for the call.
         call.return_value = cloudbuild.ListBuildsResponse()
-
         # Call the method with a truthy value for each flattened field,
         # using the keyword arguments to the method.
         client.list_builds(
@@ -933,14 +910,12 @@ def test_list_builds_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].filter == "filter_value"
 
 
 def test_list_builds_flattened_error():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -954,7 +929,7 @@ def test_list_builds_flattened_error():
 
 @pytest.mark.asyncio
 async def test_list_builds_flattened_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(type(client.transport.list_builds), "__call__") as call:
@@ -974,15 +949,13 @@ async def test_list_builds_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].filter == "filter_value"
 
 
 @pytest.mark.asyncio
 async def test_list_builds_flattened_error_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -995,7 +968,7 @@ async def test_list_builds_flattened_error_async():
 
 
 def test_list_builds_pager():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials,)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials,)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(type(client.transport.list_builds), "__call__") as call:
@@ -1026,7 +999,7 @@ def test_list_builds_pager():
 
 
 def test_list_builds_pages():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials,)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials,)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(type(client.transport.list_builds), "__call__") as call:
@@ -1052,7 +1025,7 @@ def test_list_builds_pages():
 
 @pytest.mark.asyncio
 async def test_list_builds_async_pager():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials,)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials,)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -1085,7 +1058,7 @@ async def test_list_builds_async_pager():
 
 @pytest.mark.asyncio
 async def test_list_builds_async_pages():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials,)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials,)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -1117,7 +1090,7 @@ def test_cancel_build(
     transport: str = "grpc", request_type=cloudbuild.CancelBuildRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -1140,39 +1113,25 @@ def test_cancel_build(
             tags=["tags_value"],
             service_account="service_account_value",
         )
-
         response = client.cancel_build(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.CancelBuildRequest()
 
     # Establish that the response is the type that we expect.
-
     assert isinstance(response, cloudbuild.Build)
-
     assert response.name == "name_value"
-
     assert response.id == "id_value"
-
     assert response.project_id == "project_id_value"
-
     assert response.status == cloudbuild.Build.Status.QUEUED
-
     assert response.status_detail == "status_detail_value"
-
     assert response.images == ["images_value"]
-
     assert response.logs_bucket == "logs_bucket_value"
-
     assert response.build_trigger_id == "build_trigger_id_value"
-
     assert response.log_url == "log_url_value"
-
     assert response.tags == ["tags_value"]
-
     assert response.service_account == "service_account_value"
 
 
@@ -1184,7 +1143,7 @@ def test_cancel_build_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -1192,7 +1151,6 @@ def test_cancel_build_empty_call():
         client.cancel_build()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.CancelBuildRequest()
 
 
@@ -1201,7 +1159,7 @@ async def test_cancel_build_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.CancelBuildRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -1226,38 +1184,25 @@ async def test_cancel_build_async(
                 service_account="service_account_value",
             )
         )
-
         response = await client.cancel_build(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.CancelBuildRequest()
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.Build)
-
     assert response.name == "name_value"
-
     assert response.id == "id_value"
-
     assert response.project_id == "project_id_value"
-
     assert response.status == cloudbuild.Build.Status.QUEUED
-
     assert response.status_detail == "status_detail_value"
-
     assert response.images == ["images_value"]
-
     assert response.logs_bucket == "logs_bucket_value"
-
     assert response.build_trigger_id == "build_trigger_id_value"
-
     assert response.log_url == "log_url_value"
-
     assert response.tags == ["tags_value"]
-
     assert response.service_account == "service_account_value"
 
 
@@ -1267,13 +1212,12 @@ async def test_cancel_build_async_from_dict():
 
 
 def test_cancel_build_flattened():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(type(client.transport.cancel_build), "__call__") as call:
         # Designate an appropriate return value for the call.
         call.return_value = cloudbuild.Build()
-
         # Call the method with a truthy value for each flattened field,
         # using the keyword arguments to the method.
         client.cancel_build(
@@ -1284,14 +1228,12 @@ def test_cancel_build_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].id == "id_value"
 
 
 def test_cancel_build_flattened_error():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -1305,7 +1247,7 @@ def test_cancel_build_flattened_error():
 
 @pytest.mark.asyncio
 async def test_cancel_build_flattened_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(type(client.transport.cancel_build), "__call__") as call:
@@ -1323,15 +1265,13 @@ async def test_cancel_build_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].id == "id_value"
 
 
 @pytest.mark.asyncio
 async def test_cancel_build_flattened_error_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -1347,7 +1287,7 @@ def test_retry_build(
     transport: str = "grpc", request_type=cloudbuild.RetryBuildRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -1358,13 +1298,11 @@ def test_retry_build(
     with mock.patch.object(type(client.transport.retry_build), "__call__") as call:
         # Designate an appropriate return value for the call.
         call.return_value = operations_pb2.Operation(name="operations/spam")
-
         response = client.retry_build(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.RetryBuildRequest()
 
     # Establish that the response is the type that we expect.
@@ -1379,7 +1317,7 @@ def test_retry_build_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -1387,7 +1325,6 @@ def test_retry_build_empty_call():
         client.retry_build()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.RetryBuildRequest()
 
 
@@ -1396,7 +1333,7 @@ async def test_retry_build_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.RetryBuildRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -1409,13 +1346,11 @@ async def test_retry_build_async(
         call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(
             operations_pb2.Operation(name="operations/spam")
         )
-
         response = await client.retry_build(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.RetryBuildRequest()
 
     # Establish that the response is the type that we expect.
@@ -1428,13 +1363,12 @@ async def test_retry_build_async_from_dict():
 
 
 def test_retry_build_flattened():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(type(client.transport.retry_build), "__call__") as call:
         # Designate an appropriate return value for the call.
         call.return_value = operations_pb2.Operation(name="operations/op")
-
         # Call the method with a truthy value for each flattened field,
         # using the keyword arguments to the method.
         client.retry_build(
@@ -1445,14 +1379,12 @@ def test_retry_build_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].id == "id_value"
 
 
 def test_retry_build_flattened_error():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -1466,7 +1398,7 @@ def test_retry_build_flattened_error():
 
 @pytest.mark.asyncio
 async def test_retry_build_flattened_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(type(client.transport.retry_build), "__call__") as call:
@@ -1486,15 +1418,13 @@ async def test_retry_build_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].id == "id_value"
 
 
 @pytest.mark.asyncio
 async def test_retry_build_flattened_error_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -1510,7 +1440,7 @@ def test_create_build_trigger(
     transport: str = "grpc", request_type=cloudbuild.CreateBuildTriggerRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -1533,33 +1463,22 @@ def test_create_build_trigger(
             filter="filter_value",
             build=cloudbuild.Build(name="name_value"),
         )
-
         response = client.create_build_trigger(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.CreateBuildTriggerRequest()
 
     # Establish that the response is the type that we expect.
-
     assert isinstance(response, cloudbuild.BuildTrigger)
-
     assert response.id == "id_value"
-
     assert response.description == "description_value"
-
     assert response.name == "name_value"
-
     assert response.tags == ["tags_value"]
-
     assert response.disabled is True
-
     assert response.ignored_files == ["ignored_files_value"]
-
     assert response.included_files == ["included_files_value"]
-
     assert response.filter == "filter_value"
 
 
@@ -1571,7 +1490,7 @@ def test_create_build_trigger_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -1581,7 +1500,6 @@ def test_create_build_trigger_empty_call():
         client.create_build_trigger()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.CreateBuildTriggerRequest()
 
 
@@ -1590,7 +1508,7 @@ async def test_create_build_trigger_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.CreateBuildTriggerRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -1614,32 +1532,22 @@ async def test_create_build_trigger_async(
                 filter="filter_value",
             )
         )
-
         response = await client.create_build_trigger(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.CreateBuildTriggerRequest()
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.BuildTrigger)
-
     assert response.id == "id_value"
-
     assert response.description == "description_value"
-
     assert response.name == "name_value"
-
     assert response.tags == ["tags_value"]
-
     assert response.disabled is True
-
     assert response.ignored_files == ["ignored_files_value"]
-
     assert response.included_files == ["included_files_value"]
-
     assert response.filter == "filter_value"
 
 
@@ -1649,7 +1557,7 @@ async def test_create_build_trigger_async_from_dict():
 
 
 def test_create_build_trigger_flattened():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -1657,7 +1565,6 @@ def test_create_build_trigger_flattened():
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = cloudbuild.BuildTrigger()
-
         # Call the method with a truthy value for each flattened field,
         # using the keyword arguments to the method.
         client.create_build_trigger(
@@ -1669,14 +1576,12 @@ def test_create_build_trigger_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].trigger == cloudbuild.BuildTrigger(id="id_value")
 
 
 def test_create_build_trigger_flattened_error():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -1690,7 +1595,7 @@ def test_create_build_trigger_flattened_error():
 
 @pytest.mark.asyncio
 async def test_create_build_trigger_flattened_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -1713,15 +1618,13 @@ async def test_create_build_trigger_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].trigger == cloudbuild.BuildTrigger(id="id_value")
 
 
 @pytest.mark.asyncio
 async def test_create_build_trigger_flattened_error_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -1737,7 +1640,7 @@ def test_get_build_trigger(
     transport: str = "grpc", request_type=cloudbuild.GetBuildTriggerRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -1760,33 +1663,22 @@ def test_get_build_trigger(
             filter="filter_value",
             build=cloudbuild.Build(name="name_value"),
         )
-
         response = client.get_build_trigger(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.GetBuildTriggerRequest()
 
     # Establish that the response is the type that we expect.
-
     assert isinstance(response, cloudbuild.BuildTrigger)
-
     assert response.id == "id_value"
-
     assert response.description == "description_value"
-
     assert response.name == "name_value"
-
     assert response.tags == ["tags_value"]
-
     assert response.disabled is True
-
     assert response.ignored_files == ["ignored_files_value"]
-
     assert response.included_files == ["included_files_value"]
-
     assert response.filter == "filter_value"
 
 
@@ -1798,7 +1690,7 @@ def test_get_build_trigger_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -1808,7 +1700,6 @@ def test_get_build_trigger_empty_call():
         client.get_build_trigger()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.GetBuildTriggerRequest()
 
 
@@ -1817,7 +1708,7 @@ async def test_get_build_trigger_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.GetBuildTriggerRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -1841,32 +1732,22 @@ async def test_get_build_trigger_async(
                 filter="filter_value",
             )
         )
-
         response = await client.get_build_trigger(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.GetBuildTriggerRequest()
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.BuildTrigger)
-
     assert response.id == "id_value"
-
     assert response.description == "description_value"
-
     assert response.name == "name_value"
-
     assert response.tags == ["tags_value"]
-
     assert response.disabled is True
-
     assert response.ignored_files == ["ignored_files_value"]
-
     assert response.included_files == ["included_files_value"]
-
     assert response.filter == "filter_value"
 
 
@@ -1876,7 +1757,7 @@ async def test_get_build_trigger_async_from_dict():
 
 
 def test_get_build_trigger_flattened():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -1884,7 +1765,6 @@ def test_get_build_trigger_flattened():
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = cloudbuild.BuildTrigger()
-
         # Call the method with a truthy value for each flattened field,
         # using the keyword arguments to the method.
         client.get_build_trigger(
@@ -1895,14 +1775,12 @@ def test_get_build_trigger_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].trigger_id == "trigger_id_value"
 
 
 def test_get_build_trigger_flattened_error():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -1916,7 +1794,7 @@ def test_get_build_trigger_flattened_error():
 
 @pytest.mark.asyncio
 async def test_get_build_trigger_flattened_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -1938,15 +1816,13 @@ async def test_get_build_trigger_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].trigger_id == "trigger_id_value"
 
 
 @pytest.mark.asyncio
 async def test_get_build_trigger_flattened_error_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -1962,7 +1838,7 @@ def test_list_build_triggers(
     transport: str = "grpc", request_type=cloudbuild.ListBuildTriggersRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -1977,19 +1853,15 @@ def test_list_build_triggers(
         call.return_value = cloudbuild.ListBuildTriggersResponse(
             next_page_token="next_page_token_value",
         )
-
         response = client.list_build_triggers(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.ListBuildTriggersRequest()
 
     # Establish that the response is the type that we expect.
-
     assert isinstance(response, pagers.ListBuildTriggersPager)
-
     assert response.next_page_token == "next_page_token_value"
 
 
@@ -2001,7 +1873,7 @@ def test_list_build_triggers_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -2011,7 +1883,6 @@ def test_list_build_triggers_empty_call():
         client.list_build_triggers()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.ListBuildTriggersRequest()
 
 
@@ -2020,7 +1891,7 @@ async def test_list_build_triggers_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.ListBuildTriggersRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -2037,18 +1908,15 @@ async def test_list_build_triggers_async(
                 next_page_token="next_page_token_value",
             )
         )
-
         response = await client.list_build_triggers(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.ListBuildTriggersRequest()
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, pagers.ListBuildTriggersAsyncPager)
-
     assert response.next_page_token == "next_page_token_value"
 
 
@@ -2058,7 +1926,7 @@ async def test_list_build_triggers_async_from_dict():
 
 
 def test_list_build_triggers_flattened():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -2066,7 +1934,6 @@ def test_list_build_triggers_flattened():
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = cloudbuild.ListBuildTriggersResponse()
-
         # Call the method with a truthy value for each flattened field,
         # using the keyword arguments to the method.
         client.list_build_triggers(project_id="project_id_value",)
@@ -2075,12 +1942,11 @@ def test_list_build_triggers_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
 
 
 def test_list_build_triggers_flattened_error():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -2092,7 +1958,7 @@ def test_list_build_triggers_flattened_error():
 
 @pytest.mark.asyncio
 async def test_list_build_triggers_flattened_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -2112,13 +1978,12 @@ async def test_list_build_triggers_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
 
 
 @pytest.mark.asyncio
 async def test_list_build_triggers_flattened_error_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -2129,7 +1994,7 @@ async def test_list_build_triggers_flattened_error_async():
 
 
 def test_list_build_triggers_pager():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials,)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials,)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -2166,7 +2031,7 @@ def test_list_build_triggers_pager():
 
 
 def test_list_build_triggers_pages():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials,)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials,)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -2198,7 +2063,7 @@ def test_list_build_triggers_pages():
 
 @pytest.mark.asyncio
 async def test_list_build_triggers_async_pager():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials,)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials,)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -2237,7 +2102,7 @@ async def test_list_build_triggers_async_pager():
 
 @pytest.mark.asyncio
 async def test_list_build_triggers_async_pages():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials,)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials,)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -2275,7 +2140,7 @@ def test_delete_build_trigger(
     transport: str = "grpc", request_type=cloudbuild.DeleteBuildTriggerRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -2288,13 +2153,11 @@ def test_delete_build_trigger(
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = None
-
         response = client.delete_build_trigger(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.DeleteBuildTriggerRequest()
 
     # Establish that the response is the type that we expect.
@@ -2309,7 +2172,7 @@ def test_delete_build_trigger_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -2319,7 +2182,6 @@ def test_delete_build_trigger_empty_call():
         client.delete_build_trigger()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.DeleteBuildTriggerRequest()
 
 
@@ -2328,7 +2190,7 @@ async def test_delete_build_trigger_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.DeleteBuildTriggerRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -2341,13 +2203,11 @@ async def test_delete_build_trigger_async(
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(None)
-
         response = await client.delete_build_trigger(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.DeleteBuildTriggerRequest()
 
     # Establish that the response is the type that we expect.
@@ -2360,7 +2220,7 @@ async def test_delete_build_trigger_async_from_dict():
 
 
 def test_delete_build_trigger_flattened():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -2368,7 +2228,6 @@ def test_delete_build_trigger_flattened():
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = None
-
         # Call the method with a truthy value for each flattened field,
         # using the keyword arguments to the method.
         client.delete_build_trigger(
@@ -2379,14 +2238,12 @@ def test_delete_build_trigger_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].trigger_id == "trigger_id_value"
 
 
 def test_delete_build_trigger_flattened_error():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -2400,7 +2257,7 @@ def test_delete_build_trigger_flattened_error():
 
 @pytest.mark.asyncio
 async def test_delete_build_trigger_flattened_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -2420,15 +2277,13 @@ async def test_delete_build_trigger_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].trigger_id == "trigger_id_value"
 
 
 @pytest.mark.asyncio
 async def test_delete_build_trigger_flattened_error_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -2444,7 +2299,7 @@ def test_update_build_trigger(
     transport: str = "grpc", request_type=cloudbuild.UpdateBuildTriggerRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -2467,33 +2322,22 @@ def test_update_build_trigger(
             filter="filter_value",
             build=cloudbuild.Build(name="name_value"),
         )
-
         response = client.update_build_trigger(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.UpdateBuildTriggerRequest()
 
     # Establish that the response is the type that we expect.
-
     assert isinstance(response, cloudbuild.BuildTrigger)
-
     assert response.id == "id_value"
-
     assert response.description == "description_value"
-
     assert response.name == "name_value"
-
     assert response.tags == ["tags_value"]
-
     assert response.disabled is True
-
     assert response.ignored_files == ["ignored_files_value"]
-
     assert response.included_files == ["included_files_value"]
-
     assert response.filter == "filter_value"
 
 
@@ -2505,7 +2349,7 @@ def test_update_build_trigger_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -2515,7 +2359,6 @@ def test_update_build_trigger_empty_call():
         client.update_build_trigger()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.UpdateBuildTriggerRequest()
 
 
@@ -2524,7 +2367,7 @@ async def test_update_build_trigger_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.UpdateBuildTriggerRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -2548,32 +2391,22 @@ async def test_update_build_trigger_async(
                 filter="filter_value",
             )
         )
-
         response = await client.update_build_trigger(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.UpdateBuildTriggerRequest()
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.BuildTrigger)
-
     assert response.id == "id_value"
-
     assert response.description == "description_value"
-
     assert response.name == "name_value"
-
     assert response.tags == ["tags_value"]
-
     assert response.disabled is True
-
     assert response.ignored_files == ["ignored_files_value"]
-
     assert response.included_files == ["included_files_value"]
-
     assert response.filter == "filter_value"
 
 
@@ -2583,7 +2416,7 @@ async def test_update_build_trigger_async_from_dict():
 
 
 def test_update_build_trigger_flattened():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -2591,7 +2424,6 @@ def test_update_build_trigger_flattened():
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = cloudbuild.BuildTrigger()
-
         # Call the method with a truthy value for each flattened field,
         # using the keyword arguments to the method.
         client.update_build_trigger(
@@ -2604,16 +2436,13 @@ def test_update_build_trigger_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].trigger_id == "trigger_id_value"
-
         assert args[0].trigger == cloudbuild.BuildTrigger(id="id_value")
 
 
 def test_update_build_trigger_flattened_error():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -2628,7 +2457,7 @@ def test_update_build_trigger_flattened_error():
 
 @pytest.mark.asyncio
 async def test_update_build_trigger_flattened_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -2652,17 +2481,14 @@ async def test_update_build_trigger_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].trigger_id == "trigger_id_value"
-
         assert args[0].trigger == cloudbuild.BuildTrigger(id="id_value")
 
 
 @pytest.mark.asyncio
 async def test_update_build_trigger_flattened_error_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -2679,7 +2505,7 @@ def test_run_build_trigger(
     transport: str = "grpc", request_type=cloudbuild.RunBuildTriggerRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -2692,13 +2518,11 @@ def test_run_build_trigger(
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = operations_pb2.Operation(name="operations/spam")
-
         response = client.run_build_trigger(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.RunBuildTriggerRequest()
 
     # Establish that the response is the type that we expect.
@@ -2713,7 +2537,7 @@ def test_run_build_trigger_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -2723,7 +2547,6 @@ def test_run_build_trigger_empty_call():
         client.run_build_trigger()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.RunBuildTriggerRequest()
 
 
@@ -2732,7 +2555,7 @@ async def test_run_build_trigger_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.RunBuildTriggerRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -2747,13 +2570,11 @@ async def test_run_build_trigger_async(
         call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(
             operations_pb2.Operation(name="operations/spam")
         )
-
         response = await client.run_build_trigger(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.RunBuildTriggerRequest()
 
     # Establish that the response is the type that we expect.
@@ -2766,7 +2587,7 @@ async def test_run_build_trigger_async_from_dict():
 
 
 def test_run_build_trigger_flattened():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -2774,7 +2595,6 @@ def test_run_build_trigger_flattened():
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = operations_pb2.Operation(name="operations/op")
-
         # Call the method with a truthy value for each flattened field,
         # using the keyword arguments to the method.
         client.run_build_trigger(
@@ -2787,16 +2607,13 @@ def test_run_build_trigger_flattened():
         # request object values.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].trigger_id == "trigger_id_value"
-
         assert args[0].source == cloudbuild.RepoSource(project_id="project_id_value")
 
 
 def test_run_build_trigger_flattened_error():
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -2811,7 +2628,7 @@ def test_run_build_trigger_flattened_error():
 
 @pytest.mark.asyncio
 async def test_run_build_trigger_flattened_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Mock the actual call within the gRPC stub, and fake the request.
     with mock.patch.object(
@@ -2835,17 +2652,14 @@ async def test_run_build_trigger_flattened_async():
         # request object values.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0].project_id == "project_id_value"
-
         assert args[0].trigger_id == "trigger_id_value"
-
         assert args[0].source == cloudbuild.RepoSource(project_id="project_id_value")
 
 
 @pytest.mark.asyncio
 async def test_run_build_trigger_flattened_error_async():
-    client = CloudBuildAsyncClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildAsyncClient(credentials=ga_credentials.AnonymousCredentials(),)
 
     # Attempting to call a method with both a request object and flattened
     # fields is an error.
@@ -2862,7 +2676,7 @@ def test_receive_trigger_webhook(
     transport: str = "grpc", request_type=cloudbuild.ReceiveTriggerWebhookRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -2875,17 +2689,14 @@ def test_receive_trigger_webhook(
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = cloudbuild.ReceiveTriggerWebhookResponse()
-
         response = client.receive_trigger_webhook(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.ReceiveTriggerWebhookRequest()
 
     # Establish that the response is the type that we expect.
-
     assert isinstance(response, cloudbuild.ReceiveTriggerWebhookResponse)
 
 
@@ -2897,7 +2708,7 @@ def test_receive_trigger_webhook_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -2907,7 +2718,6 @@ def test_receive_trigger_webhook_empty_call():
         client.receive_trigger_webhook()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.ReceiveTriggerWebhookRequest()
 
 
@@ -2917,7 +2727,7 @@ async def test_receive_trigger_webhook_async(
     request_type=cloudbuild.ReceiveTriggerWebhookRequest,
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -2932,13 +2742,11 @@ async def test_receive_trigger_webhook_async(
         call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(
             cloudbuild.ReceiveTriggerWebhookResponse()
         )
-
         response = await client.receive_trigger_webhook(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.ReceiveTriggerWebhookRequest()
 
     # Establish that the response is the type that we expect.
@@ -2954,7 +2762,7 @@ def test_create_worker_pool(
     transport: str = "grpc", request_type=cloudbuild.CreateWorkerPoolRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -2974,29 +2782,20 @@ def test_create_worker_pool(
             regions=[cloudbuild.WorkerPool.Region.US_CENTRAL1],
             status=cloudbuild.WorkerPool.Status.CREATING,
         )
-
         response = client.create_worker_pool(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.CreateWorkerPoolRequest()
 
     # Establish that the response is the type that we expect.
-
     assert isinstance(response, cloudbuild.WorkerPool)
-
     assert response.name == "name_value"
-
     assert response.project_id == "project_id_value"
-
     assert response.service_account_email == "service_account_email_value"
-
     assert response.worker_count == 1314
-
     assert response.regions == [cloudbuild.WorkerPool.Region.US_CENTRAL1]
-
     assert response.status == cloudbuild.WorkerPool.Status.CREATING
 
 
@@ -3008,7 +2807,7 @@ def test_create_worker_pool_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -3018,7 +2817,6 @@ def test_create_worker_pool_empty_call():
         client.create_worker_pool()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.CreateWorkerPoolRequest()
 
 
@@ -3027,7 +2825,7 @@ async def test_create_worker_pool_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.CreateWorkerPoolRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -3049,28 +2847,20 @@ async def test_create_worker_pool_async(
                 status=cloudbuild.WorkerPool.Status.CREATING,
             )
         )
-
         response = await client.create_worker_pool(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.CreateWorkerPoolRequest()
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.WorkerPool)
-
     assert response.name == "name_value"
-
     assert response.project_id == "project_id_value"
-
     assert response.service_account_email == "service_account_email_value"
-
     assert response.worker_count == 1314
-
     assert response.regions == [cloudbuild.WorkerPool.Region.US_CENTRAL1]
-
     assert response.status == cloudbuild.WorkerPool.Status.CREATING
 
 
@@ -3083,7 +2873,7 @@ def test_get_worker_pool(
     transport: str = "grpc", request_type=cloudbuild.GetWorkerPoolRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -3101,29 +2891,20 @@ def test_get_worker_pool(
             regions=[cloudbuild.WorkerPool.Region.US_CENTRAL1],
             status=cloudbuild.WorkerPool.Status.CREATING,
         )
-
         response = client.get_worker_pool(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.GetWorkerPoolRequest()
 
     # Establish that the response is the type that we expect.
-
     assert isinstance(response, cloudbuild.WorkerPool)
-
     assert response.name == "name_value"
-
     assert response.project_id == "project_id_value"
-
     assert response.service_account_email == "service_account_email_value"
-
     assert response.worker_count == 1314
-
     assert response.regions == [cloudbuild.WorkerPool.Region.US_CENTRAL1]
-
     assert response.status == cloudbuild.WorkerPool.Status.CREATING
 
 
@@ -3135,7 +2916,7 @@ def test_get_worker_pool_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -3143,7 +2924,6 @@ def test_get_worker_pool_empty_call():
         client.get_worker_pool()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.GetWorkerPoolRequest()
 
 
@@ -3152,7 +2932,7 @@ async def test_get_worker_pool_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.GetWorkerPoolRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -3172,28 +2952,20 @@ async def test_get_worker_pool_async(
                 status=cloudbuild.WorkerPool.Status.CREATING,
             )
         )
-
         response = await client.get_worker_pool(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.GetWorkerPoolRequest()
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.WorkerPool)
-
     assert response.name == "name_value"
-
     assert response.project_id == "project_id_value"
-
     assert response.service_account_email == "service_account_email_value"
-
     assert response.worker_count == 1314
-
     assert response.regions == [cloudbuild.WorkerPool.Region.US_CENTRAL1]
-
     assert response.status == cloudbuild.WorkerPool.Status.CREATING
 
 
@@ -3206,7 +2978,7 @@ def test_delete_worker_pool(
     transport: str = "grpc", request_type=cloudbuild.DeleteWorkerPoolRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -3219,13 +2991,11 @@ def test_delete_worker_pool(
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = None
-
         response = client.delete_worker_pool(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.DeleteWorkerPoolRequest()
 
     # Establish that the response is the type that we expect.
@@ -3240,7 +3010,7 @@ def test_delete_worker_pool_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -3250,7 +3020,6 @@ def test_delete_worker_pool_empty_call():
         client.delete_worker_pool()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.DeleteWorkerPoolRequest()
 
 
@@ -3259,7 +3028,7 @@ async def test_delete_worker_pool_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.DeleteWorkerPoolRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -3272,13 +3041,11 @@ async def test_delete_worker_pool_async(
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(None)
-
         response = await client.delete_worker_pool(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.DeleteWorkerPoolRequest()
 
     # Establish that the response is the type that we expect.
@@ -3294,7 +3061,7 @@ def test_update_worker_pool(
     transport: str = "grpc", request_type=cloudbuild.UpdateWorkerPoolRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -3314,29 +3081,20 @@ def test_update_worker_pool(
             regions=[cloudbuild.WorkerPool.Region.US_CENTRAL1],
             status=cloudbuild.WorkerPool.Status.CREATING,
         )
-
         response = client.update_worker_pool(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.UpdateWorkerPoolRequest()
 
     # Establish that the response is the type that we expect.
-
     assert isinstance(response, cloudbuild.WorkerPool)
-
     assert response.name == "name_value"
-
     assert response.project_id == "project_id_value"
-
     assert response.service_account_email == "service_account_email_value"
-
     assert response.worker_count == 1314
-
     assert response.regions == [cloudbuild.WorkerPool.Region.US_CENTRAL1]
-
     assert response.status == cloudbuild.WorkerPool.Status.CREATING
 
 
@@ -3348,7 +3106,7 @@ def test_update_worker_pool_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -3358,7 +3116,6 @@ def test_update_worker_pool_empty_call():
         client.update_worker_pool()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.UpdateWorkerPoolRequest()
 
 
@@ -3367,7 +3124,7 @@ async def test_update_worker_pool_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.UpdateWorkerPoolRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -3389,28 +3146,20 @@ async def test_update_worker_pool_async(
                 status=cloudbuild.WorkerPool.Status.CREATING,
             )
         )
-
         response = await client.update_worker_pool(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.UpdateWorkerPoolRequest()
 
     # Establish that the response is the type that we expect.
     assert isinstance(response, cloudbuild.WorkerPool)
-
     assert response.name == "name_value"
-
     assert response.project_id == "project_id_value"
-
     assert response.service_account_email == "service_account_email_value"
-
     assert response.worker_count == 1314
-
     assert response.regions == [cloudbuild.WorkerPool.Region.US_CENTRAL1]
-
     assert response.status == cloudbuild.WorkerPool.Status.CREATING
 
 
@@ -3423,7 +3172,7 @@ def test_list_worker_pools(
     transport: str = "grpc", request_type=cloudbuild.ListWorkerPoolsRequest
 ):
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -3436,17 +3185,14 @@ def test_list_worker_pools(
     ) as call:
         # Designate an appropriate return value for the call.
         call.return_value = cloudbuild.ListWorkerPoolsResponse()
-
         response = client.list_worker_pools(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls) == 1
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.ListWorkerPoolsRequest()
 
     # Establish that the response is the type that we expect.
-
     assert isinstance(response, cloudbuild.ListWorkerPoolsResponse)
 
 
@@ -3458,7 +3204,7 @@ def test_list_worker_pools_empty_call():
     # This test is a coverage failsafe to make sure that totally empty calls,
     # i.e. request == None and no flattened fields passed, work.
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
 
     # Mock the actual call within the gRPC stub, and fake the request.
@@ -3468,7 +3214,6 @@ def test_list_worker_pools_empty_call():
         client.list_worker_pools()
         call.assert_called()
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.ListWorkerPoolsRequest()
 
 
@@ -3477,7 +3222,7 @@ async def test_list_worker_pools_async(
     transport: str = "grpc_asyncio", request_type=cloudbuild.ListWorkerPoolsRequest
 ):
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport=transport,
+        credentials=ga_credentials.AnonymousCredentials(), transport=transport,
     )
 
     # Everything is optional in proto3 as far as the runtime is concerned,
@@ -3492,13 +3237,11 @@ async def test_list_worker_pools_async(
         call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(
             cloudbuild.ListWorkerPoolsResponse()
         )
-
         response = await client.list_worker_pools(request)
 
         # Establish that the underlying gRPC stub method was called.
         assert len(call.mock_calls)
         _, args, _ = call.mock_calls[0]
-
         assert args[0] == cloudbuild.ListWorkerPoolsRequest()
 
     # Establish that the response is the type that we expect.
@@ -3513,16 +3256,16 @@ async def test_list_worker_pools_async_from_dict():
 def test_credentials_transport_error():
     # It is an error to provide credentials and a transport instance.
     transport = transports.CloudBuildGrpcTransport(
-        credentials=credentials.AnonymousCredentials(),
+        credentials=ga_credentials.AnonymousCredentials(),
     )
     with pytest.raises(ValueError):
         client = CloudBuildClient(
-            credentials=credentials.AnonymousCredentials(), transport=transport,
+            credentials=ga_credentials.AnonymousCredentials(), transport=transport,
         )
 
     # It is an error to provide a credentials file and a transport instance.
     transport = transports.CloudBuildGrpcTransport(
-        credentials=credentials.AnonymousCredentials(),
+        credentials=ga_credentials.AnonymousCredentials(),
     )
     with pytest.raises(ValueError):
         client = CloudBuildClient(
@@ -3532,7 +3275,7 @@ def test_credentials_transport_error():
 
     # It is an error to provide scopes and a transport instance.
     transport = transports.CloudBuildGrpcTransport(
-        credentials=credentials.AnonymousCredentials(),
+        credentials=ga_credentials.AnonymousCredentials(),
     )
     with pytest.raises(ValueError):
         client = CloudBuildClient(
@@ -3543,7 +3286,7 @@ def test_credentials_transport_error():
 def test_transport_instance():
     # A client may be instantiated with a custom transport instance.
     transport = transports.CloudBuildGrpcTransport(
-        credentials=credentials.AnonymousCredentials(),
+        credentials=ga_credentials.AnonymousCredentials(),
     )
     client = CloudBuildClient(transport=transport)
     assert client.transport is transport
@@ -3552,13 +3295,13 @@ def test_transport_instance():
 def test_transport_get_channel():
     # A client may be instantiated with a custom transport instance.
     transport = transports.CloudBuildGrpcTransport(
-        credentials=credentials.AnonymousCredentials(),
+        credentials=ga_credentials.AnonymousCredentials(),
     )
     channel = transport.grpc_channel
     assert channel
 
     transport = transports.CloudBuildGrpcAsyncIOTransport(
-        credentials=credentials.AnonymousCredentials(),
+        credentials=ga_credentials.AnonymousCredentials(),
     )
     channel = transport.grpc_channel
     assert channel
@@ -3570,23 +3313,23 @@ def test_transport_get_channel():
 )
 def test_transport_adc(transport_class):
     # Test default credentials are used if not provided.
-    with mock.patch.object(auth, "default") as adc:
-        adc.return_value = (credentials.AnonymousCredentials(), None)
+    with mock.patch.object(google.auth, "default") as adc:
+        adc.return_value = (ga_credentials.AnonymousCredentials(), None)
         transport_class()
         adc.assert_called_once()
 
 
 def test_transport_grpc_default():
     # A client should use the gRPC transport by default.
-    client = CloudBuildClient(credentials=credentials.AnonymousCredentials(),)
+    client = CloudBuildClient(credentials=ga_credentials.AnonymousCredentials(),)
     assert isinstance(client.transport, transports.CloudBuildGrpcTransport,)
 
 
 def test_cloud_build_base_transport_error():
     # Passing both a credentials object and credentials_file should raise an error
-    with pytest.raises(exceptions.DuplicateCredentialArgs):
+    with pytest.raises(core_exceptions.DuplicateCredentialArgs):
         transport = transports.CloudBuildTransport(
-            credentials=credentials.AnonymousCredentials(),
+            credentials=ga_credentials.AnonymousCredentials(),
             credentials_file="credentials.json",
         )
 
@@ -3598,7 +3341,7 @@ def test_cloud_build_base_transport():
     ) as Transport:
         Transport.return_value = None
         transport = transports.CloudBuildTransport(
-            credentials=credentials.AnonymousCredentials(),
+            credentials=ga_credentials.AnonymousCredentials(),
         )
 
     # Every method on the transport should just blindly
@@ -3632,15 +3375,37 @@ def test_cloud_build_base_transport():
         transport.operations_client
 
 
+@requires_google_auth_gte_1_25_0
 def test_cloud_build_base_transport_with_credentials_file():
     # Instantiate the base transport with a credentials file
     with mock.patch.object(
-        auth, "load_credentials_from_file"
+        google.auth, "load_credentials_from_file", autospec=True
     ) as load_creds, mock.patch(
         "google.cloud.devtools.cloudbuild_v1.services.cloud_build.transports.CloudBuildTransport._prep_wrapped_messages"
     ) as Transport:
         Transport.return_value = None
-        load_creds.return_value = (credentials.AnonymousCredentials(), None)
+        load_creds.return_value = (ga_credentials.AnonymousCredentials(), None)
+        transport = transports.CloudBuildTransport(
+            credentials_file="credentials.json", quota_project_id="octopus",
+        )
+        load_creds.assert_called_once_with(
+            "credentials.json",
+            scopes=None,
+            default_scopes=("https://www.googleapis.com/auth/cloud-platform",),
+            quota_project_id="octopus",
+        )
+
+
+@requires_google_auth_lt_1_25_0
+def test_cloud_build_base_transport_with_credentials_file_old_google_auth():
+    # Instantiate the base transport with a credentials file
+    with mock.patch.object(
+        google.auth, "load_credentials_from_file", autospec=True
+    ) as load_creds, mock.patch(
+        "google.cloud.devtools.cloudbuild_v1.services.cloud_build.transports.CloudBuildTransport._prep_wrapped_messages"
+    ) as Transport:
+        Transport.return_value = None
+        load_creds.return_value = (ga_credentials.AnonymousCredentials(), None)
         transport = transports.CloudBuildTransport(
             credentials_file="credentials.json", quota_project_id="octopus",
         )
@@ -3653,19 +3418,33 @@ def test_cloud_build_base_transport_with_credentials_file():
 
 def test_cloud_build_base_transport_with_adc():
     # Test the default credentials are used if credentials and credentials_file are None.
-    with mock.patch.object(auth, "default") as adc, mock.patch(
+    with mock.patch.object(google.auth, "default", autospec=True) as adc, mock.patch(
         "google.cloud.devtools.cloudbuild_v1.services.cloud_build.transports.CloudBuildTransport._prep_wrapped_messages"
     ) as Transport:
         Transport.return_value = None
-        adc.return_value = (credentials.AnonymousCredentials(), None)
+        adc.return_value = (ga_credentials.AnonymousCredentials(), None)
         transport = transports.CloudBuildTransport()
         adc.assert_called_once()
 
 
+@requires_google_auth_gte_1_25_0
 def test_cloud_build_auth_adc():
     # If no credentials are provided, we should use ADC credentials.
-    with mock.patch.object(auth, "default") as adc:
-        adc.return_value = (credentials.AnonymousCredentials(), None)
+    with mock.patch.object(google.auth, "default", autospec=True) as adc:
+        adc.return_value = (ga_credentials.AnonymousCredentials(), None)
+        CloudBuildClient()
+        adc.assert_called_once_with(
+            scopes=None,
+            default_scopes=("https://www.googleapis.com/auth/cloud-platform",),
+            quota_project_id=None,
+        )
+
+
+@requires_google_auth_lt_1_25_0
+def test_cloud_build_auth_adc_old_google_auth():
+    # If no credentials are provided, we should use ADC credentials.
+    with mock.patch.object(google.auth, "default", autospec=True) as adc:
+        adc.return_value = (ga_credentials.AnonymousCredentials(), None)
         CloudBuildClient()
         adc.assert_called_once_with(
             scopes=("https://www.googleapis.com/auth/cloud-platform",),
@@ -3673,17 +3452,147 @@ def test_cloud_build_auth_adc():
         )
 
 
-def test_cloud_build_transport_auth_adc():
+@pytest.mark.parametrize(
+    "transport_class",
+    [transports.CloudBuildGrpcTransport, transports.CloudBuildGrpcAsyncIOTransport,],
+)
+@requires_google_auth_gte_1_25_0
+def test_cloud_build_transport_auth_adc(transport_class):
     # If credentials and host are not provided, the transport class should use
     # ADC credentials.
-    with mock.patch.object(auth, "default") as adc:
-        adc.return_value = (credentials.AnonymousCredentials(), None)
-        transports.CloudBuildGrpcTransport(
-            host="squid.clam.whelk", quota_project_id="octopus"
+    with mock.patch.object(google.auth, "default", autospec=True) as adc:
+        adc.return_value = (ga_credentials.AnonymousCredentials(), None)
+        transport_class(quota_project_id="octopus", scopes=["1", "2"])
+        adc.assert_called_once_with(
+            scopes=["1", "2"],
+            default_scopes=("https://www.googleapis.com/auth/cloud-platform",),
+            quota_project_id="octopus",
         )
+
+
+@pytest.mark.parametrize(
+    "transport_class",
+    [transports.CloudBuildGrpcTransport, transports.CloudBuildGrpcAsyncIOTransport,],
+)
+@requires_google_auth_lt_1_25_0
+def test_cloud_build_transport_auth_adc_old_google_auth(transport_class):
+    # If credentials and host are not provided, the transport class should use
+    # ADC credentials.
+    with mock.patch.object(google.auth, "default", autospec=True) as adc:
+        adc.return_value = (ga_credentials.AnonymousCredentials(), None)
+        transport_class(quota_project_id="octopus")
         adc.assert_called_once_with(
             scopes=("https://www.googleapis.com/auth/cloud-platform",),
             quota_project_id="octopus",
+        )
+
+
+@pytest.mark.parametrize(
+    "transport_class,grpc_helpers",
+    [
+        (transports.CloudBuildGrpcTransport, grpc_helpers),
+        (transports.CloudBuildGrpcAsyncIOTransport, grpc_helpers_async),
+    ],
+)
+@requires_api_core_gte_1_26_0
+def test_cloud_build_transport_create_channel(transport_class, grpc_helpers):
+    # If credentials and host are not provided, the transport class should use
+    # ADC credentials.
+    with mock.patch.object(
+        google.auth, "default", autospec=True
+    ) as adc, mock.patch.object(
+        grpc_helpers, "create_channel", autospec=True
+    ) as create_channel:
+        creds = ga_credentials.AnonymousCredentials()
+        adc.return_value = (creds, None)
+        transport_class(quota_project_id="octopus", scopes=["1", "2"])
+
+        create_channel.assert_called_with(
+            "cloudbuild.googleapis.com:443",
+            credentials=creds,
+            credentials_file=None,
+            quota_project_id="octopus",
+            default_scopes=("https://www.googleapis.com/auth/cloud-platform",),
+            scopes=["1", "2"],
+            default_host="cloudbuild.googleapis.com",
+            ssl_credentials=None,
+            options=[
+                ("grpc.max_send_message_length", -1),
+                ("grpc.max_receive_message_length", -1),
+            ],
+        )
+
+
+@pytest.mark.parametrize(
+    "transport_class,grpc_helpers",
+    [
+        (transports.CloudBuildGrpcTransport, grpc_helpers),
+        (transports.CloudBuildGrpcAsyncIOTransport, grpc_helpers_async),
+    ],
+)
+@requires_api_core_lt_1_26_0
+def test_cloud_build_transport_create_channel_old_api_core(
+    transport_class, grpc_helpers
+):
+    # If credentials and host are not provided, the transport class should use
+    # ADC credentials.
+    with mock.patch.object(
+        google.auth, "default", autospec=True
+    ) as adc, mock.patch.object(
+        grpc_helpers, "create_channel", autospec=True
+    ) as create_channel:
+        creds = ga_credentials.AnonymousCredentials()
+        adc.return_value = (creds, None)
+        transport_class(quota_project_id="octopus")
+
+        create_channel.assert_called_with(
+            "cloudbuild.googleapis.com",
+            credentials=creds,
+            credentials_file=None,
+            quota_project_id="octopus",
+            scopes=("https://www.googleapis.com/auth/cloud-platform",),
+            ssl_credentials=None,
+            options=[
+                ("grpc.max_send_message_length", -1),
+                ("grpc.max_receive_message_length", -1),
+            ],
+        )
+
+
+@pytest.mark.parametrize(
+    "transport_class,grpc_helpers",
+    [
+        (transports.CloudBuildGrpcTransport, grpc_helpers),
+        (transports.CloudBuildGrpcAsyncIOTransport, grpc_helpers_async),
+    ],
+)
+@requires_api_core_lt_1_26_0
+def test_cloud_build_transport_create_channel_user_scopes(
+    transport_class, grpc_helpers
+):
+    # If credentials and host are not provided, the transport class should use
+    # ADC credentials.
+    with mock.patch.object(
+        google.auth, "default", autospec=True
+    ) as adc, mock.patch.object(
+        grpc_helpers, "create_channel", autospec=True
+    ) as create_channel:
+        creds = ga_credentials.AnonymousCredentials()
+        adc.return_value = (creds, None)
+
+        transport_class(quota_project_id="octopus", scopes=["1", "2"])
+
+        create_channel.assert_called_with(
+            "cloudbuild.googleapis.com",
+            credentials=creds,
+            credentials_file=None,
+            quota_project_id="octopus",
+            scopes=["1", "2"],
+            ssl_credentials=None,
+            options=[
+                ("grpc.max_send_message_length", -1),
+                ("grpc.max_receive_message_length", -1),
+            ],
         )
 
 
@@ -3692,7 +3601,7 @@ def test_cloud_build_transport_auth_adc():
     [transports.CloudBuildGrpcTransport, transports.CloudBuildGrpcAsyncIOTransport],
 )
 def test_cloud_build_grpc_transport_client_cert_source_for_mtls(transport_class):
-    cred = credentials.AnonymousCredentials()
+    cred = ga_credentials.AnonymousCredentials()
 
     # Check ssl_channel_credentials is used if provided.
     with mock.patch.object(transport_class, "create_channel") as mock_create_channel:
@@ -3731,7 +3640,7 @@ def test_cloud_build_grpc_transport_client_cert_source_for_mtls(transport_class)
 
 def test_cloud_build_host_no_port():
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(),
+        credentials=ga_credentials.AnonymousCredentials(),
         client_options=client_options.ClientOptions(
             api_endpoint="cloudbuild.googleapis.com"
         ),
@@ -3741,7 +3650,7 @@ def test_cloud_build_host_no_port():
 
 def test_cloud_build_host_with_port():
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(),
+        credentials=ga_credentials.AnonymousCredentials(),
         client_options=client_options.ClientOptions(
             api_endpoint="cloudbuild.googleapis.com:8000"
         ),
@@ -3792,9 +3701,9 @@ def test_cloud_build_transport_channel_mtls_with_client_cert_source(transport_cl
             mock_grpc_channel = mock.Mock()
             grpc_create_channel.return_value = mock_grpc_channel
 
-            cred = credentials.AnonymousCredentials()
+            cred = ga_credentials.AnonymousCredentials()
             with pytest.warns(DeprecationWarning):
-                with mock.patch.object(auth, "default") as adc:
+                with mock.patch.object(google.auth, "default") as adc:
                     adc.return_value = (cred, None)
                     transport = transport_class(
                         host="squid.clam.whelk",
@@ -3867,7 +3776,7 @@ def test_cloud_build_transport_channel_mtls_with_adc(transport_class):
 
 def test_cloud_build_grpc_lro_client():
     client = CloudBuildClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc",
     )
     transport = client.transport
 
@@ -3880,7 +3789,7 @@ def test_cloud_build_grpc_lro_client():
 
 def test_cloud_build_grpc_lro_async_client():
     client = CloudBuildAsyncClient(
-        credentials=credentials.AnonymousCredentials(), transport="grpc_asyncio",
+        credentials=ga_credentials.AnonymousCredentials(), transport="grpc_asyncio",
     )
     transport = client.transport
 
@@ -3894,7 +3803,6 @@ def test_cloud_build_grpc_lro_async_client():
 def test_build_path():
     project = "squid"
     build = "clam"
-
     expected = "projects/{project}/builds/{build}".format(project=project, build=build,)
     actual = CloudBuildClient.build_path(project, build)
     assert expected == actual
@@ -3915,7 +3823,6 @@ def test_parse_build_path():
 def test_build_trigger_path():
     project = "oyster"
     trigger = "nudibranch"
-
     expected = "projects/{project}/triggers/{trigger}".format(
         project=project, trigger=trigger,
     )
@@ -3940,7 +3847,6 @@ def test_crypto_key_path():
     location = "nautilus"
     keyring = "scallop"
     key = "abalone"
-
     expected = "projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}".format(
         project=project, location=location, keyring=keyring, key=key,
     )
@@ -3966,7 +3872,6 @@ def test_secret_version_path():
     project = "oyster"
     secret = "nudibranch"
     version = "cuttlefish"
-
     expected = "projects/{project}/secrets/{secret}/versions/{version}".format(
         project=project, secret=secret, version=version,
     )
@@ -3990,7 +3895,6 @@ def test_parse_secret_version_path():
 def test_service_account_path():
     project = "scallop"
     service_account = "abalone"
-
     expected = "projects/{project}/serviceAccounts/{service_account}".format(
         project=project, service_account=service_account,
     )
@@ -4013,7 +3917,6 @@ def test_parse_service_account_path():
 def test_subscription_path():
     project = "whelk"
     subscription = "octopus"
-
     expected = "projects/{project}/subscriptions/{subscription}".format(
         project=project, subscription=subscription,
     )
@@ -4036,7 +3939,6 @@ def test_parse_subscription_path():
 def test_topic_path():
     project = "cuttlefish"
     topic = "mussel"
-
     expected = "projects/{project}/topics/{topic}".format(project=project, topic=topic,)
     actual = CloudBuildClient.topic_path(project, topic)
     assert expected == actual
@@ -4056,7 +3958,6 @@ def test_parse_topic_path():
 
 def test_common_billing_account_path():
     billing_account = "scallop"
-
     expected = "billingAccounts/{billing_account}".format(
         billing_account=billing_account,
     )
@@ -4077,7 +3978,6 @@ def test_parse_common_billing_account_path():
 
 def test_common_folder_path():
     folder = "squid"
-
     expected = "folders/{folder}".format(folder=folder,)
     actual = CloudBuildClient.common_folder_path(folder)
     assert expected == actual
@@ -4096,7 +3996,6 @@ def test_parse_common_folder_path():
 
 def test_common_organization_path():
     organization = "whelk"
-
     expected = "organizations/{organization}".format(organization=organization,)
     actual = CloudBuildClient.common_organization_path(organization)
     assert expected == actual
@@ -4115,7 +4014,6 @@ def test_parse_common_organization_path():
 
 def test_common_project_path():
     project = "oyster"
-
     expected = "projects/{project}".format(project=project,)
     actual = CloudBuildClient.common_project_path(project)
     assert expected == actual
@@ -4135,7 +4033,6 @@ def test_parse_common_project_path():
 def test_common_location_path():
     project = "cuttlefish"
     location = "mussel"
-
     expected = "projects/{project}/locations/{location}".format(
         project=project, location=location,
     )
@@ -4162,7 +4059,7 @@ def test_client_withDEFAULT_CLIENT_INFO():
         transports.CloudBuildTransport, "_prep_wrapped_messages"
     ) as prep:
         client = CloudBuildClient(
-            credentials=credentials.AnonymousCredentials(), client_info=client_info,
+            credentials=ga_credentials.AnonymousCredentials(), client_info=client_info,
         )
         prep.assert_called_once_with(client_info)
 
@@ -4171,6 +4068,6 @@ def test_client_withDEFAULT_CLIENT_INFO():
     ) as prep:
         transport_class = CloudBuildClient.get_transport_class()
         transport = transport_class(
-            credentials=credentials.AnonymousCredentials(), client_info=client_info,
+            credentials=ga_credentials.AnonymousCredentials(), client_info=client_info,
         )
         prep.assert_called_once_with(client_info)

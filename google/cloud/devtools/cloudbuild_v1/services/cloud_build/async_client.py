@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 # Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 from collections import OrderedDict
 import functools
 import re
@@ -22,19 +20,18 @@ from typing import Dict, Sequence, Tuple, Type, Union
 import pkg_resources
 
 import google.api_core.client_options as ClientOptions  # type: ignore
-from google.api_core import exceptions  # type: ignore
+from google.api_core import exceptions as core_exceptions  # type: ignore
 from google.api_core import gapic_v1  # type: ignore
 from google.api_core import retry as retries  # type: ignore
-from google.auth import credentials  # type: ignore
+from google.auth import credentials as ga_credentials  # type: ignore
 from google.oauth2 import service_account  # type: ignore
 
 from google.api_core import operation  # type: ignore
 from google.api_core import operation_async  # type: ignore
 from google.cloud.devtools.cloudbuild_v1.services.cloud_build import pagers
 from google.cloud.devtools.cloudbuild_v1.types import cloudbuild
-from google.protobuf import duration_pb2 as duration  # type: ignore
-from google.protobuf import timestamp_pb2 as timestamp  # type: ignore
-
+from google.protobuf import duration_pb2  # type: ignore
+from google.protobuf import timestamp_pb2  # type: ignore
 from .transports.base import CloudBuildTransport, DEFAULT_CLIENT_INFO
 from .transports.grpc_asyncio import CloudBuildGrpcAsyncIOTransport
 from .client import CloudBuildClient
@@ -72,25 +69,20 @@ class CloudBuildAsyncClient:
     parse_subscription_path = staticmethod(CloudBuildClient.parse_subscription_path)
     topic_path = staticmethod(CloudBuildClient.topic_path)
     parse_topic_path = staticmethod(CloudBuildClient.parse_topic_path)
-
     common_billing_account_path = staticmethod(
         CloudBuildClient.common_billing_account_path
     )
     parse_common_billing_account_path = staticmethod(
         CloudBuildClient.parse_common_billing_account_path
     )
-
     common_folder_path = staticmethod(CloudBuildClient.common_folder_path)
     parse_common_folder_path = staticmethod(CloudBuildClient.parse_common_folder_path)
-
     common_organization_path = staticmethod(CloudBuildClient.common_organization_path)
     parse_common_organization_path = staticmethod(
         CloudBuildClient.parse_common_organization_path
     )
-
     common_project_path = staticmethod(CloudBuildClient.common_project_path)
     parse_common_project_path = staticmethod(CloudBuildClient.parse_common_project_path)
-
     common_location_path = staticmethod(CloudBuildClient.common_location_path)
     parse_common_location_path = staticmethod(
         CloudBuildClient.parse_common_location_path
@@ -144,7 +136,7 @@ class CloudBuildAsyncClient:
     def __init__(
         self,
         *,
-        credentials: credentials.Credentials = None,
+        credentials: ga_credentials.Credentials = None,
         transport: Union[str, CloudBuildTransport] = "grpc_asyncio",
         client_options: ClientOptions = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
@@ -181,7 +173,6 @@ class CloudBuildAsyncClient:
             google.auth.exceptions.MutualTlsChannelError: If mutual TLS transport
                 creation failed for any reason.
         """
-
         self._client = CloudBuildClient(
             credentials=credentials,
             transport=transport,
@@ -218,7 +209,6 @@ class CloudBuildAsyncClient:
                 This corresponds to the ``build`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -270,7 +260,6 @@ class CloudBuildAsyncClient:
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-
         if project_id is not None:
             request.project_id = project_id
         if build is not None:
@@ -327,7 +316,6 @@ class CloudBuildAsyncClient:
                 This corresponds to the ``id`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -375,7 +363,6 @@ class CloudBuildAsyncClient:
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-
         if project_id is not None:
             request.project_id = project_id
         if id is not None:
@@ -433,7 +420,6 @@ class CloudBuildAsyncClient:
                 This corresponds to the ``filter`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -462,7 +448,6 @@ class CloudBuildAsyncClient:
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-
         if project_id is not None:
             request.project_id = project_id
         if filter is not None:
@@ -522,7 +507,6 @@ class CloudBuildAsyncClient:
                 This corresponds to the ``id`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -570,7 +554,6 @@ class CloudBuildAsyncClient:
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-
         if project_id is not None:
             request.project_id = project_id
         if id is not None:
@@ -646,7 +629,6 @@ class CloudBuildAsyncClient:
                 This corresponds to the ``id`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -698,7 +680,6 @@ class CloudBuildAsyncClient:
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-
         if project_id is not None:
             request.project_id = project_id
         if id is not None:
@@ -756,7 +737,6 @@ class CloudBuildAsyncClient:
                 This corresponds to the ``trigger`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -784,7 +764,6 @@ class CloudBuildAsyncClient:
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-
         if project_id is not None:
             request.project_id = project_id
         if trigger is not None:
@@ -836,7 +815,6 @@ class CloudBuildAsyncClient:
                 This corresponds to the ``trigger_id`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -864,7 +842,6 @@ class CloudBuildAsyncClient:
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-
         if project_id is not None:
             request.project_id = project_id
         if trigger_id is not None:
@@ -917,7 +894,6 @@ class CloudBuildAsyncClient:
                 This corresponds to the ``project_id`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -946,7 +922,6 @@ class CloudBuildAsyncClient:
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-
         if project_id is not None:
             request.project_id = project_id
 
@@ -1008,7 +983,6 @@ class CloudBuildAsyncClient:
                 This corresponds to the ``trigger_id`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -1029,7 +1003,6 @@ class CloudBuildAsyncClient:
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-
         if project_id is not None:
             request.project_id = project_id
         if trigger_id is not None:
@@ -1093,7 +1066,6 @@ class CloudBuildAsyncClient:
                 This corresponds to the ``trigger`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -1121,7 +1093,6 @@ class CloudBuildAsyncClient:
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-
         if project_id is not None:
             request.project_id = project_id
         if trigger_id is not None:
@@ -1175,7 +1146,6 @@ class CloudBuildAsyncClient:
                 This corresponds to the ``source`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -1227,7 +1197,6 @@ class CloudBuildAsyncClient:
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-
         if project_id is not None:
             request.project_id = project_id
         if trigger_id is not None:
@@ -1273,7 +1242,6 @@ class CloudBuildAsyncClient:
                 The request object. ReceiveTriggerWebhookRequest
                 [Experimental] is the request object accepted by the
                 ReceiveTriggerWebhook method.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -1287,7 +1255,6 @@ class CloudBuildAsyncClient:
 
         """
         # Create or coerce a protobuf request object.
-
         request = cloudbuild.ReceiveTriggerWebhookRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
@@ -1321,7 +1288,6 @@ class CloudBuildAsyncClient:
             request (:class:`google.cloud.devtools.cloudbuild_v1.types.CreateWorkerPoolRequest`):
                 The request object. Request to create a new
                 `WorkerPool`.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -1345,7 +1311,6 @@ class CloudBuildAsyncClient:
 
         """
         # Create or coerce a protobuf request object.
-
         request = cloudbuild.CreateWorkerPoolRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
@@ -1378,7 +1343,6 @@ class CloudBuildAsyncClient:
             request (:class:`google.cloud.devtools.cloudbuild_v1.types.GetWorkerPoolRequest`):
                 The request object. Request to get a `WorkerPool` with
                 the specified name.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -1402,7 +1366,6 @@ class CloudBuildAsyncClient:
 
         """
         # Create or coerce a protobuf request object.
-
         request = cloudbuild.GetWorkerPoolRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
@@ -1443,7 +1406,6 @@ class CloudBuildAsyncClient:
         Args:
             request (:class:`google.cloud.devtools.cloudbuild_v1.types.DeleteWorkerPoolRequest`):
                 The request object. Request to delete a `WorkerPool`.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -1451,7 +1413,6 @@ class CloudBuildAsyncClient:
                 sent along with the request as metadata.
         """
         # Create or coerce a protobuf request object.
-
         request = cloudbuild.DeleteWorkerPoolRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
@@ -1482,7 +1443,6 @@ class CloudBuildAsyncClient:
         Args:
             request (:class:`google.cloud.devtools.cloudbuild_v1.types.UpdateWorkerPoolRequest`):
                 The request object. Request to update a `WorkerPool`.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -1506,7 +1466,6 @@ class CloudBuildAsyncClient:
 
         """
         # Create or coerce a protobuf request object.
-
         request = cloudbuild.UpdateWorkerPoolRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
@@ -1538,7 +1497,6 @@ class CloudBuildAsyncClient:
         Args:
             request (:class:`google.cloud.devtools.cloudbuild_v1.types.ListWorkerPoolsRequest`):
                 The request object. Request to list `WorkerPools`.
-
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
                 should be retried.
             timeout (float): The timeout for this request.
@@ -1550,7 +1508,6 @@ class CloudBuildAsyncClient:
                 Response containing existing WorkerPools.
         """
         # Create or coerce a protobuf request object.
-
         request = cloudbuild.ListWorkerPoolsRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
