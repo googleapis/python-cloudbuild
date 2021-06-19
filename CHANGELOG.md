@@ -4,6 +4,13 @@
 
 [1]: https://pypi.org/project/google-cloud-build/#history
 
+### [3.2.2](https://www.github.com/googleapis/python-cloudbuild/compare/v3.2.1...v3.2.2) (2021-06-19)
+
+
+### Documentation
+
+* omit mention of Python 2.7 in 'CONTRIBUTING.rst' ([#1127](https://www.github.com/googleapis/python-cloudbuild/issues/1127)) ([#112](https://www.github.com/googleapis/python-cloudbuild/issues/112)) ([e2420f8](https://www.github.com/googleapis/python-cloudbuild/commit/e2420f8ad5630aedff0d52e3cc4facbb11300b72)), closes [#1126](https://www.github.com/googleapis/python-cloudbuild/issues/1126)
+
 ### [3.2.1](https://www.github.com/googleapis/python-cloudbuild/compare/v3.2.0...v3.2.1) (2021-05-16)
 
 
