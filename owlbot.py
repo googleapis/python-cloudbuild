@@ -53,13 +53,6 @@ for library in s.get_staging_dirs(default_version):
         f"google.cloud.devtools.cloudbuild_{library.name}",
     )
 
-    # Rename package to `google-cloud-build`
-    s.replace(
-        [library / "**/*.rst", library / "*/**/*.py", library / "**/*.md"],
-        "google-cloud-devtools-cloudbuild",
-        "google-cloud-build"
-    )
-
     s.move(library / "google/devtools/cloudbuild", "google/cloud/devtools/cloudbuild")
     s.move(
         library / f"google/devtools/cloudbuild_{library.name}",
@@ -80,15 +73,5 @@ templated_files = common.py_library(
     cov_level=99,
 )
 s.move(templated_files, excludes=[".coveragerc"])  # microgenerator has a good .coveragerc file
-
-# TODO(busunkim): Use latest sphinx after microgenerator transition
-s.replace("noxfile.py", """['"]sphinx['"]""", '"sphinx<3.0.0"')
-
-s.replace(
-    "noxfile.py",
-    "google.cloud.cloudbuild",
-    "google.cloud.devtools.cloudbuild",
-)
-
 
 s.shell.run(["nox", "-s", "blacken"], hide_output=False)
