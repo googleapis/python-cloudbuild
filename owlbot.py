@@ -30,6 +30,12 @@ for library in s.get_staging_dirs(default_version):
     Attributes:""",
     )
 
+    # Work around sphinx docs issue
+    s.replace(library / f"google/devtools/cloudbuild_{library.name}/services/cloud_build/*client.py",
+        "`WorkerPool`s.",
+        r"`WorkerPool`\\s.",
+    )
+
     # Fix namespace
     s.replace(
         library / f"google/devtools/**/*.py",

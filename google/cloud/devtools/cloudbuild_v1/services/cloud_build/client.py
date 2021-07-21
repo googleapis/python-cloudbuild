@@ -1937,7 +1937,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         Args:
             request (google.cloud.devtools.cloudbuild_v1.types.ListWorkerPoolsRequest):
-                The request object. Request to list `WorkerPool`s.
+                The request object. Request to list `WorkerPool`\s.
             parent (str):
                 Required. The parent of the collection of
                 ``WorkerPools``. Format:
