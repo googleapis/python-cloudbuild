@@ -4,6 +4,13 @@
 
 [1]: https://pypi.org/project/google-cloud-build/#history
 
+### [3.3.1](https://www.github.com/googleapis/python-cloudbuild/compare/v3.3.0...v3.3.1) (2021-07-21)
+
+
+### Bug Fixes
+
+* **deps:** pin 'google-{api,cloud}-core', 'google-auth' to allow 2.x versions ([#130](https://www.github.com/googleapis/python-cloudbuild/issues/130)) ([e92b7a2](https://www.github.com/googleapis/python-cloudbuild/commit/e92b7a21ce2115461ff7884885a88118731d56ef))
+
 ## [3.3.0](https://www.github.com/googleapis/python-cloudbuild/compare/v3.2.1...v3.3.0) (2021-06-30)
 
 
