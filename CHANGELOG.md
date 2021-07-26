@@ -7,10 +7,6 @@
 ### [3.3.1](https://www.github.com/googleapis/python-cloudbuild/compare/v3.3.0...v3.3.1) (2021-07-24)
 
 
-### ⚠ BREAKING CHANGES
-
-* Proto had a prior definitions of WorkerPool resources which were never supported. This change replaces those resources with definitions that are currently supported.
-
 ### Features
 
 * add a WorkerPools API ([#129](https://www.github.com/googleapis/python-cloudbuild/issues/129)) ([2ea98bd](https://www.github.com/googleapis/python-cloudbuild/commit/2ea98bddbfafd5e728b99f8bcae6b7dc2a741e60))
