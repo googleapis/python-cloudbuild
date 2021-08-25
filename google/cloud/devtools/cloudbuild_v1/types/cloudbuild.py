@@ -361,6 +361,10 @@ class BuildStep(proto.Message):
             this time, build step status is only updated on
             build completion; step status is not updated in
             real-time as the build progresses.
+        script (str):
+            A shell script to be executed in the step.
+            When script is provided, the user cannot specify
+            the entrypoint or args.
     """
 
     name = proto.Field(proto.STRING, number=1,)
@@ -376,6 +380,7 @@ class BuildStep(proto.Message):
     pull_timing = proto.Field(proto.MESSAGE, number=13, message="TimeSpan",)
     timeout = proto.Field(proto.MESSAGE, number=11, message=duration_pb2.Duration,)
     status = proto.Field(proto.ENUM, number=12, enum="Build.Status",)
+    script = proto.Field(proto.STRING, number=19,)
 
 
 class Volume(proto.Message):
@@ -1245,6 +1250,14 @@ class BuildTrigger(proto.Message):
         filter (str):
             Optional. A Common Expression Language
             string.
+        service_account (str):
+            The service account used for all user-controlled operations
+            including UpdateBuildTrigger, RunBuildTrigger, CreateBuild,
+            and CancelBuild. If no service account is set, then the
+            standard Cloud Build service account
+            ([PROJECT_NUM]@system.gserviceaccount.com) will be used
+            instead. Format:
+            ``projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}``
     """
 
     resource_name = proto.Field(proto.STRING, number=34,)
@@ -1267,6 +1280,7 @@ class BuildTrigger(proto.Message):
     ignored_files = proto.RepeatedField(proto.STRING, number=15,)
     included_files = proto.RepeatedField(proto.STRING, number=16,)
     filter = proto.Field(proto.STRING, number=30,)
+    service_account = proto.Field(proto.STRING, number=33,)
 
 
 class GitHubEventsConfig(proto.Message):
