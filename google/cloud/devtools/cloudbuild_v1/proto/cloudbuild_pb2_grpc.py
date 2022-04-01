@@ -13,20 +13,20 @@ from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 class CloudBuildStub(object):
     """Creates and manages builds on Google Cloud Platform.
 
-  The main concept used by this API is a `Build`, which describes the location
-  of the source to build, how to build the source, and where to store the
-  built artifacts, if any.
+    The main concept used by this API is a `Build`, which describes the location
+    of the source to build, how to build the source, and where to store the
+    built artifacts, if any.
 
-  A user can list previously-requested builds or get builds by their ID to
-  determine the status of the build.
-  """
+    A user can list previously-requested builds or get builds by their ID to
+    determine the status of the build.
+    """
 
     def __init__(self, channel):
         """Constructor.
 
-    Args:
-      channel: A grpc.Channel.
-    """
+        Args:
+          channel: A grpc.Channel.
+        """
         self.CreateBuild = channel.unary_unary(
             "/google.devtools.cloudbuild.v1.CloudBuild/CreateBuild",
             request_serializer=google_dot_cloud_dot_devtools_dot_cloudbuild__v1_dot_proto_dot_cloudbuild__pb2.CreateBuildRequest.SerializeToString,
@@ -112,21 +112,21 @@ class CloudBuildStub(object):
 class CloudBuildServicer(object):
     """Creates and manages builds on Google Cloud Platform.
 
-  The main concept used by this API is a `Build`, which describes the location
-  of the source to build, how to build the source, and where to store the
-  built artifacts, if any.
+    The main concept used by this API is a `Build`, which describes the location
+    of the source to build, how to build the source, and where to store the
+    built artifacts, if any.
 
-  A user can list previously-requested builds or get builds by their ID to
-  determine the status of the build.
-  """
+    A user can list previously-requested builds or get builds by their ID to
+    determine the status of the build.
+    """
 
     def CreateBuild(self, request, context):
         """Starts a build with the specified configuration.
 
-    This method returns a long-running `Operation`, which includes the build
-    ID. Pass the build ID to `GetBuild` to determine the build status (such as
-    `SUCCESS` or `FAILURE`).
-    """
+        This method returns a long-running `Operation`, which includes the build
+        ID. Pass the build ID to `GetBuild` to determine the build status (such as
+        `SUCCESS` or `FAILURE`).
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -134,9 +134,9 @@ class CloudBuildServicer(object):
     def GetBuild(self, request, context):
         """Returns information about a previously requested build.
 
-    The `Build` that is returned includes its status (such as `SUCCESS`,
-    `FAILURE`, or `WORKING`), and timing information.
-    """
+        The `Build` that is returned includes its status (such as `SUCCESS`,
+        `FAILURE`, or `WORKING`), and timing information.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -144,16 +144,15 @@ class CloudBuildServicer(object):
     def ListBuilds(self, request, context):
         """Lists previously requested builds.
 
-    Previously requested builds may still be in-progress, or may have finished
-    successfully or unsuccessfully.
-    """
+        Previously requested builds may still be in-progress, or may have finished
+        successfully or unsuccessfully.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
     def CancelBuild(self, request, context):
-        """Cancels a build in progress.
-    """
+        """Cancels a build in progress."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -161,32 +160,32 @@ class CloudBuildServicer(object):
     def RetryBuild(self, request, context):
         """Creates a new build based on the specified build.
 
-    This method creates a new build using the original build request, which may
-    or may not result in an identical build.
+        This method creates a new build using the original build request, which may
+        or may not result in an identical build.
 
-    For triggered builds:
+        For triggered builds:
 
-    * Triggered builds resolve to a precise revision; therefore a retry of a
-    triggered build will result in a build that uses the same revision.
+        * Triggered builds resolve to a precise revision; therefore a retry of a
+        triggered build will result in a build that uses the same revision.
 
-    For non-triggered builds that specify `RepoSource`:
+        For non-triggered builds that specify `RepoSource`:
 
-    * If the original build built from the tip of a branch, the retried build
-    will build from the tip of that branch, which may not be the same revision
-    as the original build.
-    * If the original build specified a commit sha or revision ID, the retried
-    build will use the identical source.
+        * If the original build built from the tip of a branch, the retried build
+        will build from the tip of that branch, which may not be the same revision
+        as the original build.
+        * If the original build specified a commit sha or revision ID, the retried
+        build will use the identical source.
 
-    For builds that specify `StorageSource`:
+        For builds that specify `StorageSource`:
 
-    * If the original build pulled source from Google Cloud Storage without
-    specifying the generation of the object, the new build will use the current
-    object, which may be different from the original build source.
-    * If the original build pulled source from Cloud Storage and specified the
-    generation of the object, the new build will attempt to use the same
-    object, which may or may not be available depending on the bucket's
-    lifecycle management settings.
-    """
+        * If the original build pulled source from Google Cloud Storage without
+        specifying the generation of the object, the new build will use the current
+        object, which may be different from the original build source.
+        * If the original build pulled source from Cloud Storage and specified the
+        generation of the object, the new build will attempt to use the same
+        object, which may or may not be available depending on the bucket's
+        lifecycle management settings.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -194,8 +193,8 @@ class CloudBuildServicer(object):
     def CreateBuildTrigger(self, request, context):
         """Creates a new `BuildTrigger`.
 
-    This API is experimental.
-    """
+        This API is experimental.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -203,8 +202,8 @@ class CloudBuildServicer(object):
     def GetBuildTrigger(self, request, context):
         """Returns information about a `BuildTrigger`.
 
-    This API is experimental.
-    """
+        This API is experimental.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -212,8 +211,8 @@ class CloudBuildServicer(object):
     def ListBuildTriggers(self, request, context):
         """Lists existing `BuildTrigger`s.
 
-    This API is experimental.
-    """
+        This API is experimental.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -221,8 +220,8 @@ class CloudBuildServicer(object):
     def DeleteBuildTrigger(self, request, context):
         """Deletes a `BuildTrigger` by its project ID and trigger ID.
 
-    This API is experimental.
-    """
+        This API is experimental.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -230,15 +229,14 @@ class CloudBuildServicer(object):
     def UpdateBuildTrigger(self, request, context):
         """Updates a `BuildTrigger` by its project ID and trigger ID.
 
-    This API is experimental.
-    """
+        This API is experimental.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
 
     def RunBuildTrigger(self, request, context):
-        """Runs a `BuildTrigger` at a particular source revision.
-    """
+        """Runs a `BuildTrigger` at a particular source revision."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -246,8 +244,8 @@ class CloudBuildServicer(object):
     def CreateWorkerPool(self, request, context):
         """Creates a `WorkerPool` to run the builds, and returns the new worker pool.
 
-    This API is experimental.
-    """
+        This API is experimental.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -255,8 +253,8 @@ class CloudBuildServicer(object):
     def GetWorkerPool(self, request, context):
         """Returns information about a `WorkerPool`.
 
-    This API is experimental.
-    """
+        This API is experimental.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -264,8 +262,8 @@ class CloudBuildServicer(object):
     def DeleteWorkerPool(self, request, context):
         """Deletes a `WorkerPool` by its project ID and WorkerPool name.
 
-    This API is experimental.
-    """
+        This API is experimental.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -273,8 +271,8 @@ class CloudBuildServicer(object):
     def UpdateWorkerPool(self, request, context):
         """Update a `WorkerPool`.
 
-    This API is experimental.
-    """
+        This API is experimental.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
@@ -282,8 +280,8 @@ class CloudBuildServicer(object):
     def ListWorkerPools(self, request, context):
         """List project's `WorkerPool`s.
 
-    This API is experimental.
-    """
+        This API is experimental.
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details("Method not implemented!")
         raise NotImplementedError("Method not implemented!")
