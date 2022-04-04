@@ -4,6 +4,13 @@
 
 [1]: https://pypi.org/project/google-cloud-build/#history
 
+### [1.1.1](https://github.com/googleapis/python-cloudbuild/compare/v1.1.0...v1.1.1) (2022-04-04)
+
+
+### Bug Fixes
+
+* **deps:** require google-api-core >= 1.31.5, >= 2.3.2 on v1 release ([#245](https://github.com/googleapis/python-cloudbuild/issues/245)) ([d65eed3](https://github.com/googleapis/python-cloudbuild/commit/d65eed3e041d306caf657b2235a72f774355af6f))
+
 ## [1.1.0](https://www.github.com/googleapis/python-cloudbuild/compare/v1.0.0...v1.1.0) (2020-06-30)
 
 
