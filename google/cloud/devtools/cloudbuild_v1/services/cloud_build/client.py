@@ -54,7 +54,10 @@ class CloudBuildClientMeta(type):
     _transport_registry["grpc"] = CloudBuildGrpcTransport
     _transport_registry["grpc_asyncio"] = CloudBuildGrpcAsyncIOTransport
 
-    def get_transport_class(cls, label: str = None,) -> Type[CloudBuildTransport]:
+    def get_transport_class(
+        cls,
+        label: str = None,
+    ) -> Type[CloudBuildTransport]:
         """Return an appropriate transport class.
 
         Args:
@@ -321,7 +324,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Wrap the response in an operation future.
         response = operation.from_gapic(
@@ -424,7 +432,8 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+                    exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -432,7 +441,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
@@ -508,7 +522,8 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+                    exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -516,12 +531,20 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # This method is paged; wrap the response in a pager, which provides
         # an `__iter__` convenience method.
         response = pagers.ListBuildsPager(
-            method=rpc, request=request, response=response, metadata=metadata,
+            method=rpc,
+            request=request,
+            response=response,
+            metadata=metadata,
         )
 
         # Done; return the response.
@@ -613,7 +636,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
@@ -738,7 +766,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Wrap the response in an operation future.
         response = operation.from_gapic(
@@ -822,7 +855,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
@@ -899,7 +937,8 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+                    exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -907,7 +946,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
@@ -976,7 +1020,8 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+                    exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -984,12 +1029,20 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # This method is paged; wrap the response in a pager, which provides
         # an `__iter__` convenience method.
         response = pagers.ListBuildTriggersPager(
-            method=rpc, request=request, response=response, metadata=metadata,
+            method=rpc,
+            request=request,
+            response=response,
+            metadata=metadata,
         )
 
         # Done; return the response.
@@ -1058,7 +1111,8 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+                    exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -1067,7 +1121,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         # Send the request.
         rpc(
-            request, retry=retry, timeout=timeout, metadata=metadata,
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
         )
 
     def update_build_trigger(
@@ -1149,7 +1206,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
@@ -1254,7 +1316,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Wrap the response in an operation future.
         response = operation.from_gapic(
@@ -1320,7 +1387,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
@@ -1377,7 +1449,8 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+                    exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -1385,7 +1458,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
@@ -1426,7 +1504,10 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         # Send the request.
         rpc(
-            request, retry=retry, timeout=timeout, metadata=metadata,
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
         )
 
     def update_worker_pool(
@@ -1480,7 +1561,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
@@ -1524,7 +1610,8 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    exceptions.ServiceUnavailable, exceptions.DeadlineExceeded,
+                    exceptions.ServiceUnavailable,
+                    exceptions.DeadlineExceeded,
                 ),
             ),
             default_timeout=600.0,
@@ -1532,7 +1619,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         )
 
         # Send the request.
-        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
 
         # Done; return the response.
         return response
