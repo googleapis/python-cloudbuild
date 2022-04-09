@@ -16,7 +16,7 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Optional, Sequence, Tuple, Type, Union
+from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union
 import pkg_resources
 
 from google.api_core import client_options as client_options_lib
@@ -614,7 +614,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_create_build():
                 # Create a client
@@ -750,7 +750,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_get_build():
                 # Create a client
@@ -869,7 +869,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_list_builds():
                 # Create a client
@@ -977,7 +977,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_cancel_build():
                 # Create a client
@@ -1123,7 +1123,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_retry_build():
                 # Create a client
@@ -1262,7 +1262,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_approve_build():
                 # Create a client
@@ -1405,7 +1405,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_create_build_trigger():
                 # Create a client
@@ -1510,7 +1510,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_get_build_trigger():
                 # Create a client
@@ -1613,7 +1613,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_list_build_triggers():
                 # Create a client
@@ -1718,7 +1718,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_delete_build_trigger():
                 # Create a client
@@ -1807,7 +1807,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_update_build_trigger():
                 # Create a client
@@ -1918,7 +1918,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_run_build_trigger():
                 # Create a client
@@ -2058,7 +2058,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_receive_trigger_webhook():
                 # Create a client
@@ -2129,7 +2129,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_create_worker_pool():
                 # Create a client
@@ -2275,7 +2275,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_get_worker_pool():
                 # Create a client
@@ -2384,7 +2384,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_delete_worker_pool():
                 # Create a client
@@ -2505,7 +2505,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_update_worker_pool():
                 # Create a client
@@ -2641,7 +2641,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         .. code-block:: python
 
-            from google.cloud.devtools import cloudbuild_v1
+                    from google.cloud.devtools import cloudbuild_v1
 
             def sample_list_worker_pools():
                 # Create a client
