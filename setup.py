@@ -29,8 +29,9 @@ version = "2.0.1"
 release_status = "Development Status :: 5 - Production/Stable"
 dependencies = [
     "google-api-core[grpc] >= 1.31.5, <3.0.0dev,!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.0",
-    "proto-plus >= 0.4.0",
-    "libcst >= 0.2.5",
+    "proto-plus >= 0.4.0, <2.0.0dev",
+    "libcst >= 0.2.5, <1.0.0dev",
+    "protobuf<4.0.0dev",
 ]
 
 package_root = os.path.abspath(os.path.dirname(__file__))
