@@ -3,7 +3,7 @@ Python Client for Cloud Build API
 
 |stable| |pypi| |versions|
 
-`Cloud Build API`_: 
+`Cloud Build API`_: lets you build software quickly across all languages. Get complete control over defining custom workflows for building, testing, and deploying across multiple environments such as VMs, serverless, Kubernetes, or Firebase.
 
 - `Client Library Documentation`_
 - `Product Documentation`_
