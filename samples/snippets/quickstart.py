@@ -30,6 +30,7 @@ def quickstart():
     # If you're using Private Pools or a non-global default pool, add a regional
     # `api_endpoint` to `CloudBuildClient()`
     # For example, '<YOUR_POOL_REGION>-cloudbuild.googleapis.com'
+    #
     # client_options = client_options.ClientOptions(
     #     api_endpoint="us-central1-cloudbuild.googleapis.com"
     # )
