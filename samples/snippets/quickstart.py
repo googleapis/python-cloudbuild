@@ -16,7 +16,6 @@
 # [START cloudbuild_quickstart]
 import google.auth
 from google.cloud.devtools import cloudbuild_v1
-from google.api_core import client_options
 
 
 def quickstart():
@@ -31,6 +30,7 @@ def quickstart():
     # `api_endpoint` to `CloudBuildClient()`
     # For example, '<YOUR_POOL_REGION>-cloudbuild.googleapis.com'
     #
+    # from google.api_core import client_options
     # client_options = client_options.ClientOptions(
     #     api_endpoint="us-central1-cloudbuild.googleapis.com"
     # )
