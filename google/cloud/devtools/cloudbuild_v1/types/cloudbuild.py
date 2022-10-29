@@ -31,6 +31,8 @@ __protobuf__ = proto.module(
         "StorageSourceManifest",
         "Source",
         "BuiltImage",
+        "UploadedPythonPackage",
+        "UploadedMavenArtifact",
         "BuildStep",
         "Volume",
         "Results",
@@ -380,6 +382,64 @@ class BuiltImage(proto.Message):
     )
 
 
+class UploadedPythonPackage(proto.Message):
+    r"""Artifact uploaded using the PythonPackage directive.
+
+    Attributes:
+        uri (str):
+            URI of the uploaded artifact.
+        file_hashes (google.cloud.devtools.cloudbuild_v1.types.FileHashes):
+            Hash types and values of the Python Artifact.
+        push_timing (google.cloud.devtools.cloudbuild_v1.types.TimeSpan):
+            Output only. Stores timing information for
+            pushing the specified artifact.
+    """
+
+    uri = proto.Field(
+        proto.STRING,
+        number=1,
+    )
+    file_hashes = proto.Field(
+        proto.MESSAGE,
+        number=2,
+        message="FileHashes",
+    )
+    push_timing = proto.Field(
+        proto.MESSAGE,
+        number=3,
+        message="TimeSpan",
+    )
+
+
+class UploadedMavenArtifact(proto.Message):
+    r"""A Maven artifact uploaded using the MavenArtifact directive.
+
+    Attributes:
+        uri (str):
+            URI of the uploaded artifact.
+        file_hashes (google.cloud.devtools.cloudbuild_v1.types.FileHashes):
+            Hash types and values of the Maven Artifact.
+        push_timing (google.cloud.devtools.cloudbuild_v1.types.TimeSpan):
+            Output only. Stores timing information for
+            pushing the specified artifact.
+    """
+
+    uri = proto.Field(
+        proto.STRING,
+        number=1,
+    )
+    file_hashes = proto.Field(
+        proto.MESSAGE,
+        number=2,
+        message="FileHashes",
+    )
+    push_timing = proto.Field(
+        proto.MESSAGE,
+        number=3,
+        message="TimeSpan",
+    )
+
+
 class BuildStep(proto.Message):
     r"""A step in the build pipeline.
 
@@ -627,6 +687,12 @@ class Results(proto.Message):
             stored.
         artifact_timing (google.cloud.devtools.cloudbuild_v1.types.TimeSpan):
             Time to push all non-container artifacts.
+        python_packages (Sequence[google.cloud.devtools.cloudbuild_v1.types.UploadedPythonPackage]):
+            Python artifacts uploaded to Artifact
+            Registry at the end of the build.
+        maven_artifacts (Sequence[google.cloud.devtools.cloudbuild_v1.types.UploadedMavenArtifact]):
+            Maven artifacts uploaded to Artifact Registry
+            at the end of the build.
     """
 
     images = proto.RepeatedField(
@@ -654,6 +720,16 @@ class Results(proto.Message):
         proto.MESSAGE,
         number=7,
         message="TimeSpan",
+    )
+    python_packages = proto.RepeatedField(
+        proto.MESSAGE,
+        number=8,
+        message="UploadedPythonPackage",
+    )
+    maven_artifacts = proto.RepeatedField(
+        proto.MESSAGE,
+        number=9,
+        message="UploadedMavenArtifact",
     )
 
 
@@ -1068,6 +1144,25 @@ class Artifacts(proto.Message):
 
             If any objects fail to be pushed, the build is
             marked FAILURE.
+        maven_artifacts (Sequence[google.cloud.devtools.cloudbuild_v1.types.Artifacts.MavenArtifact]):
+            A list of Maven artifacts to be uploaded to
+            Artifact Registry upon successful completion of
+            all build steps.
+            Artifacts in the workspace matching specified
+            paths globs will be uploaded to the specified
+            Artifact Registry repository using the builder
+            service account's credentials.
+
+            If any artifacts fail to be pushed, the build is
+            marked FAILURE.
+        python_packages (Sequence[google.cloud.devtools.cloudbuild_v1.types.Artifacts.PythonPackage]):
+            A list of Python packages to be uploaded to
+            Artifact Registry upon successful completion of
+            all build steps.
+            The build service account credentials will be
+            used to perform the upload.
+            If any objects fail to be pushed, the build is
+            marked FAILURE.
     """
 
     class ArtifactObjects(proto.Message):
@@ -1104,6 +1199,84 @@ class Artifacts(proto.Message):
             message="TimeSpan",
         )
 
+    class MavenArtifact(proto.Message):
+        r"""A Maven artifact to upload to Artifact Registry upon
+        successful completion of all build steps.
+
+        Attributes:
+            repository (str):
+                Artifact Registry repository, in the form
+                "https://$REGION-maven.pkg.dev/$PROJECT/$REPOSITORY"
+                Artifact in the workspace specified by path will
+                be uploaded to Artifact Registry with this
+                location as a prefix.
+            path (str):
+                Path to an artifact in the build's workspace
+                to be uploaded to Artifact Registry.
+                This can be either an absolute path,
+                e.g.
+                /workspace/my-app/target/my-app-1.0.SNAPSHOT.jar
+                or a relative path from /workspace,
+                e.g. my-app/target/my-app-1.0.SNAPSHOT.jar.
+            artifact_id (str):
+                Maven ``artifactId`` value used when uploading the artifact
+                to Artifact Registry.
+            group_id (str):
+                Maven ``groupId`` value used when uploading the artifact to
+                Artifact Registry.
+            version (str):
+                Maven ``version`` value used when uploading the artifact to
+                Artifact Registry.
+        """
+
+        repository = proto.Field(
+            proto.STRING,
+            number=1,
+        )
+        path = proto.Field(
+            proto.STRING,
+            number=2,
+        )
+        artifact_id = proto.Field(
+            proto.STRING,
+            number=3,
+        )
+        group_id = proto.Field(
+            proto.STRING,
+            number=4,
+        )
+        version = proto.Field(
+            proto.STRING,
+            number=5,
+        )
+
+    class PythonPackage(proto.Message):
+        r"""Python package to upload to Artifact Registry upon successful
+        completion of all build steps. A package can encapsulate
+        multiple objects to be uploaded to a single repository.
+
+        Attributes:
+            repository (str):
+                Artifact Registry repository, in the form
+                "https://$REGION-python.pkg.dev/$PROJECT/$REPOSITORY"
+                Files in the workspace matching any path pattern
+                will be uploaded to Artifact Registry with this
+                location as a prefix.
+            paths (Sequence[str]):
+                Path globs used to match files in the build's workspace. For
+                Python/ Twine, this is usually ``dist/*``, and sometimes
+                additionally an ``.asc`` file.
+        """
+
+        repository = proto.Field(
+            proto.STRING,
+            number=1,
+        )
+        paths = proto.RepeatedField(
+            proto.STRING,
+            number=2,
+        )
+
     images = proto.RepeatedField(
         proto.STRING,
         number=1,
@@ -1112,6 +1285,16 @@ class Artifacts(proto.Message):
         proto.MESSAGE,
         number=2,
         message=ArtifactObjects,
+    )
+    maven_artifacts = proto.RepeatedField(
+        proto.MESSAGE,
+        number=3,
+        message=MavenArtifact,
+    )
+    python_packages = proto.RepeatedField(
+        proto.MESSAGE,
+        number=5,
+        message=PythonPackage,
     )
 
 
