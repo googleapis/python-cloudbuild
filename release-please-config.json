@@ -9,6 +9,11 @@
           "type": "json",
           "path": "samples/generated_samples/snippet_metadata_cloudbuild_v1.json",
           "jsonpath": "$.clientLibrary.version"
+        },
+        {
+          "type": "json",
+          "path": "samples/generated_samples/snippet_metadata_google.devtools.cloudbuild.v1.json",
+          "jsonpath": "$.clientLibrary.version"
         }
       ]
     }
