@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 from collections import OrderedDict
-import functools
+import os
 import re
 from typing import (
     Dict,
@@ -26,15 +26,19 @@ from typing import (
     Tuple,
     Type,
     Union,
+    cast,
 )
 
-from google.devtools.cloudbuild_v2 import gapic_version as package_version
+from google.cloud.devtools.cloudbuild_v2 import gapic_version as package_version
 
-from google.api_core.client_options import ClientOptions
+from google.api_core import client_options as client_options_lib
 from google.api_core import exceptions as core_exceptions
 from google.api_core import gapic_v1
 from google.api_core import retry as retries
 from google.auth import credentials as ga_credentials  # type: ignore
+from google.auth.transport import mtls  # type: ignore
+from google.auth.transport.grpc import SslCredentials  # type: ignore
+from google.auth.exceptions import MutualTLSChannelError  # type: ignore
 from google.oauth2 import service_account  # type: ignore
 
 try:
@@ -44,10 +48,10 @@ except AttributeError:  # pragma: NO COVER
 
 from google.api_core import operation  # type: ignore
 from google.api_core import operation_async  # type: ignore
+from google.cloud.devtools.cloudbuild_v2.services.repository_manager import pagers
+from google.cloud.devtools.cloudbuild_v2.types import cloudbuild
+from google.cloud.devtools.cloudbuild_v2.types import repositories
 from google.cloud.location import locations_pb2  # type: ignore
-from google.devtools.cloudbuild_v2.services.repository_manager import pagers
-from google.devtools.cloudbuild_v2.types import cloudbuild
-from google.devtools.cloudbuild_v2.types import repositories
 from google.iam.v1 import iam_policy_pb2  # type: ignore
 from google.iam.v1 import policy_pb2  # type: ignore
 from google.longrunning import operations_pb2
@@ -55,51 +59,84 @@ from google.protobuf import empty_pb2  # type: ignore
 from google.protobuf import field_mask_pb2  # type: ignore
 from google.protobuf import timestamp_pb2  # type: ignore
 from .transports.base import RepositoryManagerTransport, DEFAULT_CLIENT_INFO
+from .transports.grpc import RepositoryManagerGrpcTransport
 from .transports.grpc_asyncio import RepositoryManagerGrpcAsyncIOTransport
-from .client import RepositoryManagerClient
+from .transports.rest import RepositoryManagerRestTransport
 
 
-class RepositoryManagerAsyncClient:
+class RepositoryManagerClientMeta(type):
+    """Metaclass for the RepositoryManager client.
+
+    This provides class-level methods for building and retrieving
+    support objects (e.g. transport) without polluting the client instance
+    objects.
+    """
+
+    _transport_registry = (
+        OrderedDict()
+    )  # type: Dict[str, Type[RepositoryManagerTransport]]
+    _transport_registry["grpc"] = RepositoryManagerGrpcTransport
+    _transport_registry["grpc_asyncio"] = RepositoryManagerGrpcAsyncIOTransport
+    _transport_registry["rest"] = RepositoryManagerRestTransport
+
+    def get_transport_class(
+        cls,
+        label: Optional[str] = None,
+    ) -> Type[RepositoryManagerTransport]:
+        """Returns an appropriate transport class.
+
+        Args:
+            label: The name of the desired transport. If none is
+                provided, then the first transport in the registry is used.
+
+        Returns:
+            The transport class to use.
+        """
+        # If a specific transport is requested, return that one.
+        if label:
+            return cls._transport_registry[label]
+
+        # No transport is requested; return the default (that is, the first one
+        # in the dictionary).
+        return next(iter(cls._transport_registry.values()))
+
+
+class RepositoryManagerClient(metaclass=RepositoryManagerClientMeta):
     """Manages connections to source code repostiories."""
 
-    _client: RepositoryManagerClient
+    @staticmethod
+    def _get_default_mtls_endpoint(api_endpoint):
+        """Converts api endpoint to mTLS endpoint.
 
-    DEFAULT_ENDPOINT = RepositoryManagerClient.DEFAULT_ENDPOINT
-    DEFAULT_MTLS_ENDPOINT = RepositoryManagerClient.DEFAULT_MTLS_ENDPOINT
+        Convert "*.sandbox.googleapis.com" and "*.googleapis.com" to
+        "*.mtls.sandbox.googleapis.com" and "*.mtls.googleapis.com" respectively.
+        Args:
+            api_endpoint (Optional[str]): the api endpoint to convert.
+        Returns:
+            str: converted mTLS api endpoint.
+        """
+        if not api_endpoint:
+            return api_endpoint
 
-    connection_path = staticmethod(RepositoryManagerClient.connection_path)
-    parse_connection_path = staticmethod(RepositoryManagerClient.parse_connection_path)
-    repository_path = staticmethod(RepositoryManagerClient.repository_path)
-    parse_repository_path = staticmethod(RepositoryManagerClient.parse_repository_path)
-    secret_version_path = staticmethod(RepositoryManagerClient.secret_version_path)
-    parse_secret_version_path = staticmethod(
-        RepositoryManagerClient.parse_secret_version_path
-    )
-    service_path = staticmethod(RepositoryManagerClient.service_path)
-    parse_service_path = staticmethod(RepositoryManagerClient.parse_service_path)
-    common_billing_account_path = staticmethod(
-        RepositoryManagerClient.common_billing_account_path
-    )
-    parse_common_billing_account_path = staticmethod(
-        RepositoryManagerClient.parse_common_billing_account_path
-    )
-    common_folder_path = staticmethod(RepositoryManagerClient.common_folder_path)
-    parse_common_folder_path = staticmethod(
-        RepositoryManagerClient.parse_common_folder_path
-    )
-    common_organization_path = staticmethod(
-        RepositoryManagerClient.common_organization_path
-    )
-    parse_common_organization_path = staticmethod(
-        RepositoryManagerClient.parse_common_organization_path
-    )
-    common_project_path = staticmethod(RepositoryManagerClient.common_project_path)
-    parse_common_project_path = staticmethod(
-        RepositoryManagerClient.parse_common_project_path
-    )
-    common_location_path = staticmethod(RepositoryManagerClient.common_location_path)
-    parse_common_location_path = staticmethod(
-        RepositoryManagerClient.parse_common_location_path
+        mtls_endpoint_re = re.compile(
+            r"(?P<name>[^.]+)(?P<mtls>\.mtls)?(?P<sandbox>\.sandbox)?(?P<googledomain>\.googleapis\.com)?"
+        )
+
+        m = mtls_endpoint_re.match(api_endpoint)
+        name, mtls, sandbox, googledomain = m.groups()
+        if mtls or not googledomain:
+            return api_endpoint
+
+        if sandbox:
+            return api_endpoint.replace(
+                "sandbox.googleapis.com", "mtls.sandbox.googleapis.com"
+            )
+
+        return api_endpoint.replace(".googleapis.com", ".mtls.googleapis.com")
+
+    DEFAULT_ENDPOINT = "cloudbuild.googleapis.com"
+    DEFAULT_MTLS_ENDPOINT = _get_default_mtls_endpoint.__func__(  # type: ignore
+        DEFAULT_ENDPOINT
     )
 
     @classmethod
@@ -113,9 +150,11 @@ class RepositoryManagerAsyncClient:
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            RepositoryManagerAsyncClient: The constructed client.
+            RepositoryManagerClient: The constructed client.
         """
-        return RepositoryManagerClient.from_service_account_info.__func__(RepositoryManagerAsyncClient, info, *args, **kwargs)  # type: ignore
+        credentials = service_account.Credentials.from_service_account_info(info)
+        kwargs["credentials"] = credentials
+        return cls(*args, **kwargs)
 
     @classmethod
     def from_service_account_file(cls, filename: str, *args, **kwargs):
@@ -129,15 +168,198 @@ class RepositoryManagerAsyncClient:
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            RepositoryManagerAsyncClient: The constructed client.
+            RepositoryManagerClient: The constructed client.
         """
-        return RepositoryManagerClient.from_service_account_file.__func__(RepositoryManagerAsyncClient, filename, *args, **kwargs)  # type: ignore
+        credentials = service_account.Credentials.from_service_account_file(filename)
+        kwargs["credentials"] = credentials
+        return cls(*args, **kwargs)
 
     from_service_account_json = from_service_account_file
 
+    @property
+    def transport(self) -> RepositoryManagerTransport:
+        """Returns the transport used by the client instance.
+
+        Returns:
+            RepositoryManagerTransport: The transport used by the client
+                instance.
+        """
+        return self._transport
+
+    @staticmethod
+    def connection_path(
+        project: str,
+        location: str,
+        connection: str,
+    ) -> str:
+        """Returns a fully-qualified connection string."""
+        return (
+            "projects/{project}/locations/{location}/connections/{connection}".format(
+                project=project,
+                location=location,
+                connection=connection,
+            )
+        )
+
+    @staticmethod
+    def parse_connection_path(path: str) -> Dict[str, str]:
+        """Parses a connection path into its component segments."""
+        m = re.match(
+            r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/connections/(?P<connection>.+?)$",
+            path,
+        )
+        return m.groupdict() if m else {}
+
+    @staticmethod
+    def repository_path(
+        project: str,
+        location: str,
+        connection: str,
+        repository: str,
+    ) -> str:
+        """Returns a fully-qualified repository string."""
+        return "projects/{project}/locations/{location}/connections/{connection}/repositories/{repository}".format(
+            project=project,
+            location=location,
+            connection=connection,
+            repository=repository,
+        )
+
+    @staticmethod
+    def parse_repository_path(path: str) -> Dict[str, str]:
+        """Parses a repository path into its component segments."""
+        m = re.match(
+            r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/connections/(?P<connection>.+?)/repositories/(?P<repository>.+?)$",
+            path,
+        )
+        return m.groupdict() if m else {}
+
+    @staticmethod
+    def secret_version_path(
+        project: str,
+        secret: str,
+        version: str,
+    ) -> str:
+        """Returns a fully-qualified secret_version string."""
+        return "projects/{project}/secrets/{secret}/versions/{version}".format(
+            project=project,
+            secret=secret,
+            version=version,
+        )
+
+    @staticmethod
+    def parse_secret_version_path(path: str) -> Dict[str, str]:
+        """Parses a secret_version path into its component segments."""
+        m = re.match(
+            r"^projects/(?P<project>.+?)/secrets/(?P<secret>.+?)/versions/(?P<version>.+?)$",
+            path,
+        )
+        return m.groupdict() if m else {}
+
+    @staticmethod
+    def service_path(
+        project: str,
+        location: str,
+        namespace: str,
+        service: str,
+    ) -> str:
+        """Returns a fully-qualified service string."""
+        return "projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}".format(
+            project=project,
+            location=location,
+            namespace=namespace,
+            service=service,
+        )
+
+    @staticmethod
+    def parse_service_path(path: str) -> Dict[str, str]:
+        """Parses a service path into its component segments."""
+        m = re.match(
+            r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/namespaces/(?P<namespace>.+?)/services/(?P<service>.+?)$",
+            path,
+        )
+        return m.groupdict() if m else {}
+
+    @staticmethod
+    def common_billing_account_path(
+        billing_account: str,
+    ) -> str:
+        """Returns a fully-qualified billing_account string."""
+        return "billingAccounts/{billing_account}".format(
+            billing_account=billing_account,
+        )
+
+    @staticmethod
+    def parse_common_billing_account_path(path: str) -> Dict[str, str]:
+        """Parse a billing_account path into its component segments."""
+        m = re.match(r"^billingAccounts/(?P<billing_account>.+?)$", path)
+        return m.groupdict() if m else {}
+
+    @staticmethod
+    def common_folder_path(
+        folder: str,
+    ) -> str:
+        """Returns a fully-qualified folder string."""
+        return "folders/{folder}".format(
+            folder=folder,
+        )
+
+    @staticmethod
+    def parse_common_folder_path(path: str) -> Dict[str, str]:
+        """Parse a folder path into its component segments."""
+        m = re.match(r"^folders/(?P<folder>.+?)$", path)
+        return m.groupdict() if m else {}
+
+    @staticmethod
+    def common_organization_path(
+        organization: str,
+    ) -> str:
+        """Returns a fully-qualified organization string."""
+        return "organizations/{organization}".format(
+            organization=organization,
+        )
+
+    @staticmethod
+    def parse_common_organization_path(path: str) -> Dict[str, str]:
+        """Parse a organization path into its component segments."""
+        m = re.match(r"^organizations/(?P<organization>.+?)$", path)
+        return m.groupdict() if m else {}
+
+    @staticmethod
+    def common_project_path(
+        project: str,
+    ) -> str:
+        """Returns a fully-qualified project string."""
+        return "projects/{project}".format(
+            project=project,
+        )
+
+    @staticmethod
+    def parse_common_project_path(path: str) -> Dict[str, str]:
+        """Parse a project path into its component segments."""
+        m = re.match(r"^projects/(?P<project>.+?)$", path)
+        return m.groupdict() if m else {}
+
+    @staticmethod
+    def common_location_path(
+        project: str,
+        location: str,
+    ) -> str:
+        """Returns a fully-qualified location string."""
+        return "projects/{project}/locations/{location}".format(
+            project=project,
+            location=location,
+        )
+
+    @staticmethod
+    def parse_common_location_path(path: str) -> Dict[str, str]:
+        """Parse a location path into its component segments."""
+        m = re.match(r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)$", path)
+        return m.groupdict() if m else {}
+
     @classmethod
     def get_mtls_endpoint_and_cert_source(
-        cls, client_options: Optional[ClientOptions] = None
+        cls, client_options: Optional[client_options_lib.ClientOptions] = None
     ):
         """Return the API endpoint and client cert source for mutual TLS.
 
@@ -169,27 +391,45 @@ class RepositoryManagerAsyncClient:
         Raises:
             google.auth.exceptions.MutualTLSChannelError: If any errors happen.
         """
-        return RepositoryManagerClient.get_mtls_endpoint_and_cert_source(client_options)  # type: ignore
+        if client_options is None:
+            client_options = client_options_lib.ClientOptions()
+        use_client_cert = os.getenv("GOOGLE_API_USE_CLIENT_CERTIFICATE", "false")
+        use_mtls_endpoint = os.getenv("GOOGLE_API_USE_MTLS_ENDPOINT", "auto")
+        if use_client_cert not in ("true", "false"):
+            raise ValueError(
+                "Environment variable `GOOGLE_API_USE_CLIENT_CERTIFICATE` must be either `true` or `false`"
+            )
+        if use_mtls_endpoint not in ("auto", "never", "always"):
+            raise MutualTLSChannelError(
+                "Environment variable `GOOGLE_API_USE_MTLS_ENDPOINT` must be `never`, `auto` or `always`"
+            )
 
-    @property
-    def transport(self) -> RepositoryManagerTransport:
-        """Returns the transport used by the client instance.
+        # Figure out the client cert source to use.
+        client_cert_source = None
+        if use_client_cert == "true":
+            if client_options.client_cert_source:
+                client_cert_source = client_options.client_cert_source
+            elif mtls.has_default_client_cert_source():
+                client_cert_source = mtls.default_client_cert_source()
 
-        Returns:
-            RepositoryManagerTransport: The transport used by the client instance.
-        """
-        return self._client.transport
+        # Figure out which api endpoint to use.
+        if client_options.api_endpoint is not None:
+            api_endpoint = client_options.api_endpoint
+        elif use_mtls_endpoint == "always" or (
+            use_mtls_endpoint == "auto" and client_cert_source
+        ):
+            api_endpoint = cls.DEFAULT_MTLS_ENDPOINT
+        else:
+            api_endpoint = cls.DEFAULT_ENDPOINT
 
-    get_transport_class = functools.partial(
-        type(RepositoryManagerClient).get_transport_class, type(RepositoryManagerClient)
-    )
+        return api_endpoint, client_cert_source
 
     def __init__(
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Union[str, RepositoryManagerTransport] = "grpc_asyncio",
-        client_options: Optional[ClientOptions] = None,
+        transport: Optional[Union[str, RepositoryManagerTransport]] = None,
+        client_options: Optional[Union[client_options_lib.ClientOptions, dict]] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
         """Instantiates the repository manager client.
@@ -200,11 +440,11 @@ class RepositoryManagerAsyncClient:
                 credentials identify the application to the service; if none
                 are specified, the client will attempt to ascertain the
                 credentials from the environment.
-            transport (Union[str, ~.RepositoryManagerTransport]): The
+            transport (Union[str, RepositoryManagerTransport]): The
                 transport to use. If set to None, a transport is chosen
                 automatically.
-            client_options (ClientOptions): Custom options for the client. It
-                won't take effect if a ``transport`` instance is provided.
+            client_options (Optional[Union[google.api_core.client_options.ClientOptions, dict]]): Custom options for the
+                client. It won't take effect if a ``transport`` instance is provided.
                 (1) The ``api_endpoint`` property can be used to override the
                 default endpoint provided by the client. GOOGLE_API_USE_MTLS_ENDPOINT
                 environment variable can also be used to override the endpoint:
@@ -219,19 +459,72 @@ class RepositoryManagerAsyncClient:
                 not provided, the default SSL client certificate will be used if
                 present. If GOOGLE_API_USE_CLIENT_CERTIFICATE is "false" or not
                 set, no client certificate will be used.
+            client_info (google.api_core.gapic_v1.client_info.ClientInfo):
+                The client info used to send a user-agent string along with
+                API requests. If ``None``, then default info will be used.
+                Generally, you only need to set this if you're developing
+                your own client library.
 
         Raises:
-            google.auth.exceptions.MutualTlsChannelError: If mutual TLS transport
+            google.auth.exceptions.MutualTLSChannelError: If mutual TLS transport
                 creation failed for any reason.
         """
-        self._client = RepositoryManagerClient(
-            credentials=credentials,
-            transport=transport,
-            client_options=client_options,
-            client_info=client_info,
+        if isinstance(client_options, dict):
+            client_options = client_options_lib.from_dict(client_options)
+        if client_options is None:
+            client_options = client_options_lib.ClientOptions()
+        client_options = cast(client_options_lib.ClientOptions, client_options)
+
+        api_endpoint, client_cert_source_func = self.get_mtls_endpoint_and_cert_source(
+            client_options
         )
 
-    async def create_connection(
+        api_key_value = getattr(client_options, "api_key", None)
+        if api_key_value and credentials:
+            raise ValueError(
+                "client_options.api_key and credentials are mutually exclusive"
+            )
+
+        # Save or instantiate the transport.
+        # Ordinarily, we provide the transport, but allowing a custom transport
+        # instance provides an extensibility point for unusual situations.
+        if isinstance(transport, RepositoryManagerTransport):
+            # transport is a RepositoryManagerTransport instance.
+            if credentials or client_options.credentials_file or api_key_value:
+                raise ValueError(
+                    "When providing a transport instance, "
+                    "provide its credentials directly."
+                )
+            if client_options.scopes:
+                raise ValueError(
+                    "When providing a transport instance, provide its scopes "
+                    "directly."
+                )
+            self._transport = transport
+        else:
+            import google.auth._default  # type: ignore
+
+            if api_key_value and hasattr(
+                google.auth._default, "get_api_key_credentials"
+            ):
+                credentials = google.auth._default.get_api_key_credentials(
+                    api_key_value
+                )
+
+            Transport = type(self).get_transport_class(transport)
+            self._transport = Transport(
+                credentials=credentials,
+                credentials_file=client_options.credentials_file,
+                host=api_endpoint,
+                scopes=client_options.scopes,
+                client_cert_source_for_mtls=client_cert_source_func,
+                quota_project_id=client_options.quota_project_id,
+                client_info=client_info,
+                always_use_jwt_access=True,
+                api_audience=client_options.api_audience,
+            )
+
+    def create_connection(
         self,
         request: Optional[Union[repositories.CreateConnectionRequest, dict]] = None,
         *,
@@ -241,7 +534,7 @@ class RepositoryManagerAsyncClient:
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation_async.AsyncOperation:
+    ) -> operation.Operation:
         r"""Creates a Connection.
 
         .. code-block:: python
@@ -253,11 +546,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_create_connection():
+            def sample_create_connection():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 request = cloudbuild_v2.CreateConnectionRequest(
@@ -270,27 +563,27 @@ class RepositoryManagerAsyncClient:
 
                 print("Waiting for operation to complete...")
 
-                response = (await operation).result()
+                response = operation.result()
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.CreateConnectionRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.CreateConnectionRequest, dict]):
                 The request object. Message for creating a Connection
-            parent (:class:`str`):
+            parent (str):
                 Required. Project and location where the connection will
                 be created. Format: ``projects/*/locations/*``.
 
                 This corresponds to the ``parent`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-            connection (:class:`google.devtools.cloudbuild_v2.types.Connection`):
+            connection (google.cloud.devtools.cloudbuild_v2.types.Connection):
                 Required. The Connection to create.
                 This corresponds to the ``connection`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-            connection_id (:class:`str`):
+            connection_id (str):
                 Required. The ID to use for the Connection, which will
                 become the final component of the Connection's resource
                 name. Names must be unique per-project per-location.
@@ -307,10 +600,10 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.api_core.operation_async.AsyncOperation:
+            google.api_core.operation.Operation:
                 An object representing a long-running operation.
 
-                The result type for the operation will be :class:`google.devtools.cloudbuild_v2.types.Connection` A connection to a SCM like GitHub, GitHub Enterprise, Bitbucket Server or
+                The result type for the operation will be :class:`google.cloud.devtools.cloudbuild_v2.types.Connection` A connection to a SCM like GitHub, GitHub Enterprise, Bitbucket Server or
                    GitLab.
 
         """
@@ -324,24 +617,24 @@ class RepositoryManagerAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = repositories.CreateConnectionRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if parent is not None:
-            request.parent = parent
-        if connection is not None:
-            request.connection = connection
-        if connection_id is not None:
-            request.connection_id = connection_id
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.CreateConnectionRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.CreateConnectionRequest):
+            request = repositories.CreateConnectionRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if parent is not None:
+                request.parent = parent
+            if connection is not None:
+                request.connection = connection
+            if connection_id is not None:
+                request.connection_id = connection_id
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.create_connection,
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.create_connection]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -350,7 +643,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -358,9 +651,9 @@ class RepositoryManagerAsyncClient:
         )
 
         # Wrap the response in an operation future.
-        response = operation_async.from_gapic(
+        response = operation.from_gapic(
             response,
-            self._client._transport.operations_client,
+            self._transport.operations_client,
             repositories.Connection,
             metadata_type=cloudbuild.OperationMetadata,
         )
@@ -368,7 +661,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def get_connection(
+    def get_connection(
         self,
         request: Optional[Union[repositories.GetConnectionRequest, dict]] = None,
         *,
@@ -388,11 +681,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_get_connection():
+            def sample_get_connection():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 request = cloudbuild_v2.GetConnectionRequest(
@@ -400,16 +693,16 @@ class RepositoryManagerAsyncClient:
                 )
 
                 # Make the request
-                response = await client.get_connection(request=request)
+                response = client.get_connection(request=request)
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.GetConnectionRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.GetConnectionRequest, dict]):
                 The request object. Message for getting the details of a
                 Connection.
-            name (:class:`str`):
+            name (str):
                 Required. The name of the Connection to retrieve.
                 Format: ``projects/*/locations/*/connections/*``.
 
@@ -423,7 +716,7 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.devtools.cloudbuild_v2.types.Connection:
+            google.cloud.devtools.cloudbuild_v2.types.Connection:
                 A connection to a SCM like GitHub,
                 GitHub Enterprise, Bitbucket Server or
                 GitLab.
@@ -439,29 +732,20 @@ class RepositoryManagerAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = repositories.GetConnectionRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if name is not None:
-            request.name = name
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.GetConnectionRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.GetConnectionRequest):
+            request = repositories.GetConnectionRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.get_connection,
-            default_retry=retries.Retry(
-                initial=1.0,
-                maximum=10.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    core_exceptions.ServiceUnavailable,
-                ),
-                deadline=60.0,
-            ),
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.get_connection]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -470,7 +754,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -480,7 +764,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def list_connections(
+    def list_connections(
         self,
         request: Optional[Union[repositories.ListConnectionsRequest, dict]] = None,
         *,
@@ -488,7 +772,7 @@ class RepositoryManagerAsyncClient:
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> pagers.ListConnectionsAsyncPager:
+    ) -> pagers.ListConnectionsPager:
         r"""Lists Connections in a given project and location.
 
         .. code-block:: python
@@ -500,11 +784,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_list_connections():
+            def sample_list_connections():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 request = cloudbuild_v2.ListConnectionsRequest(
@@ -515,14 +799,14 @@ class RepositoryManagerAsyncClient:
                 page_result = client.list_connections(request=request)
 
                 # Handle the response
-                async for response in page_result:
+                for response in page_result:
                     print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.ListConnectionsRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.ListConnectionsRequest, dict]):
                 The request object. Message for requesting list of
                 Connections.
-            parent (:class:`str`):
+            parent (str):
                 Required. The parent, which owns this collection of
                 Connections. Format: ``projects/*/locations/*``.
 
@@ -536,7 +820,7 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.devtools.cloudbuild_v2.services.repository_manager.pagers.ListConnectionsAsyncPager:
+            google.cloud.devtools.cloudbuild_v2.services.repository_manager.pagers.ListConnectionsPager:
                 Message for response to listing
                 Connections.
                 Iterating over this object will yield
@@ -554,29 +838,20 @@ class RepositoryManagerAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = repositories.ListConnectionsRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if parent is not None:
-            request.parent = parent
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.ListConnectionsRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.ListConnectionsRequest):
+            request = repositories.ListConnectionsRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if parent is not None:
+                request.parent = parent
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.list_connections,
-            default_retry=retries.Retry(
-                initial=1.0,
-                maximum=10.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    core_exceptions.ServiceUnavailable,
-                ),
-                deadline=60.0,
-            ),
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.list_connections]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -585,7 +860,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -593,8 +868,8 @@ class RepositoryManagerAsyncClient:
         )
 
         # This method is paged; wrap the response in a pager, which provides
-        # an `__aiter__` convenience method.
-        response = pagers.ListConnectionsAsyncPager(
+        # an `__iter__` convenience method.
+        response = pagers.ListConnectionsPager(
             method=rpc,
             request=request,
             response=response,
@@ -604,7 +879,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def update_connection(
+    def update_connection(
         self,
         request: Optional[Union[repositories.UpdateConnectionRequest, dict]] = None,
         *,
@@ -613,7 +888,7 @@ class RepositoryManagerAsyncClient:
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation_async.AsyncOperation:
+    ) -> operation.Operation:
         r"""Updates a single connection.
 
         .. code-block:: python
@@ -625,11 +900,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_update_connection():
+            def sample_update_connection():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 request = cloudbuild_v2.UpdateConnectionRequest(
@@ -640,20 +915,20 @@ class RepositoryManagerAsyncClient:
 
                 print("Waiting for operation to complete...")
 
-                response = (await operation).result()
+                response = operation.result()
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.UpdateConnectionRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.UpdateConnectionRequest, dict]):
                 The request object. Message for updating a Connection.
-            connection (:class:`google.devtools.cloudbuild_v2.types.Connection`):
+            connection (google.cloud.devtools.cloudbuild_v2.types.Connection):
                 Required. The Connection to update.
                 This corresponds to the ``connection`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-            update_mask (:class:`google.protobuf.field_mask_pb2.FieldMask`):
+            update_mask (google.protobuf.field_mask_pb2.FieldMask):
                 The list of fields to be updated.
                 This corresponds to the ``update_mask`` field
                 on the ``request`` instance; if ``request`` is provided, this
@@ -665,10 +940,10 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.api_core.operation_async.AsyncOperation:
+            google.api_core.operation.Operation:
                 An object representing a long-running operation.
 
-                The result type for the operation will be :class:`google.devtools.cloudbuild_v2.types.Connection` A connection to a SCM like GitHub, GitHub Enterprise, Bitbucket Server or
+                The result type for the operation will be :class:`google.cloud.devtools.cloudbuild_v2.types.Connection` A connection to a SCM like GitHub, GitHub Enterprise, Bitbucket Server or
                    GitLab.
 
         """
@@ -682,22 +957,22 @@ class RepositoryManagerAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = repositories.UpdateConnectionRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if connection is not None:
-            request.connection = connection
-        if update_mask is not None:
-            request.update_mask = update_mask
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.UpdateConnectionRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.UpdateConnectionRequest):
+            request = repositories.UpdateConnectionRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if connection is not None:
+                request.connection = connection
+            if update_mask is not None:
+                request.update_mask = update_mask
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.update_connection,
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.update_connection]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -708,7 +983,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -716,9 +991,9 @@ class RepositoryManagerAsyncClient:
         )
 
         # Wrap the response in an operation future.
-        response = operation_async.from_gapic(
+        response = operation.from_gapic(
             response,
-            self._client._transport.operations_client,
+            self._transport.operations_client,
             repositories.Connection,
             metadata_type=cloudbuild.OperationMetadata,
         )
@@ -726,7 +1001,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def delete_connection(
+    def delete_connection(
         self,
         request: Optional[Union[repositories.DeleteConnectionRequest, dict]] = None,
         *,
@@ -734,7 +1009,7 @@ class RepositoryManagerAsyncClient:
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation_async.AsyncOperation:
+    ) -> operation.Operation:
         r"""Deletes a single connection.
 
         .. code-block:: python
@@ -746,11 +1021,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_delete_connection():
+            def sample_delete_connection():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 request = cloudbuild_v2.DeleteConnectionRequest(
@@ -762,15 +1037,15 @@ class RepositoryManagerAsyncClient:
 
                 print("Waiting for operation to complete...")
 
-                response = (await operation).result()
+                response = operation.result()
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.DeleteConnectionRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.DeleteConnectionRequest, dict]):
                 The request object. Message for deleting a Connection.
-            name (:class:`str`):
+            name (str):
                 Required. The name of the Connection to delete. Format:
                 ``projects/*/locations/*/connections/*``.
 
@@ -784,7 +1059,7 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.api_core.operation_async.AsyncOperation:
+            google.api_core.operation.Operation:
                 An object representing a long-running operation.
 
                 The result type for the operation will be :class:`google.protobuf.empty_pb2.Empty` A generic empty message that you can re-use to avoid defining duplicated
@@ -809,20 +1084,20 @@ class RepositoryManagerAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = repositories.DeleteConnectionRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if name is not None:
-            request.name = name
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.DeleteConnectionRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.DeleteConnectionRequest):
+            request = repositories.DeleteConnectionRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.delete_connection,
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.delete_connection]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -831,7 +1106,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -839,9 +1114,9 @@ class RepositoryManagerAsyncClient:
         )
 
         # Wrap the response in an operation future.
-        response = operation_async.from_gapic(
+        response = operation.from_gapic(
             response,
-            self._client._transport.operations_client,
+            self._transport.operations_client,
             empty_pb2.Empty,
             metadata_type=cloudbuild.OperationMetadata,
         )
@@ -849,7 +1124,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def create_repository(
+    def create_repository(
         self,
         request: Optional[Union[repositories.CreateRepositoryRequest, dict]] = None,
         *,
@@ -859,7 +1134,7 @@ class RepositoryManagerAsyncClient:
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation_async.AsyncOperation:
+    ) -> operation.Operation:
         r"""Creates a Repository.
 
         .. code-block:: python
@@ -871,11 +1146,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_create_repository():
+            def sample_create_repository():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 repository = cloudbuild_v2.Repository()
@@ -892,15 +1167,15 @@ class RepositoryManagerAsyncClient:
 
                 print("Waiting for operation to complete...")
 
-                response = (await operation).result()
+                response = operation.result()
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.CreateRepositoryRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.CreateRepositoryRequest, dict]):
                 The request object. Message for creating a Repository.
-            parent (:class:`str`):
+            parent (str):
                 Required. The connection to contain
                 the repository. If the request is part
                 of a BatchCreateRepositoriesRequest,
@@ -910,12 +1185,12 @@ class RepositoryManagerAsyncClient:
                 This corresponds to the ``parent`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-            repository (:class:`google.devtools.cloudbuild_v2.types.Repository`):
+            repository (google.cloud.devtools.cloudbuild_v2.types.Repository):
                 Required. The repository to create.
                 This corresponds to the ``repository`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-            repository_id (:class:`str`):
+            repository_id (str):
                 Required. The ID to use for the repository, which will
                 become the final component of the repository's resource
                 name. This ID should be unique in the connection. Allows
@@ -931,11 +1206,11 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.api_core.operation_async.AsyncOperation:
+            google.api_core.operation.Operation:
                 An object representing a long-running operation.
 
                 The result type for the operation will be
-                :class:`google.devtools.cloudbuild_v2.types.Repository`
+                :class:`google.cloud.devtools.cloudbuild_v2.types.Repository`
                 A repository associated to a parent connection.
 
         """
@@ -949,24 +1224,24 @@ class RepositoryManagerAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = repositories.CreateRepositoryRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if parent is not None:
-            request.parent = parent
-        if repository is not None:
-            request.repository = repository
-        if repository_id is not None:
-            request.repository_id = repository_id
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.CreateRepositoryRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.CreateRepositoryRequest):
+            request = repositories.CreateRepositoryRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if parent is not None:
+                request.parent = parent
+            if repository is not None:
+                request.repository = repository
+            if repository_id is not None:
+                request.repository_id = repository_id
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.create_repository,
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.create_repository]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -975,7 +1250,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -983,9 +1258,9 @@ class RepositoryManagerAsyncClient:
         )
 
         # Wrap the response in an operation future.
-        response = operation_async.from_gapic(
+        response = operation.from_gapic(
             response,
-            self._client._transport.operations_client,
+            self._transport.operations_client,
             repositories.Repository,
             metadata_type=cloudbuild.OperationMetadata,
         )
@@ -993,7 +1268,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def batch_create_repositories(
+    def batch_create_repositories(
         self,
         request: Optional[
             Union[repositories.BatchCreateRepositoriesRequest, dict]
@@ -1006,7 +1281,7 @@ class RepositoryManagerAsyncClient:
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation_async.AsyncOperation:
+    ) -> operation.Operation:
         r"""Creates multiple repositories inside a connection.
 
         .. code-block:: python
@@ -1018,11 +1293,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_batch_create_repositories():
+            def sample_batch_create_repositories():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 requests = cloudbuild_v2.CreateRepositoryRequest()
@@ -1040,16 +1315,16 @@ class RepositoryManagerAsyncClient:
 
                 print("Waiting for operation to complete...")
 
-                response = (await operation).result()
+                response = operation.result()
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.BatchCreateRepositoriesRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.BatchCreateRepositoriesRequest, dict]):
                 The request object. Message for creating
                 repositoritories in batch.
-            parent (:class:`str`):
+            parent (str):
                 Required. The connection to contain all the repositories
                 being created. Format:
                 projects/\ */locations/*/connections/\* The parent field
@@ -1059,7 +1334,7 @@ class RepositoryManagerAsyncClient:
                 This corresponds to the ``parent`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-            requests (:class:`MutableSequence[google.devtools.cloudbuild_v2.types.CreateRepositoryRequest]`):
+            requests (MutableSequence[google.cloud.devtools.cloudbuild_v2.types.CreateRepositoryRequest]):
                 Required. The request messages
                 specifying the repositories to create.
 
@@ -1073,11 +1348,11 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.api_core.operation_async.AsyncOperation:
+            google.api_core.operation.Operation:
                 An object representing a long-running operation.
 
                 The result type for the operation will be
-                :class:`google.devtools.cloudbuild_v2.types.BatchCreateRepositoriesResponse`
+                :class:`google.cloud.devtools.cloudbuild_v2.types.BatchCreateRepositoriesResponse`
                 Message for response of creating repositories in batch.
 
         """
@@ -1091,22 +1366,24 @@ class RepositoryManagerAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = repositories.BatchCreateRepositoriesRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if parent is not None:
-            request.parent = parent
-        if requests:
-            request.requests.extend(requests)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.BatchCreateRepositoriesRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.BatchCreateRepositoriesRequest):
+            request = repositories.BatchCreateRepositoriesRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if parent is not None:
+                request.parent = parent
+            if requests is not None:
+                request.requests = requests
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.batch_create_repositories,
-            default_timeout=None,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[
+            self._transport.batch_create_repositories
+        ]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -1115,7 +1392,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -1123,9 +1400,9 @@ class RepositoryManagerAsyncClient:
         )
 
         # Wrap the response in an operation future.
-        response = operation_async.from_gapic(
+        response = operation.from_gapic(
             response,
-            self._client._transport.operations_client,
+            self._transport.operations_client,
             repositories.BatchCreateRepositoriesResponse,
             metadata_type=cloudbuild.OperationMetadata,
         )
@@ -1133,7 +1410,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def get_repository(
+    def get_repository(
         self,
         request: Optional[Union[repositories.GetRepositoryRequest, dict]] = None,
         *,
@@ -1153,11 +1430,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_get_repository():
+            def sample_get_repository():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 request = cloudbuild_v2.GetRepositoryRequest(
@@ -1165,16 +1442,16 @@ class RepositoryManagerAsyncClient:
                 )
 
                 # Make the request
-                response = await client.get_repository(request=request)
+                response = client.get_repository(request=request)
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.GetRepositoryRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.GetRepositoryRequest, dict]):
                 The request object. Message for getting the details of a
                 Repository.
-            name (:class:`str`):
+            name (str):
                 Required. The name of the Repository to retrieve.
                 Format:
                 ``projects/*/locations/*/connections/*/repositories/*``.
@@ -1189,7 +1466,7 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.devtools.cloudbuild_v2.types.Repository:
+            google.cloud.devtools.cloudbuild_v2.types.Repository:
                 A repository associated to a parent
                 connection.
 
@@ -1204,29 +1481,20 @@ class RepositoryManagerAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = repositories.GetRepositoryRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if name is not None:
-            request.name = name
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.GetRepositoryRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.GetRepositoryRequest):
+            request = repositories.GetRepositoryRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.get_repository,
-            default_retry=retries.Retry(
-                initial=1.0,
-                maximum=10.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    core_exceptions.ServiceUnavailable,
-                ),
-                deadline=60.0,
-            ),
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.get_repository]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -1235,7 +1503,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -1245,7 +1513,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def list_repositories(
+    def list_repositories(
         self,
         request: Optional[Union[repositories.ListRepositoriesRequest, dict]] = None,
         *,
@@ -1253,7 +1521,7 @@ class RepositoryManagerAsyncClient:
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> pagers.ListRepositoriesAsyncPager:
+    ) -> pagers.ListRepositoriesPager:
         r"""Lists Repositories in a given connection.
 
         .. code-block:: python
@@ -1265,11 +1533,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_list_repositories():
+            def sample_list_repositories():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 request = cloudbuild_v2.ListRepositoriesRequest(
@@ -1280,14 +1548,14 @@ class RepositoryManagerAsyncClient:
                 page_result = client.list_repositories(request=request)
 
                 # Handle the response
-                async for response in page_result:
+                for response in page_result:
                     print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.ListRepositoriesRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.ListRepositoriesRequest, dict]):
                 The request object. Message for requesting list of
                 Repositories.
-            parent (:class:`str`):
+            parent (str):
                 Required. The parent, which owns this collection of
                 Repositories. Format:
                 ``projects/*/locations/*/connections/*``.
@@ -1302,7 +1570,7 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.devtools.cloudbuild_v2.services.repository_manager.pagers.ListRepositoriesAsyncPager:
+            google.cloud.devtools.cloudbuild_v2.services.repository_manager.pagers.ListRepositoriesPager:
                 Message for response to listing
                 Repositories.
                 Iterating over this object will yield
@@ -1320,29 +1588,20 @@ class RepositoryManagerAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = repositories.ListRepositoriesRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if parent is not None:
-            request.parent = parent
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.ListRepositoriesRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.ListRepositoriesRequest):
+            request = repositories.ListRepositoriesRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if parent is not None:
+                request.parent = parent
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.list_repositories,
-            default_retry=retries.Retry(
-                initial=1.0,
-                maximum=10.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    core_exceptions.ServiceUnavailable,
-                ),
-                deadline=60.0,
-            ),
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.list_repositories]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -1351,7 +1610,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -1359,8 +1618,8 @@ class RepositoryManagerAsyncClient:
         )
 
         # This method is paged; wrap the response in a pager, which provides
-        # an `__aiter__` convenience method.
-        response = pagers.ListRepositoriesAsyncPager(
+        # an `__iter__` convenience method.
+        response = pagers.ListRepositoriesPager(
             method=rpc,
             request=request,
             response=response,
@@ -1370,7 +1629,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def delete_repository(
+    def delete_repository(
         self,
         request: Optional[Union[repositories.DeleteRepositoryRequest, dict]] = None,
         *,
@@ -1378,7 +1637,7 @@ class RepositoryManagerAsyncClient:
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> operation_async.AsyncOperation:
+    ) -> operation.Operation:
         r"""Deletes a single repository.
 
         .. code-block:: python
@@ -1390,11 +1649,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_delete_repository():
+            def sample_delete_repository():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 request = cloudbuild_v2.DeleteRepositoryRequest(
@@ -1406,15 +1665,15 @@ class RepositoryManagerAsyncClient:
 
                 print("Waiting for operation to complete...")
 
-                response = (await operation).result()
+                response = operation.result()
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.DeleteRepositoryRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.DeleteRepositoryRequest, dict]):
                 The request object. Message for deleting a Repository.
-            name (:class:`str`):
+            name (str):
                 Required. The name of the Repository to delete. Format:
                 ``projects/*/locations/*/connections/*/repositories/*``.
 
@@ -1428,7 +1687,7 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.api_core.operation_async.AsyncOperation:
+            google.api_core.operation.Operation:
                 An object representing a long-running operation.
 
                 The result type for the operation will be :class:`google.protobuf.empty_pb2.Empty` A generic empty message that you can re-use to avoid defining duplicated
@@ -1453,20 +1712,20 @@ class RepositoryManagerAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = repositories.DeleteRepositoryRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if name is not None:
-            request.name = name
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.DeleteRepositoryRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.DeleteRepositoryRequest):
+            request = repositories.DeleteRepositoryRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if name is not None:
+                request.name = name
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.delete_repository,
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.delete_repository]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -1475,7 +1734,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -1483,9 +1742,9 @@ class RepositoryManagerAsyncClient:
         )
 
         # Wrap the response in an operation future.
-        response = operation_async.from_gapic(
+        response = operation.from_gapic(
             response,
-            self._client._transport.operations_client,
+            self._transport.operations_client,
             empty_pb2.Empty,
             metadata_type=cloudbuild.OperationMetadata,
         )
@@ -1493,7 +1752,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def fetch_read_write_token(
+    def fetch_read_write_token(
         self,
         request: Optional[Union[repositories.FetchReadWriteTokenRequest, dict]] = None,
         *,
@@ -1513,11 +1772,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_fetch_read_write_token():
+            def sample_fetch_read_write_token():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 request = cloudbuild_v2.FetchReadWriteTokenRequest(
@@ -1525,16 +1784,16 @@ class RepositoryManagerAsyncClient:
                 )
 
                 # Make the request
-                response = await client.fetch_read_write_token(request=request)
+                response = client.fetch_read_write_token(request=request)
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.FetchReadWriteTokenRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.FetchReadWriteTokenRequest, dict]):
                 The request object. Message for fetching SCM read/write
                 token.
-            repository (:class:`str`):
+            repository (str):
                 Required. The resource name of the repository in the
                 format
                 ``projects/*/locations/*/connections/*/repositories/*``.
@@ -1549,7 +1808,7 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.devtools.cloudbuild_v2.types.FetchReadWriteTokenResponse:
+            google.cloud.devtools.cloudbuild_v2.types.FetchReadWriteTokenResponse:
                 Message for responding to get
                 read/write token.
 
@@ -1564,29 +1823,20 @@ class RepositoryManagerAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = repositories.FetchReadWriteTokenRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if repository is not None:
-            request.repository = repository
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.FetchReadWriteTokenRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.FetchReadWriteTokenRequest):
+            request = repositories.FetchReadWriteTokenRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if repository is not None:
+                request.repository = repository
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.fetch_read_write_token,
-            default_retry=retries.Retry(
-                initial=1.0,
-                maximum=10.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    core_exceptions.ServiceUnavailable,
-                ),
-                deadline=60.0,
-            ),
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.fetch_read_write_token]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -1597,7 +1847,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -1607,7 +1857,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def fetch_read_token(
+    def fetch_read_token(
         self,
         request: Optional[Union[repositories.FetchReadTokenRequest, dict]] = None,
         *,
@@ -1627,11 +1877,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_fetch_read_token():
+            def sample_fetch_read_token():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 request = cloudbuild_v2.FetchReadTokenRequest(
@@ -1639,15 +1889,15 @@ class RepositoryManagerAsyncClient:
                 )
 
                 # Make the request
-                response = await client.fetch_read_token(request=request)
+                response = client.fetch_read_token(request=request)
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.FetchReadTokenRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.FetchReadTokenRequest, dict]):
                 The request object. Message for fetching SCM read token.
-            repository (:class:`str`):
+            repository (str):
                 Required. The resource name of the repository in the
                 format
                 ``projects/*/locations/*/connections/*/repositories/*``.
@@ -1662,7 +1912,7 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.devtools.cloudbuild_v2.types.FetchReadTokenResponse:
+            google.cloud.devtools.cloudbuild_v2.types.FetchReadTokenResponse:
                 Message for responding to get read
                 token.
 
@@ -1677,29 +1927,20 @@ class RepositoryManagerAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = repositories.FetchReadTokenRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if repository is not None:
-            request.repository = repository
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.FetchReadTokenRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.FetchReadTokenRequest):
+            request = repositories.FetchReadTokenRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if repository is not None:
+                request.repository = repository
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.fetch_read_token,
-            default_retry=retries.Retry(
-                initial=1.0,
-                maximum=10.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    core_exceptions.ServiceUnavailable,
-                ),
-                deadline=60.0,
-            ),
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[self._transport.fetch_read_token]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -1710,7 +1951,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -1720,7 +1961,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def fetch_linkable_repositories(
+    def fetch_linkable_repositories(
         self,
         request: Optional[
             Union[repositories.FetchLinkableRepositoriesRequest, dict]
@@ -1729,7 +1970,7 @@ class RepositoryManagerAsyncClient:
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> pagers.FetchLinkableRepositoriesAsyncPager:
+    ) -> pagers.FetchLinkableRepositoriesPager:
         r"""FetchLinkableRepositories get repositories from SCM
         that are accessible and could be added to the
         connection.
@@ -1743,11 +1984,11 @@ class RepositoryManagerAsyncClient:
             # - It may require specifying regional endpoints when creating the service
             #   client as shown in:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.devtools import cloudbuild_v2
+            from google.cloud.devtools import cloudbuild_v2
 
-            async def sample_fetch_linkable_repositories():
+            def sample_fetch_linkable_repositories():
                 # Create a client
-                client = cloudbuild_v2.RepositoryManagerAsyncClient()
+                client = cloudbuild_v2.RepositoryManagerClient()
 
                 # Initialize request argument(s)
                 request = cloudbuild_v2.FetchLinkableRepositoriesRequest(
@@ -1758,11 +1999,11 @@ class RepositoryManagerAsyncClient:
                 page_result = client.fetch_linkable_repositories(request=request)
 
                 # Handle the response
-                async for response in page_result:
+                for response in page_result:
                     print(response)
 
         Args:
-            request (Optional[Union[google.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesRequest, dict]]):
+            request (Union[google.cloud.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesRequest, dict]):
                 The request object. Request message for
                 FetchLinkableRepositories.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
@@ -1772,7 +2013,7 @@ class RepositoryManagerAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.devtools.cloudbuild_v2.services.repository_manager.pagers.FetchLinkableRepositoriesAsyncPager:
+            google.cloud.devtools.cloudbuild_v2.services.repository_manager.pagers.FetchLinkableRepositoriesPager:
                 Response message for
                 FetchLinkableRepositories.
                 Iterating over this object will yield
@@ -1781,24 +2022,18 @@ class RepositoryManagerAsyncClient:
 
         """
         # Create or coerce a protobuf request object.
-        request = repositories.FetchLinkableRepositoriesRequest(request)
+        # Minor optimization to avoid making a copy if the user passes
+        # in a repositories.FetchLinkableRepositoriesRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, repositories.FetchLinkableRepositoriesRequest):
+            request = repositories.FetchLinkableRepositoriesRequest(request)
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.fetch_linkable_repositories,
-            default_retry=retries.Retry(
-                initial=1.0,
-                maximum=10.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    core_exceptions.ServiceUnavailable,
-                ),
-                deadline=60.0,
-            ),
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
+        rpc = self._transport._wrapped_methods[
+            self._transport.fetch_linkable_repositories
+        ]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -1809,7 +2044,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -1817,8 +2052,8 @@ class RepositoryManagerAsyncClient:
         )
 
         # This method is paged; wrap the response in a pager, which provides
-        # an `__aiter__` convenience method.
-        response = pagers.FetchLinkableRepositoriesAsyncPager(
+        # an `__iter__` convenience method.
+        response = pagers.FetchLinkableRepositoriesPager(
             method=rpc,
             request=request,
             response=response,
@@ -1828,7 +2063,20 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def get_operation(
+    def __enter__(self) -> "RepositoryManagerClient":
+        return self
+
+    def __exit__(self, type, value, traceback):
+        """Releases underlying transport's resources.
+
+        .. warning::
+            ONLY use as a context manager if the transport is NOT shared
+            with other clients! Exiting the with block will CLOSE the transport
+            and may cause errors in other clients!
+        """
+        self.transport.close()
+
+    def get_operation(
         self,
         request: Optional[operations_pb2.GetOperationRequest] = None,
         *,
@@ -1860,7 +2108,7 @@ class RepositoryManagerAsyncClient:
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method.wrap_method(
-            self._client._transport.get_operation,
+            self._transport.get_operation,
             default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
         )
@@ -1872,7 +2120,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -1882,7 +2130,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def cancel_operation(
+    def cancel_operation(
         self,
         request: Optional[operations_pb2.CancelOperationRequest] = None,
         *,
@@ -1917,7 +2165,7 @@ class RepositoryManagerAsyncClient:
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method.wrap_method(
-            self._client._transport.cancel_operation,
+            self._transport.cancel_operation,
             default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
         )
@@ -1929,14 +2177,14 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        await rpc(
+        rpc(
             request,
             retry=retry,
             timeout=timeout,
             metadata=metadata,
         )
 
-    async def set_iam_policy(
+    def set_iam_policy(
         self,
         request: Optional[iam_policy_pb2.SetIamPolicyRequest] = None,
         *,
@@ -2034,7 +2282,7 @@ class RepositoryManagerAsyncClient:
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method.wrap_method(
-            self._client._transport.set_iam_policy,
+            self._transport.set_iam_policy,
             default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
         )
@@ -2046,7 +2294,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -2056,7 +2304,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def get_iam_policy(
+    def get_iam_policy(
         self,
         request: Optional[iam_policy_pb2.GetIamPolicyRequest] = None,
         *,
@@ -2155,7 +2403,7 @@ class RepositoryManagerAsyncClient:
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method.wrap_method(
-            self._client._transport.get_iam_policy,
+            self._transport.get_iam_policy,
             default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
         )
@@ -2167,7 +2415,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -2177,7 +2425,7 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def test_iam_permissions(
+    def test_iam_permissions(
         self,
         request: Optional[iam_policy_pb2.TestIamPermissionsRequest] = None,
         *,
@@ -2214,7 +2462,7 @@ class RepositoryManagerAsyncClient:
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method.wrap_method(
-            self._client._transport.test_iam_permissions,
+            self._transport.test_iam_permissions,
             default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
         )
@@ -2226,7 +2474,7 @@ class RepositoryManagerAsyncClient:
         )
 
         # Send the request.
-        response = await rpc(
+        response = rpc(
             request,
             retry=retry,
             timeout=timeout,
@@ -2236,16 +2484,10 @@ class RepositoryManagerAsyncClient:
         # Done; return the response.
         return response
 
-    async def __aenter__(self):
-        return self
-
-    async def __aexit__(self, exc_type, exc, tb):
-        await self.transport.close()
-
 
 DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
     gapic_version=package_version.__version__
 )
 
 
-__all__ = ("RepositoryManagerAsyncClient",)
+__all__ = ("RepositoryManagerClient",)

@@ -14,28 +14,29 @@
 # limitations under the License.
 #
 import warnings
-from typing import Callable, Dict, Optional, Sequence, Tuple, Union
+from typing import Awaitable, Callable, Dict, Optional, Sequence, Tuple, Union
 
-from google.api_core import grpc_helpers
-from google.api_core import operations_v1
 from google.api_core import gapic_v1
-import google.auth  # type: ignore
+from google.api_core import grpc_helpers_async
+from google.api_core import operations_v1
 from google.auth import credentials as ga_credentials  # type: ignore
 from google.auth.transport.grpc import SslCredentials  # type: ignore
 
 import grpc  # type: ignore
+from grpc.experimental import aio  # type: ignore
 
+from google.cloud.devtools.cloudbuild_v2.types import repositories
 from google.cloud.location import locations_pb2  # type: ignore
-from google.devtools.cloudbuild_v2.types import repositories
 from google.iam.v1 import iam_policy_pb2  # type: ignore
 from google.iam.v1 import policy_pb2  # type: ignore
 from google.longrunning import operations_pb2
 from google.longrunning import operations_pb2  # type: ignore
 from .base import RepositoryManagerTransport, DEFAULT_CLIENT_INFO
+from .grpc import RepositoryManagerGrpcTransport
 
 
-class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
-    """gRPC backend transport for RepositoryManager.
+class RepositoryManagerGrpcAsyncIOTransport(RepositoryManagerTransport):
+    """gRPC AsyncIO backend transport for RepositoryManager.
 
     Manages connections to source code repostiories.
 
@@ -47,7 +48,51 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
     top of HTTP/2); the ``grpcio`` package must be installed.
     """
 
-    _stubs: Dict[str, Callable]
+    _grpc_channel: aio.Channel
+    _stubs: Dict[str, Callable] = {}
+
+    @classmethod
+    def create_channel(
+        cls,
+        host: str = "cloudbuild.googleapis.com",
+        credentials: Optional[ga_credentials.Credentials] = None,
+        credentials_file: Optional[str] = None,
+        scopes: Optional[Sequence[str]] = None,
+        quota_project_id: Optional[str] = None,
+        **kwargs,
+    ) -> aio.Channel:
+        """Create and return a gRPC AsyncIO channel object.
+        Args:
+            host (Optional[str]): The host for the channel to use.
+            credentials (Optional[~.Credentials]): The
+                authorization credentials to attach to requests. These
+                credentials identify this application to the service. If
+                none are specified, the client will attempt to ascertain
+                the credentials from the environment.
+            credentials_file (Optional[str]): A file with credentials that can
+                be loaded with :func:`google.auth.load_credentials_from_file`.
+                This argument is ignored if ``channel`` is provided.
+            scopes (Optional[Sequence[str]]): A optional list of scopes needed for this
+                service. These are only used when credentials are not specified and
+                are passed to :func:`google.auth.default`.
+            quota_project_id (Optional[str]): An optional project to use for billing
+                and quota.
+            kwargs (Optional[dict]): Keyword arguments, which are passed to the
+                channel creation.
+        Returns:
+            aio.Channel: A gRPC AsyncIO channel object.
+        """
+
+        return grpc_helpers_async.create_channel(
+            host,
+            credentials=credentials,
+            credentials_file=credentials_file,
+            quota_project_id=quota_project_id,
+            default_scopes=cls.AUTH_SCOPES,
+            scopes=scopes,
+            default_host=cls.DEFAULT_HOST,
+            **kwargs,
+        )
 
     def __init__(
         self,
@@ -56,7 +101,7 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
         credentials: Optional[ga_credentials.Credentials] = None,
         credentials_file: Optional[str] = None,
         scopes: Optional[Sequence[str]] = None,
-        channel: Optional[grpc.Channel] = None,
+        channel: Optional[aio.Channel] = None,
         api_mtls_endpoint: Optional[str] = None,
         client_cert_source: Optional[Callable[[], Tuple[bytes, bytes]]] = None,
         ssl_channel_credentials: Optional[grpc.ChannelCredentials] = None,
@@ -80,9 +125,10 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
             credentials_file (Optional[str]): A file with credentials that can
                 be loaded with :func:`google.auth.load_credentials_from_file`.
                 This argument is ignored if ``channel`` is provided.
-            scopes (Optional(Sequence[str])): A list of scopes. This argument is
-                ignored if ``channel`` is provided.
-            channel (Optional[grpc.Channel]): A ``Channel`` instance through
+            scopes (Optional[Sequence[str]]): A optional list of scopes needed for this
+                service. These are only used when credentials are not specified and
+                are passed to :func:`google.auth.default`.
+            channel (Optional[aio.Channel]): A ``Channel`` instance through
                 which to make calls.
             api_mtls_endpoint (Optional[str]): Deprecated. The mutual TLS endpoint.
                 If provided, it overrides the ``host`` argument and tries to create
@@ -109,7 +155,7 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
                 be used for service account credentials.
 
         Raises:
-          google.auth.exceptions.MutualTLSChannelError: If mutual TLS transport
+            google.auth.exceptions.MutualTlsChannelError: If mutual TLS transport
               creation failed for any reason.
           google.api_core.exceptions.DuplicateCredentialArgs: If both ``credentials``
               and ``credentials_file`` are passed.
@@ -117,7 +163,7 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
         self._grpc_channel = None
         self._ssl_channel_credentials = ssl_channel_credentials
         self._stubs: Dict[str, Callable] = {}
-        self._operations_client: Optional[operations_v1.OperationsClient] = None
+        self._operations_client: Optional[operations_v1.OperationsAsyncClient] = None
 
         if api_mtls_endpoint:
             warnings.warn("api_mtls_endpoint is deprecated", DeprecationWarning)
@@ -130,7 +176,6 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
             # If a channel was explicitly provided, set it.
             self._grpc_channel = channel
             self._ssl_channel_credentials = None
-
         else:
             if api_mtls_endpoint:
                 host = api_mtls_endpoint
@@ -184,60 +229,18 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
         # Wrap messages. This must be done after self._grpc_channel exists
         self._prep_wrapped_messages(client_info)
 
-    @classmethod
-    def create_channel(
-        cls,
-        host: str = "cloudbuild.googleapis.com",
-        credentials: Optional[ga_credentials.Credentials] = None,
-        credentials_file: Optional[str] = None,
-        scopes: Optional[Sequence[str]] = None,
-        quota_project_id: Optional[str] = None,
-        **kwargs,
-    ) -> grpc.Channel:
-        """Create and return a gRPC channel object.
-        Args:
-            host (Optional[str]): The host for the channel to use.
-            credentials (Optional[~.Credentials]): The
-                authorization credentials to attach to requests. These
-                credentials identify this application to the service. If
-                none are specified, the client will attempt to ascertain
-                the credentials from the environment.
-            credentials_file (Optional[str]): A file with credentials that can
-                be loaded with :func:`google.auth.load_credentials_from_file`.
-                This argument is mutually exclusive with credentials.
-            scopes (Optional[Sequence[str]]): A optional list of scopes needed for this
-                service. These are only used when credentials are not specified and
-                are passed to :func:`google.auth.default`.
-            quota_project_id (Optional[str]): An optional project to use for billing
-                and quota.
-            kwargs (Optional[dict]): Keyword arguments, which are passed to the
-                channel creation.
-        Returns:
-            grpc.Channel: A gRPC channel object.
-
-        Raises:
-            google.api_core.exceptions.DuplicateCredentialArgs: If both ``credentials``
-              and ``credentials_file`` are passed.
-        """
-
-        return grpc_helpers.create_channel(
-            host,
-            credentials=credentials,
-            credentials_file=credentials_file,
-            quota_project_id=quota_project_id,
-            default_scopes=cls.AUTH_SCOPES,
-            scopes=scopes,
-            default_host=cls.DEFAULT_HOST,
-            **kwargs,
-        )
-
     @property
-    def grpc_channel(self) -> grpc.Channel:
-        """Return the channel designed to connect to this service."""
+    def grpc_channel(self) -> aio.Channel:
+        """Create the channel designed to connect to this service.
+
+        This property caches on the instance; repeated calls return
+        the same channel.
+        """
+        # Return the channel from cache.
         return self._grpc_channel
 
     @property
-    def operations_client(self) -> operations_v1.OperationsClient:
+    def operations_client(self) -> operations_v1.OperationsAsyncClient:
         """Create the client designed to process long-running operations.
 
         This property caches on the instance; repeated calls return the same
@@ -245,7 +248,9 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
         """
         # Quick check: Only create a new client if we do not already have one.
         if self._operations_client is None:
-            self._operations_client = operations_v1.OperationsClient(self.grpc_channel)
+            self._operations_client = operations_v1.OperationsAsyncClient(
+                self.grpc_channel
+            )
 
         # Return the client from cache.
         return self._operations_client
@@ -253,14 +258,16 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
     @property
     def create_connection(
         self,
-    ) -> Callable[[repositories.CreateConnectionRequest], operations_pb2.Operation]:
+    ) -> Callable[
+        [repositories.CreateConnectionRequest], Awaitable[operations_pb2.Operation]
+    ]:
         r"""Return a callable for the create connection method over gRPC.
 
         Creates a Connection.
 
         Returns:
             Callable[[~.CreateConnectionRequest],
-                    ~.Operation]:
+                    Awaitable[~.Operation]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -279,14 +286,16 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
     @property
     def get_connection(
         self,
-    ) -> Callable[[repositories.GetConnectionRequest], repositories.Connection]:
+    ) -> Callable[
+        [repositories.GetConnectionRequest], Awaitable[repositories.Connection]
+    ]:
         r"""Return a callable for the get connection method over gRPC.
 
         Gets details of a single connection.
 
         Returns:
             Callable[[~.GetConnectionRequest],
-                    ~.Connection]:
+                    Awaitable[~.Connection]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -306,7 +315,8 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
     def list_connections(
         self,
     ) -> Callable[
-        [repositories.ListConnectionsRequest], repositories.ListConnectionsResponse
+        [repositories.ListConnectionsRequest],
+        Awaitable[repositories.ListConnectionsResponse],
     ]:
         r"""Return a callable for the list connections method over gRPC.
 
@@ -314,7 +324,7 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
 
         Returns:
             Callable[[~.ListConnectionsRequest],
-                    ~.ListConnectionsResponse]:
+                    Awaitable[~.ListConnectionsResponse]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -333,14 +343,16 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
     @property
     def update_connection(
         self,
-    ) -> Callable[[repositories.UpdateConnectionRequest], operations_pb2.Operation]:
+    ) -> Callable[
+        [repositories.UpdateConnectionRequest], Awaitable[operations_pb2.Operation]
+    ]:
         r"""Return a callable for the update connection method over gRPC.
 
         Updates a single connection.
 
         Returns:
             Callable[[~.UpdateConnectionRequest],
-                    ~.Operation]:
+                    Awaitable[~.Operation]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -359,14 +371,16 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
     @property
     def delete_connection(
         self,
-    ) -> Callable[[repositories.DeleteConnectionRequest], operations_pb2.Operation]:
+    ) -> Callable[
+        [repositories.DeleteConnectionRequest], Awaitable[operations_pb2.Operation]
+    ]:
         r"""Return a callable for the delete connection method over gRPC.
 
         Deletes a single connection.
 
         Returns:
             Callable[[~.DeleteConnectionRequest],
-                    ~.Operation]:
+                    Awaitable[~.Operation]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -385,14 +399,16 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
     @property
     def create_repository(
         self,
-    ) -> Callable[[repositories.CreateRepositoryRequest], operations_pb2.Operation]:
+    ) -> Callable[
+        [repositories.CreateRepositoryRequest], Awaitable[operations_pb2.Operation]
+    ]:
         r"""Return a callable for the create repository method over gRPC.
 
         Creates a Repository.
 
         Returns:
             Callable[[~.CreateRepositoryRequest],
-                    ~.Operation]:
+                    Awaitable[~.Operation]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -412,7 +428,8 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
     def batch_create_repositories(
         self,
     ) -> Callable[
-        [repositories.BatchCreateRepositoriesRequest], operations_pb2.Operation
+        [repositories.BatchCreateRepositoriesRequest],
+        Awaitable[operations_pb2.Operation],
     ]:
         r"""Return a callable for the batch create repositories method over gRPC.
 
@@ -420,7 +437,7 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
 
         Returns:
             Callable[[~.BatchCreateRepositoriesRequest],
-                    ~.Operation]:
+                    Awaitable[~.Operation]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -439,14 +456,16 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
     @property
     def get_repository(
         self,
-    ) -> Callable[[repositories.GetRepositoryRequest], repositories.Repository]:
+    ) -> Callable[
+        [repositories.GetRepositoryRequest], Awaitable[repositories.Repository]
+    ]:
         r"""Return a callable for the get repository method over gRPC.
 
         Gets details of a single repository.
 
         Returns:
             Callable[[~.GetRepositoryRequest],
-                    ~.Repository]:
+                    Awaitable[~.Repository]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -466,7 +485,8 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
     def list_repositories(
         self,
     ) -> Callable[
-        [repositories.ListRepositoriesRequest], repositories.ListRepositoriesResponse
+        [repositories.ListRepositoriesRequest],
+        Awaitable[repositories.ListRepositoriesResponse],
     ]:
         r"""Return a callable for the list repositories method over gRPC.
 
@@ -474,7 +494,7 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
 
         Returns:
             Callable[[~.ListRepositoriesRequest],
-                    ~.ListRepositoriesResponse]:
+                    Awaitable[~.ListRepositoriesResponse]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -493,14 +513,16 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
     @property
     def delete_repository(
         self,
-    ) -> Callable[[repositories.DeleteRepositoryRequest], operations_pb2.Operation]:
+    ) -> Callable[
+        [repositories.DeleteRepositoryRequest], Awaitable[operations_pb2.Operation]
+    ]:
         r"""Return a callable for the delete repository method over gRPC.
 
         Deletes a single repository.
 
         Returns:
             Callable[[~.DeleteRepositoryRequest],
-                    ~.Operation]:
+                    Awaitable[~.Operation]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -521,7 +543,7 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
         self,
     ) -> Callable[
         [repositories.FetchReadWriteTokenRequest],
-        repositories.FetchReadWriteTokenResponse,
+        Awaitable[repositories.FetchReadWriteTokenResponse],
     ]:
         r"""Return a callable for the fetch read write token method over gRPC.
 
@@ -529,7 +551,7 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
 
         Returns:
             Callable[[~.FetchReadWriteTokenRequest],
-                    ~.FetchReadWriteTokenResponse]:
+                    Awaitable[~.FetchReadWriteTokenResponse]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -549,7 +571,8 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
     def fetch_read_token(
         self,
     ) -> Callable[
-        [repositories.FetchReadTokenRequest], repositories.FetchReadTokenResponse
+        [repositories.FetchReadTokenRequest],
+        Awaitable[repositories.FetchReadTokenResponse],
     ]:
         r"""Return a callable for the fetch read token method over gRPC.
 
@@ -557,7 +580,7 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
 
         Returns:
             Callable[[~.FetchReadTokenRequest],
-                    ~.FetchReadTokenResponse]:
+                    Awaitable[~.FetchReadTokenResponse]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -578,7 +601,7 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
         self,
     ) -> Callable[
         [repositories.FetchLinkableRepositoriesRequest],
-        repositories.FetchLinkableRepositoriesResponse,
+        Awaitable[repositories.FetchLinkableRepositoriesResponse],
     ]:
         r"""Return a callable for the fetch linkable repositories method over gRPC.
 
@@ -588,7 +611,7 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
 
         Returns:
             Callable[[~.FetchLinkableRepositoriesRequest],
-                    ~.FetchLinkableRepositoriesResponse]:
+                    Awaitable[~.FetchLinkableRepositoriesResponse]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -605,7 +628,7 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
         return self._stubs["fetch_linkable_repositories"]
 
     def close(self):
-        self.grpc_channel.close()
+        return self.grpc_channel.close()
 
     @property
     def cancel_operation(
@@ -721,9 +744,5 @@ class RepositoryManagerGrpcTransport(RepositoryManagerTransport):
             )
         return self._stubs["test_iam_permissions"]
 
-    @property
-    def kind(self) -> str:
-        return "grpc"
 
-
-__all__ = ("RepositoryManagerGrpcTransport",)
+__all__ = ("RepositoryManagerGrpcAsyncIOTransport",)

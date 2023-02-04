@@ -76,16 +76,16 @@ class Connection(proto.Message):
         update_time (google.protobuf.timestamp_pb2.Timestamp):
             Output only. Server assigned timestamp for
             when the connection was updated.
-        github_config (google.devtools.cloudbuild_v2.types.GitHubConfig):
+        github_config (google.cloud.devtools.cloudbuild_v2.types.GitHubConfig):
             Configuration for connections to github.com.
 
             This field is a member of `oneof`_ ``connection_config``.
-        github_enterprise_config (google.devtools.cloudbuild_v2.types.GitHubEnterpriseConfig):
+        github_enterprise_config (google.cloud.devtools.cloudbuild_v2.types.GitHubEnterpriseConfig):
             Configuration for connections to an instance
             of GitHub Enterprise.
 
             This field is a member of `oneof`_ ``connection_config``.
-        installation_state (google.devtools.cloudbuild_v2.types.InstallationState):
+        installation_state (google.cloud.devtools.cloudbuild_v2.types.InstallationState):
             Output only. Installation state of the
             Connection.
         disabled (bool):
@@ -163,7 +163,7 @@ class InstallationState(proto.Message):
     Enterprise based connections.
 
     Attributes:
-        stage (google.devtools.cloudbuild_v2.types.InstallationState.Stage):
+        stage (google.cloud.devtools.cloudbuild_v2.types.InstallationState.Stage):
             Output only. Current step of the installation
             process.
         message (str):
@@ -248,7 +248,7 @@ class FetchLinkableRepositoriesResponse(proto.Message):
     r"""Response message for FetchLinkableRepositories.
 
     Attributes:
-        repositories (MutableSequence[google.devtools.cloudbuild_v2.types.Repository]):
+        repositories (MutableSequence[google.cloud.devtools.cloudbuild_v2.types.Repository]):
             repositories ready to be created.
         next_page_token (str):
             A token identifying a page of results the
@@ -274,7 +274,7 @@ class GitHubConfig(proto.Message):
     r"""Configuration for connections to github.com.
 
     Attributes:
-        authorizer_credential (google.devtools.cloudbuild_v2.types.OAuthCredential):
+        authorizer_credential (google.cloud.devtools.cloudbuild_v2.types.OAuthCredential):
             OAuth credential of the account that
             authorized the Cloud Build GitHub App. It is
             recommended to use a robot account instead of a
@@ -321,7 +321,7 @@ class GitHubEnterpriseConfig(proto.Message):
             ``projects/*/secrets/*/versions/*``.
         app_installation_id (int):
             ID of the installation of the GitHub App.
-        service_directory_config (google.devtools.cloudbuild_v2.types.ServiceDirectoryConfig):
+        service_directory_config (google.cloud.devtools.cloudbuild_v2.types.ServiceDirectoryConfig):
             Configuration for using Service Directory to
             privately connect to a GitHub Enterprise server.
             This should only be set if the GitHub Enterprise
@@ -482,7 +482,7 @@ class CreateConnectionRequest(proto.Message):
         parent (str):
             Required. Project and location where the connection will be
             created. Format: ``projects/*/locations/*``.
-        connection (google.devtools.cloudbuild_v2.types.Connection):
+        connection (google.cloud.devtools.cloudbuild_v2.types.Connection):
             Required. The Connection to create.
         connection_id (str):
             Required. The ID to use for the Connection, which will
@@ -552,7 +552,7 @@ class ListConnectionsResponse(proto.Message):
     r"""Message for response to listing Connections.
 
     Attributes:
-        connections (MutableSequence[google.devtools.cloudbuild_v2.types.Connection]):
+        connections (MutableSequence[google.cloud.devtools.cloudbuild_v2.types.Connection]):
             The list of Connections.
         next_page_token (str):
             A token identifying a page of results the
@@ -578,7 +578,7 @@ class UpdateConnectionRequest(proto.Message):
     r"""Message for updating a Connection.
 
     Attributes:
-        connection (google.devtools.cloudbuild_v2.types.Connection):
+        connection (google.cloud.devtools.cloudbuild_v2.types.Connection):
             Required. The Connection to update.
         update_mask (google.protobuf.field_mask_pb2.FieldMask):
             The list of fields to be updated.
@@ -657,7 +657,7 @@ class CreateRepositoryRequest(proto.Message):
             BatchCreateRepositoriesRequest, this field
             should be empty or match the parent specified
             there.
-        repository (google.devtools.cloudbuild_v2.types.Repository):
+        repository (google.cloud.devtools.cloudbuild_v2.types.Repository):
             Required. The repository to create.
         repository_id (str):
             Required. The ID to use for the repository, which will
@@ -691,7 +691,7 @@ class BatchCreateRepositoriesRequest(proto.Message):
             projects/\ */locations/*/connections/\* The parent field in
             the CreateRepositoryRequest messages must either be empty or
             match this field.
-        requests (MutableSequence[google.devtools.cloudbuild_v2.types.CreateRepositoryRequest]):
+        requests (MutableSequence[google.cloud.devtools.cloudbuild_v2.types.CreateRepositoryRequest]):
             Required. The request messages specifying the
             repositories to create.
     """
@@ -711,7 +711,7 @@ class BatchCreateRepositoriesResponse(proto.Message):
     r"""Message for response of creating repositories in batch.
 
     Attributes:
-        repositories (MutableSequence[google.devtools.cloudbuild_v2.types.Repository]):
+        repositories (MutableSequence[google.cloud.devtools.cloudbuild_v2.types.Repository]):
             Repository resources created.
     """
 
@@ -778,7 +778,7 @@ class ListRepositoriesResponse(proto.Message):
     r"""Message for response to listing Repositories.
 
     Attributes:
-        repositories (MutableSequence[google.devtools.cloudbuild_v2.types.Repository]):
+        repositories (MutableSequence[google.cloud.devtools.cloudbuild_v2.types.Repository]):
             The list of Repositories.
         next_page_token (str):
             A token identifying a page of results the

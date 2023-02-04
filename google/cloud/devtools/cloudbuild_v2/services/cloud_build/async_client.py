@@ -28,7 +28,7 @@ from typing import (
     Union,
 )
 
-from google.devtools.cloudbuild_v2 import gapic_version as package_version
+from google.cloud.devtools.cloudbuild_v2 import gapic_version as package_version
 
 from google.api_core.client_options import ClientOptions
 from google.api_core import exceptions as core_exceptions

@@ -16,7 +16,7 @@
 import abc
 from typing import Awaitable, Callable, Dict, Optional, Sequence, Union
 
-from google.devtools.cloudbuild_v2 import gapic_version as package_version
+from google.cloud.devtools.cloudbuild_v2 import gapic_version as package_version
 
 import google.auth  # type: ignore
 import google.api_core

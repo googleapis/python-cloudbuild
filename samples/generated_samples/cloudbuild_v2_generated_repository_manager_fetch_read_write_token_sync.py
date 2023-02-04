@@ -20,7 +20,7 @@
 # It may require modifications to work in your environment.
 
 # To install the latest published package dependency, execute the following:
-#   python3 -m pip install google-devtools-cloudbuild
+#   python3 -m pip install google-cloud-build
 
 
 # [START cloudbuild_v2_generated_RepositoryManager_FetchReadWriteToken_sync]
@@ -31,7 +31,7 @@
 # - It may require specifying regional endpoints when creating the service
 #   client as shown in:
 #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-from google.devtools import cloudbuild_v2
+from google.cloud.devtools import cloudbuild_v2
 
 
 def sample_fetch_read_write_token():

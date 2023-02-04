@@ -7,7 +7,7 @@
       }
     ],
     "language": "PYTHON",
-    "name": "google-devtools-cloudbuild",
+    "name": "google-cloud-build",
     "version": "0.1.0"
   },
   "snippets": [
@@ -16,10 +16,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.batch_create_repositories",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.batch_create_repositories",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.BatchCreateRepositories",
           "service": {
@@ -31,7 +31,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.BatchCreateRepositoriesRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.BatchCreateRepositoriesRequest"
           },
           {
             "name": "parent",
@@ -39,7 +39,7 @@
           },
           {
             "name": "requests",
-            "type": "MutableSequence[google.devtools.cloudbuild_v2.types.CreateRepositoryRequest]"
+            "type": "MutableSequence[google.cloud.devtools.cloudbuild_v2.types.CreateRepositoryRequest]"
           },
           {
             "name": "retry",
@@ -100,10 +100,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.batch_create_repositories",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.batch_create_repositories",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.BatchCreateRepositories",
           "service": {
@@ -115,7 +115,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.BatchCreateRepositoriesRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.BatchCreateRepositoriesRequest"
           },
           {
             "name": "parent",
@@ -123,7 +123,7 @@
           },
           {
             "name": "requests",
-            "type": "MutableSequence[google.devtools.cloudbuild_v2.types.CreateRepositoryRequest]"
+            "type": "MutableSequence[google.cloud.devtools.cloudbuild_v2.types.CreateRepositoryRequest]"
           },
           {
             "name": "retry",
@@ -185,10 +185,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.create_connection",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.create_connection",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.CreateConnection",
           "service": {
@@ -200,7 +200,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.CreateConnectionRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.CreateConnectionRequest"
           },
           {
             "name": "parent",
@@ -208,7 +208,7 @@
           },
           {
             "name": "connection",
-            "type": "google.devtools.cloudbuild_v2.types.Connection"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.Connection"
           },
           {
             "name": "connection_id",
@@ -273,10 +273,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.create_connection",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.create_connection",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.CreateConnection",
           "service": {
@@ -288,7 +288,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.CreateConnectionRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.CreateConnectionRequest"
           },
           {
             "name": "parent",
@@ -296,7 +296,7 @@
           },
           {
             "name": "connection",
-            "type": "google.devtools.cloudbuild_v2.types.Connection"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.Connection"
           },
           {
             "name": "connection_id",
@@ -362,10 +362,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.create_repository",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.create_repository",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.CreateRepository",
           "service": {
@@ -377,7 +377,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.CreateRepositoryRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.CreateRepositoryRequest"
           },
           {
             "name": "parent",
@@ -385,7 +385,7 @@
           },
           {
             "name": "repository",
-            "type": "google.devtools.cloudbuild_v2.types.Repository"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.Repository"
           },
           {
             "name": "repository_id",
@@ -450,10 +450,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.create_repository",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.create_repository",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.CreateRepository",
           "service": {
@@ -465,7 +465,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.CreateRepositoryRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.CreateRepositoryRequest"
           },
           {
             "name": "parent",
@@ -473,7 +473,7 @@
           },
           {
             "name": "repository",
-            "type": "google.devtools.cloudbuild_v2.types.Repository"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.Repository"
           },
           {
             "name": "repository_id",
@@ -539,10 +539,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.delete_connection",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.delete_connection",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.DeleteConnection",
           "service": {
@@ -554,7 +554,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.DeleteConnectionRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.DeleteConnectionRequest"
           },
           {
             "name": "name",
@@ -619,10 +619,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.delete_connection",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.delete_connection",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.DeleteConnection",
           "service": {
@@ -634,7 +634,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.DeleteConnectionRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.DeleteConnectionRequest"
           },
           {
             "name": "name",
@@ -700,10 +700,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.delete_repository",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.delete_repository",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.DeleteRepository",
           "service": {
@@ -715,7 +715,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.DeleteRepositoryRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.DeleteRepositoryRequest"
           },
           {
             "name": "name",
@@ -780,10 +780,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.delete_repository",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.delete_repository",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.DeleteRepository",
           "service": {
@@ -795,7 +795,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.DeleteRepositoryRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.DeleteRepositoryRequest"
           },
           {
             "name": "name",
@@ -861,10 +861,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.fetch_linkable_repositories",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.fetch_linkable_repositories",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.FetchLinkableRepositories",
           "service": {
@@ -876,7 +876,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesRequest"
           },
           {
             "name": "retry",
@@ -891,7 +891,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.services.repository_manager.pagers.FetchLinkableRepositoriesAsyncPager",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.services.repository_manager.pagers.FetchLinkableRepositoriesAsyncPager",
         "shortName": "fetch_linkable_repositories"
       },
       "description": "Sample for FetchLinkableRepositories",
@@ -937,10 +937,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.fetch_linkable_repositories",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.fetch_linkable_repositories",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.FetchLinkableRepositories",
           "service": {
@@ -952,7 +952,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesRequest"
           },
           {
             "name": "retry",
@@ -967,7 +967,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.services.repository_manager.pagers.FetchLinkableRepositoriesPager",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.services.repository_manager.pagers.FetchLinkableRepositoriesPager",
         "shortName": "fetch_linkable_repositories"
       },
       "description": "Sample for FetchLinkableRepositories",
@@ -1014,10 +1014,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.fetch_read_token",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.fetch_read_token",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.FetchReadToken",
           "service": {
@@ -1029,7 +1029,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.FetchReadTokenRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.FetchReadTokenRequest"
           },
           {
             "name": "repository",
@@ -1048,7 +1048,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.types.FetchReadTokenResponse",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.types.FetchReadTokenResponse",
         "shortName": "fetch_read_token"
       },
       "description": "Sample for FetchReadToken",
@@ -1094,10 +1094,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.fetch_read_token",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.fetch_read_token",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.FetchReadToken",
           "service": {
@@ -1109,7 +1109,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.FetchReadTokenRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.FetchReadTokenRequest"
           },
           {
             "name": "repository",
@@ -1128,7 +1128,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.types.FetchReadTokenResponse",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.types.FetchReadTokenResponse",
         "shortName": "fetch_read_token"
       },
       "description": "Sample for FetchReadToken",
@@ -1175,10 +1175,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.fetch_read_write_token",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.fetch_read_write_token",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.FetchReadWriteToken",
           "service": {
@@ -1190,7 +1190,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.FetchReadWriteTokenRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.FetchReadWriteTokenRequest"
           },
           {
             "name": "repository",
@@ -1209,7 +1209,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.types.FetchReadWriteTokenResponse",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.types.FetchReadWriteTokenResponse",
         "shortName": "fetch_read_write_token"
       },
       "description": "Sample for FetchReadWriteToken",
@@ -1255,10 +1255,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.fetch_read_write_token",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.fetch_read_write_token",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.FetchReadWriteToken",
           "service": {
@@ -1270,7 +1270,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.FetchReadWriteTokenRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.FetchReadWriteTokenRequest"
           },
           {
             "name": "repository",
@@ -1289,7 +1289,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.types.FetchReadWriteTokenResponse",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.types.FetchReadWriteTokenResponse",
         "shortName": "fetch_read_write_token"
       },
       "description": "Sample for FetchReadWriteToken",
@@ -1336,10 +1336,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.get_connection",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.get_connection",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.GetConnection",
           "service": {
@@ -1351,7 +1351,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.GetConnectionRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.GetConnectionRequest"
           },
           {
             "name": "name",
@@ -1370,7 +1370,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.types.Connection",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.types.Connection",
         "shortName": "get_connection"
       },
       "description": "Sample for GetConnection",
@@ -1416,10 +1416,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.get_connection",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.get_connection",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.GetConnection",
           "service": {
@@ -1431,7 +1431,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.GetConnectionRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.GetConnectionRequest"
           },
           {
             "name": "name",
@@ -1450,7 +1450,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.types.Connection",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.types.Connection",
         "shortName": "get_connection"
       },
       "description": "Sample for GetConnection",
@@ -1497,10 +1497,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.get_repository",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.get_repository",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.GetRepository",
           "service": {
@@ -1512,7 +1512,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.GetRepositoryRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.GetRepositoryRequest"
           },
           {
             "name": "name",
@@ -1531,7 +1531,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.types.Repository",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.types.Repository",
         "shortName": "get_repository"
       },
       "description": "Sample for GetRepository",
@@ -1577,10 +1577,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.get_repository",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.get_repository",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.GetRepository",
           "service": {
@@ -1592,7 +1592,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.GetRepositoryRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.GetRepositoryRequest"
           },
           {
             "name": "name",
@@ -1611,7 +1611,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.types.Repository",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.types.Repository",
         "shortName": "get_repository"
       },
       "description": "Sample for GetRepository",
@@ -1658,10 +1658,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.list_connections",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.list_connections",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.ListConnections",
           "service": {
@@ -1673,7 +1673,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.ListConnectionsRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.ListConnectionsRequest"
           },
           {
             "name": "parent",
@@ -1692,7 +1692,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.services.repository_manager.pagers.ListConnectionsAsyncPager",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.services.repository_manager.pagers.ListConnectionsAsyncPager",
         "shortName": "list_connections"
       },
       "description": "Sample for ListConnections",
@@ -1738,10 +1738,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.list_connections",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.list_connections",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.ListConnections",
           "service": {
@@ -1753,7 +1753,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.ListConnectionsRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.ListConnectionsRequest"
           },
           {
             "name": "parent",
@@ -1772,7 +1772,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.services.repository_manager.pagers.ListConnectionsPager",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.services.repository_manager.pagers.ListConnectionsPager",
         "shortName": "list_connections"
       },
       "description": "Sample for ListConnections",
@@ -1819,10 +1819,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.list_repositories",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.list_repositories",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.ListRepositories",
           "service": {
@@ -1834,7 +1834,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.ListRepositoriesRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.ListRepositoriesRequest"
           },
           {
             "name": "parent",
@@ -1853,7 +1853,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.services.repository_manager.pagers.ListRepositoriesAsyncPager",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.services.repository_manager.pagers.ListRepositoriesAsyncPager",
         "shortName": "list_repositories"
       },
       "description": "Sample for ListRepositories",
@@ -1899,10 +1899,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.list_repositories",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.list_repositories",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.ListRepositories",
           "service": {
@@ -1914,7 +1914,7 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.ListRepositoriesRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.ListRepositoriesRequest"
           },
           {
             "name": "parent",
@@ -1933,7 +1933,7 @@
             "type": "Sequence[Tuple[str, str]"
           }
         ],
-        "resultType": "google.devtools.cloudbuild_v2.services.repository_manager.pagers.ListRepositoriesPager",
+        "resultType": "google.cloud.devtools.cloudbuild_v2.services.repository_manager.pagers.ListRepositoriesPager",
         "shortName": "list_repositories"
       },
       "description": "Sample for ListRepositories",
@@ -1980,10 +1980,10 @@
       "clientMethod": {
         "async": true,
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient",
           "shortName": "RepositoryManagerAsyncClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.update_connection",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerAsyncClient.update_connection",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.UpdateConnection",
           "service": {
@@ -1995,11 +1995,11 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.UpdateConnectionRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.UpdateConnectionRequest"
           },
           {
             "name": "connection",
-            "type": "google.devtools.cloudbuild_v2.types.Connection"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.Connection"
           },
           {
             "name": "update_mask",
@@ -2064,10 +2064,10 @@
       "canonical": true,
       "clientMethod": {
         "client": {
-          "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient",
+          "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient",
           "shortName": "RepositoryManagerClient"
         },
-        "fullName": "google.devtools.cloudbuild_v2.RepositoryManagerClient.update_connection",
+        "fullName": "google.cloud.devtools.cloudbuild_v2.RepositoryManagerClient.update_connection",
         "method": {
           "fullName": "google.devtools.cloudbuild.v2.RepositoryManager.UpdateConnection",
           "service": {
@@ -2079,11 +2079,11 @@
         "parameters": [
           {
             "name": "request",
-            "type": "google.devtools.cloudbuild_v2.types.UpdateConnectionRequest"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.UpdateConnectionRequest"
           },
           {
             "name": "connection",
-            "type": "google.devtools.cloudbuild_v2.types.Connection"
+            "type": "google.cloud.devtools.cloudbuild_v2.types.Connection"
           },
           {
             "name": "update_mask",

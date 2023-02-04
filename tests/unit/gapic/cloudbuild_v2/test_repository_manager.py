@@ -48,17 +48,17 @@ from google.api_core import operations_v1
 from google.api_core import path_template
 from google.auth import credentials as ga_credentials
 from google.auth.exceptions import MutualTLSChannelError
-from google.cloud.location import locations_pb2
-from google.devtools.cloudbuild_v2.services.repository_manager import (
+from google.cloud.devtools.cloudbuild_v2.services.repository_manager import (
     RepositoryManagerAsyncClient,
 )
-from google.devtools.cloudbuild_v2.services.repository_manager import (
+from google.cloud.devtools.cloudbuild_v2.services.repository_manager import (
     RepositoryManagerClient,
 )
-from google.devtools.cloudbuild_v2.services.repository_manager import pagers
-from google.devtools.cloudbuild_v2.services.repository_manager import transports
-from google.devtools.cloudbuild_v2.types import cloudbuild
-from google.devtools.cloudbuild_v2.types import repositories
+from google.cloud.devtools.cloudbuild_v2.services.repository_manager import pagers
+from google.cloud.devtools.cloudbuild_v2.services.repository_manager import transports
+from google.cloud.devtools.cloudbuild_v2.types import cloudbuild
+from google.cloud.devtools.cloudbuild_v2.types import repositories
+from google.cloud.location import locations_pb2
 from google.iam.v1 import iam_policy_pb2  # type: ignore
 from google.iam.v1 import options_pb2  # type: ignore
 from google.iam.v1 import policy_pb2  # type: ignore
@@ -665,7 +665,7 @@ def test_repository_manager_client_client_options_credentials_file(
 
 def test_repository_manager_client_client_options_from_dict():
     with mock.patch(
-        "google.devtools.cloudbuild_v2.services.repository_manager.transports.RepositoryManagerGrpcTransport.__init__"
+        "google.cloud.devtools.cloudbuild_v2.services.repository_manager.transports.RepositoryManagerGrpcTransport.__init__"
     ) as grpc_transport:
         grpc_transport.return_value = None
         client = RepositoryManagerClient(
@@ -8519,7 +8519,7 @@ def test_repository_manager_base_transport_error():
 def test_repository_manager_base_transport():
     # Instantiate the base transport.
     with mock.patch(
-        "google.devtools.cloudbuild_v2.services.repository_manager.transports.RepositoryManagerTransport.__init__"
+        "google.cloud.devtools.cloudbuild_v2.services.repository_manager.transports.RepositoryManagerTransport.__init__"
     ) as Transport:
         Transport.return_value = None
         transport = transports.RepositoryManagerTransport(
@@ -8574,7 +8574,7 @@ def test_repository_manager_base_transport_with_credentials_file():
     with mock.patch.object(
         google.auth, "load_credentials_from_file", autospec=True
     ) as load_creds, mock.patch(
-        "google.devtools.cloudbuild_v2.services.repository_manager.transports.RepositoryManagerTransport._prep_wrapped_messages"
+        "google.cloud.devtools.cloudbuild_v2.services.repository_manager.transports.RepositoryManagerTransport._prep_wrapped_messages"
     ) as Transport:
         Transport.return_value = None
         load_creds.return_value = (ga_credentials.AnonymousCredentials(), None)
@@ -8593,7 +8593,7 @@ def test_repository_manager_base_transport_with_credentials_file():
 def test_repository_manager_base_transport_with_adc():
     # Test the default credentials are used if credentials and credentials_file are None.
     with mock.patch.object(google.auth, "default", autospec=True) as adc, mock.patch(
-        "google.devtools.cloudbuild_v2.services.repository_manager.transports.RepositoryManagerTransport._prep_wrapped_messages"
+        "google.cloud.devtools.cloudbuild_v2.services.repository_manager.transports.RepositoryManagerTransport._prep_wrapped_messages"
     ) as Transport:
         Transport.return_value = None
         adc.return_value = (ga_credentials.AnonymousCredentials(), None)

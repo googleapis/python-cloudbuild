@@ -44,7 +44,7 @@ except AttributeError:  # pragma: NO COVER
     OptionalRetry = Union[retries.Retry, object]  # type: ignore
 
 
-from google.devtools.cloudbuild_v2.types import repositories
+from google.cloud.devtools.cloudbuild_v2.types import repositories
 from google.longrunning import operations_pb2  # type: ignore
 
 from .base import (

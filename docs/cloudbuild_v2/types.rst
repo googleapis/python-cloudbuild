@@ -1,6 +1,6 @@
-Types for Google Devtools Cloudbuild v2 API
-===========================================
+Types for Google Cloud Devtools Cloudbuild v2 API
+=================================================
 
-.. automodule:: google.devtools.cloudbuild_v2.types
+.. automodule:: google.cloud.devtools.cloudbuild_v2.types
     :members:
     :show-inheritance:

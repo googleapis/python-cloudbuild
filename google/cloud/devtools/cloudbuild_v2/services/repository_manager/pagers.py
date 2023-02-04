@@ -24,14 +24,14 @@ from typing import (
     Iterator,
 )
 
-from google.devtools.cloudbuild_v2.types import repositories
+from google.cloud.devtools.cloudbuild_v2.types import repositories
 
 
 class ListConnectionsPager:
     """A pager for iterating through ``list_connections`` requests.
 
     This class thinly wraps an initial
-    :class:`google.devtools.cloudbuild_v2.types.ListConnectionsResponse` object, and
+    :class:`google.cloud.devtools.cloudbuild_v2.types.ListConnectionsResponse` object, and
     provides an ``__iter__`` method to iterate through its
     ``connections`` field.
 
@@ -40,7 +40,7 @@ class ListConnectionsPager:
     through the ``connections`` field on the
     corresponding responses.
 
-    All the usual :class:`google.devtools.cloudbuild_v2.types.ListConnectionsResponse`
+    All the usual :class:`google.cloud.devtools.cloudbuild_v2.types.ListConnectionsResponse`
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
@@ -58,9 +58,9 @@ class ListConnectionsPager:
         Args:
             method (Callable): The method that was originally called, and
                 which instantiated this pager.
-            request (google.devtools.cloudbuild_v2.types.ListConnectionsRequest):
+            request (google.cloud.devtools.cloudbuild_v2.types.ListConnectionsRequest):
                 The initial request object.
-            response (google.devtools.cloudbuild_v2.types.ListConnectionsResponse):
+            response (google.cloud.devtools.cloudbuild_v2.types.ListConnectionsResponse):
                 The initial response object.
             metadata (Sequence[Tuple[str, str]]): Strings which should be
                 sent along with the request as metadata.
@@ -93,7 +93,7 @@ class ListConnectionsAsyncPager:
     """A pager for iterating through ``list_connections`` requests.
 
     This class thinly wraps an initial
-    :class:`google.devtools.cloudbuild_v2.types.ListConnectionsResponse` object, and
+    :class:`google.cloud.devtools.cloudbuild_v2.types.ListConnectionsResponse` object, and
     provides an ``__aiter__`` method to iterate through its
     ``connections`` field.
 
@@ -102,7 +102,7 @@ class ListConnectionsAsyncPager:
     through the ``connections`` field on the
     corresponding responses.
 
-    All the usual :class:`google.devtools.cloudbuild_v2.types.ListConnectionsResponse`
+    All the usual :class:`google.cloud.devtools.cloudbuild_v2.types.ListConnectionsResponse`
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
@@ -120,9 +120,9 @@ class ListConnectionsAsyncPager:
         Args:
             method (Callable): The method that was originally called, and
                 which instantiated this pager.
-            request (google.devtools.cloudbuild_v2.types.ListConnectionsRequest):
+            request (google.cloud.devtools.cloudbuild_v2.types.ListConnectionsRequest):
                 The initial request object.
-            response (google.devtools.cloudbuild_v2.types.ListConnectionsResponse):
+            response (google.cloud.devtools.cloudbuild_v2.types.ListConnectionsResponse):
                 The initial response object.
             metadata (Sequence[Tuple[str, str]]): Strings which should be
                 sent along with the request as metadata.
@@ -159,7 +159,7 @@ class ListRepositoriesPager:
     """A pager for iterating through ``list_repositories`` requests.
 
     This class thinly wraps an initial
-    :class:`google.devtools.cloudbuild_v2.types.ListRepositoriesResponse` object, and
+    :class:`google.cloud.devtools.cloudbuild_v2.types.ListRepositoriesResponse` object, and
     provides an ``__iter__`` method to iterate through its
     ``repositories`` field.
 
@@ -168,7 +168,7 @@ class ListRepositoriesPager:
     through the ``repositories`` field on the
     corresponding responses.
 
-    All the usual :class:`google.devtools.cloudbuild_v2.types.ListRepositoriesResponse`
+    All the usual :class:`google.cloud.devtools.cloudbuild_v2.types.ListRepositoriesResponse`
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
@@ -186,9 +186,9 @@ class ListRepositoriesPager:
         Args:
             method (Callable): The method that was originally called, and
                 which instantiated this pager.
-            request (google.devtools.cloudbuild_v2.types.ListRepositoriesRequest):
+            request (google.cloud.devtools.cloudbuild_v2.types.ListRepositoriesRequest):
                 The initial request object.
-            response (google.devtools.cloudbuild_v2.types.ListRepositoriesResponse):
+            response (google.cloud.devtools.cloudbuild_v2.types.ListRepositoriesResponse):
                 The initial response object.
             metadata (Sequence[Tuple[str, str]]): Strings which should be
                 sent along with the request as metadata.
@@ -221,7 +221,7 @@ class ListRepositoriesAsyncPager:
     """A pager for iterating through ``list_repositories`` requests.
 
     This class thinly wraps an initial
-    :class:`google.devtools.cloudbuild_v2.types.ListRepositoriesResponse` object, and
+    :class:`google.cloud.devtools.cloudbuild_v2.types.ListRepositoriesResponse` object, and
     provides an ``__aiter__`` method to iterate through its
     ``repositories`` field.
 
@@ -230,7 +230,7 @@ class ListRepositoriesAsyncPager:
     through the ``repositories`` field on the
     corresponding responses.
 
-    All the usual :class:`google.devtools.cloudbuild_v2.types.ListRepositoriesResponse`
+    All the usual :class:`google.cloud.devtools.cloudbuild_v2.types.ListRepositoriesResponse`
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
@@ -248,9 +248,9 @@ class ListRepositoriesAsyncPager:
         Args:
             method (Callable): The method that was originally called, and
                 which instantiated this pager.
-            request (google.devtools.cloudbuild_v2.types.ListRepositoriesRequest):
+            request (google.cloud.devtools.cloudbuild_v2.types.ListRepositoriesRequest):
                 The initial request object.
-            response (google.devtools.cloudbuild_v2.types.ListRepositoriesResponse):
+            response (google.cloud.devtools.cloudbuild_v2.types.ListRepositoriesResponse):
                 The initial response object.
             metadata (Sequence[Tuple[str, str]]): Strings which should be
                 sent along with the request as metadata.
@@ -287,7 +287,7 @@ class FetchLinkableRepositoriesPager:
     """A pager for iterating through ``fetch_linkable_repositories`` requests.
 
     This class thinly wraps an initial
-    :class:`google.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesResponse` object, and
+    :class:`google.cloud.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesResponse` object, and
     provides an ``__iter__`` method to iterate through its
     ``repositories`` field.
 
@@ -296,7 +296,7 @@ class FetchLinkableRepositoriesPager:
     through the ``repositories`` field on the
     corresponding responses.
 
-    All the usual :class:`google.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesResponse`
+    All the usual :class:`google.cloud.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesResponse`
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
@@ -314,9 +314,9 @@ class FetchLinkableRepositoriesPager:
         Args:
             method (Callable): The method that was originally called, and
                 which instantiated this pager.
-            request (google.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesRequest):
+            request (google.cloud.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesRequest):
                 The initial request object.
-            response (google.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesResponse):
+            response (google.cloud.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesResponse):
                 The initial response object.
             metadata (Sequence[Tuple[str, str]]): Strings which should be
                 sent along with the request as metadata.
@@ -349,7 +349,7 @@ class FetchLinkableRepositoriesAsyncPager:
     """A pager for iterating through ``fetch_linkable_repositories`` requests.
 
     This class thinly wraps an initial
-    :class:`google.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesResponse` object, and
+    :class:`google.cloud.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesResponse` object, and
     provides an ``__aiter__`` method to iterate through its
     ``repositories`` field.
 
@@ -358,7 +358,7 @@ class FetchLinkableRepositoriesAsyncPager:
     through the ``repositories`` field on the
     corresponding responses.
 
-    All the usual :class:`google.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesResponse`
+    All the usual :class:`google.cloud.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesResponse`
     attributes are available on the pager. If multiple requests are made, only
     the most recent response is retained, and thus used for attribute lookup.
     """
@@ -378,9 +378,9 @@ class FetchLinkableRepositoriesAsyncPager:
         Args:
             method (Callable): The method that was originally called, and
                 which instantiated this pager.
-            request (google.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesRequest):
+            request (google.cloud.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesRequest):
                 The initial request object.
-            response (google.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesResponse):
+            response (google.cloud.devtools.cloudbuild_v2.types.FetchLinkableRepositoriesResponse):
                 The initial response object.
             metadata (Sequence[Tuple[str, str]]): Strings which should be
                 sent along with the request as metadata.

@@ -1,7 +1,7 @@
  {
   "comment": "This file maps proto services/RPCs to the corresponding library clients/methods",
   "language": "python",
-  "libraryPackage": "google.devtools.cloudbuild_v2",
+  "libraryPackage": "google.cloud.devtools.cloudbuild_v2",
   "protoPackage": "google.devtools.cloudbuild.v2",
   "schema": "1.0",
   "services": {
