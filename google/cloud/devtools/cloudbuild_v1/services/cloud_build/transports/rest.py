@@ -214,7 +214,12 @@ class CloudBuildRestInterceptor:
 
 
     """
-    def pre_approve_build(self, request: cloudbuild.ApproveBuildRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.ApproveBuildRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_approve_build(
+        self,
+        request: cloudbuild.ApproveBuildRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.ApproveBuildRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for approve_build
 
         Override in a subclass to manipulate the request or metadata
@@ -222,7 +227,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_approve_build(self, response: operations_pb2.Operation) -> operations_pb2.Operation:
+    def post_approve_build(
+        self, response: operations_pb2.Operation
+    ) -> operations_pb2.Operation:
         """Post-rpc interceptor for approve_build
 
         Override in a subclass to manipulate the response
@@ -230,7 +237,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_cancel_build(self, request: cloudbuild.CancelBuildRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.CancelBuildRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_cancel_build(
+        self,
+        request: cloudbuild.CancelBuildRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.CancelBuildRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for cancel_build
 
         Override in a subclass to manipulate the request or metadata
@@ -246,7 +258,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_create_build(self, request: cloudbuild.CreateBuildRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.CreateBuildRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_create_build(
+        self,
+        request: cloudbuild.CreateBuildRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.CreateBuildRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for create_build
 
         Override in a subclass to manipulate the request or metadata
@@ -254,7 +271,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_create_build(self, response: operations_pb2.Operation) -> operations_pb2.Operation:
+    def post_create_build(
+        self, response: operations_pb2.Operation
+    ) -> operations_pb2.Operation:
         """Post-rpc interceptor for create_build
 
         Override in a subclass to manipulate the response
@@ -262,7 +281,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_create_build_trigger(self, request: cloudbuild.CreateBuildTriggerRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.CreateBuildTriggerRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_create_build_trigger(
+        self,
+        request: cloudbuild.CreateBuildTriggerRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.CreateBuildTriggerRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for create_build_trigger
 
         Override in a subclass to manipulate the request or metadata
@@ -270,7 +294,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_create_build_trigger(self, response: cloudbuild.BuildTrigger) -> cloudbuild.BuildTrigger:
+    def post_create_build_trigger(
+        self, response: cloudbuild.BuildTrigger
+    ) -> cloudbuild.BuildTrigger:
         """Post-rpc interceptor for create_build_trigger
 
         Override in a subclass to manipulate the response
@@ -278,7 +304,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_create_worker_pool(self, request: cloudbuild.CreateWorkerPoolRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.CreateWorkerPoolRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_create_worker_pool(
+        self,
+        request: cloudbuild.CreateWorkerPoolRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.CreateWorkerPoolRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for create_worker_pool
 
         Override in a subclass to manipulate the request or metadata
@@ -286,7 +317,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_create_worker_pool(self, response: operations_pb2.Operation) -> operations_pb2.Operation:
+    def post_create_worker_pool(
+        self, response: operations_pb2.Operation
+    ) -> operations_pb2.Operation:
         """Post-rpc interceptor for create_worker_pool
 
         Override in a subclass to manipulate the response
@@ -294,7 +327,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_delete_build_trigger(self, request: cloudbuild.DeleteBuildTriggerRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.DeleteBuildTriggerRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_delete_build_trigger(
+        self,
+        request: cloudbuild.DeleteBuildTriggerRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.DeleteBuildTriggerRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for delete_build_trigger
 
         Override in a subclass to manipulate the request or metadata
@@ -302,7 +340,11 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def pre_delete_worker_pool(self, request: cloudbuild.DeleteWorkerPoolRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.DeleteWorkerPoolRequest, Sequence[Tuple[str, str]]]:
+    def pre_delete_worker_pool(
+        self,
+        request: cloudbuild.DeleteWorkerPoolRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.DeleteWorkerPoolRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for delete_worker_pool
 
         Override in a subclass to manipulate the request or metadata
@@ -310,7 +352,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_delete_worker_pool(self, response: operations_pb2.Operation) -> operations_pb2.Operation:
+    def post_delete_worker_pool(
+        self, response: operations_pb2.Operation
+    ) -> operations_pb2.Operation:
         """Post-rpc interceptor for delete_worker_pool
 
         Override in a subclass to manipulate the response
@@ -318,7 +362,10 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_get_build(self, request: cloudbuild.GetBuildRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.GetBuildRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_get_build(
+        self, request: cloudbuild.GetBuildRequest, metadata: Sequence[Tuple[str, str]]
+    ) -> Tuple[cloudbuild.GetBuildRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for get_build
 
         Override in a subclass to manipulate the request or metadata
@@ -334,7 +381,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_get_build_trigger(self, request: cloudbuild.GetBuildTriggerRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.GetBuildTriggerRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_get_build_trigger(
+        self,
+        request: cloudbuild.GetBuildTriggerRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.GetBuildTriggerRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for get_build_trigger
 
         Override in a subclass to manipulate the request or metadata
@@ -342,7 +394,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_get_build_trigger(self, response: cloudbuild.BuildTrigger) -> cloudbuild.BuildTrigger:
+    def post_get_build_trigger(
+        self, response: cloudbuild.BuildTrigger
+    ) -> cloudbuild.BuildTrigger:
         """Post-rpc interceptor for get_build_trigger
 
         Override in a subclass to manipulate the response
@@ -350,7 +404,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_get_worker_pool(self, request: cloudbuild.GetWorkerPoolRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.GetWorkerPoolRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_get_worker_pool(
+        self,
+        request: cloudbuild.GetWorkerPoolRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.GetWorkerPoolRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for get_worker_pool
 
         Override in a subclass to manipulate the request or metadata
@@ -358,7 +417,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_get_worker_pool(self, response: cloudbuild.WorkerPool) -> cloudbuild.WorkerPool:
+    def post_get_worker_pool(
+        self, response: cloudbuild.WorkerPool
+    ) -> cloudbuild.WorkerPool:
         """Post-rpc interceptor for get_worker_pool
 
         Override in a subclass to manipulate the response
@@ -366,7 +427,10 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_list_builds(self, request: cloudbuild.ListBuildsRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.ListBuildsRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_list_builds(
+        self, request: cloudbuild.ListBuildsRequest, metadata: Sequence[Tuple[str, str]]
+    ) -> Tuple[cloudbuild.ListBuildsRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for list_builds
 
         Override in a subclass to manipulate the request or metadata
@@ -374,7 +438,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_list_builds(self, response: cloudbuild.ListBuildsResponse) -> cloudbuild.ListBuildsResponse:
+    def post_list_builds(
+        self, response: cloudbuild.ListBuildsResponse
+    ) -> cloudbuild.ListBuildsResponse:
         """Post-rpc interceptor for list_builds
 
         Override in a subclass to manipulate the response
@@ -382,7 +448,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_list_build_triggers(self, request: cloudbuild.ListBuildTriggersRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.ListBuildTriggersRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_list_build_triggers(
+        self,
+        request: cloudbuild.ListBuildTriggersRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.ListBuildTriggersRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for list_build_triggers
 
         Override in a subclass to manipulate the request or metadata
@@ -390,7 +461,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_list_build_triggers(self, response: cloudbuild.ListBuildTriggersResponse) -> cloudbuild.ListBuildTriggersResponse:
+    def post_list_build_triggers(
+        self, response: cloudbuild.ListBuildTriggersResponse
+    ) -> cloudbuild.ListBuildTriggersResponse:
         """Post-rpc interceptor for list_build_triggers
 
         Override in a subclass to manipulate the response
@@ -398,7 +471,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_list_worker_pools(self, request: cloudbuild.ListWorkerPoolsRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.ListWorkerPoolsRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_list_worker_pools(
+        self,
+        request: cloudbuild.ListWorkerPoolsRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.ListWorkerPoolsRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for list_worker_pools
 
         Override in a subclass to manipulate the request or metadata
@@ -406,7 +484,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_list_worker_pools(self, response: cloudbuild.ListWorkerPoolsResponse) -> cloudbuild.ListWorkerPoolsResponse:
+    def post_list_worker_pools(
+        self, response: cloudbuild.ListWorkerPoolsResponse
+    ) -> cloudbuild.ListWorkerPoolsResponse:
         """Post-rpc interceptor for list_worker_pools
 
         Override in a subclass to manipulate the response
@@ -414,7 +494,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_receive_trigger_webhook(self, request: cloudbuild.ReceiveTriggerWebhookRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.ReceiveTriggerWebhookRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_receive_trigger_webhook(
+        self,
+        request: cloudbuild.ReceiveTriggerWebhookRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.ReceiveTriggerWebhookRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for receive_trigger_webhook
 
         Override in a subclass to manipulate the request or metadata
@@ -422,7 +507,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_receive_trigger_webhook(self, response: cloudbuild.ReceiveTriggerWebhookResponse) -> cloudbuild.ReceiveTriggerWebhookResponse:
+    def post_receive_trigger_webhook(
+        self, response: cloudbuild.ReceiveTriggerWebhookResponse
+    ) -> cloudbuild.ReceiveTriggerWebhookResponse:
         """Post-rpc interceptor for receive_trigger_webhook
 
         Override in a subclass to manipulate the response
@@ -430,7 +517,10 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_retry_build(self, request: cloudbuild.RetryBuildRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.RetryBuildRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_retry_build(
+        self, request: cloudbuild.RetryBuildRequest, metadata: Sequence[Tuple[str, str]]
+    ) -> Tuple[cloudbuild.RetryBuildRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for retry_build
 
         Override in a subclass to manipulate the request or metadata
@@ -438,7 +528,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_retry_build(self, response: operations_pb2.Operation) -> operations_pb2.Operation:
+    def post_retry_build(
+        self, response: operations_pb2.Operation
+    ) -> operations_pb2.Operation:
         """Post-rpc interceptor for retry_build
 
         Override in a subclass to manipulate the response
@@ -446,7 +538,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_run_build_trigger(self, request: cloudbuild.RunBuildTriggerRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.RunBuildTriggerRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_run_build_trigger(
+        self,
+        request: cloudbuild.RunBuildTriggerRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.RunBuildTriggerRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for run_build_trigger
 
         Override in a subclass to manipulate the request or metadata
@@ -454,7 +551,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_run_build_trigger(self, response: operations_pb2.Operation) -> operations_pb2.Operation:
+    def post_run_build_trigger(
+        self, response: operations_pb2.Operation
+    ) -> operations_pb2.Operation:
         """Post-rpc interceptor for run_build_trigger
 
         Override in a subclass to manipulate the response
@@ -462,7 +561,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_update_build_trigger(self, request: cloudbuild.UpdateBuildTriggerRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.UpdateBuildTriggerRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_update_build_trigger(
+        self,
+        request: cloudbuild.UpdateBuildTriggerRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.UpdateBuildTriggerRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for update_build_trigger
 
         Override in a subclass to manipulate the request or metadata
@@ -470,7 +574,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_update_build_trigger(self, response: cloudbuild.BuildTrigger) -> cloudbuild.BuildTrigger:
+    def post_update_build_trigger(
+        self, response: cloudbuild.BuildTrigger
+    ) -> cloudbuild.BuildTrigger:
         """Post-rpc interceptor for update_build_trigger
 
         Override in a subclass to manipulate the response
@@ -478,7 +584,12 @@ class CloudBuildRestInterceptor:
         it is returned to user code.
         """
         return response
-    def pre_update_worker_pool(self, request: cloudbuild.UpdateWorkerPoolRequest, metadata: Sequence[Tuple[str, str]]) -> Tuple[cloudbuild.UpdateWorkerPoolRequest, Sequence[Tuple[str, str]]]:
+
+    def pre_update_worker_pool(
+        self,
+        request: cloudbuild.UpdateWorkerPoolRequest,
+        metadata: Sequence[Tuple[str, str]],
+    ) -> Tuple[cloudbuild.UpdateWorkerPoolRequest, Sequence[Tuple[str, str]]]:
         """Pre-rpc interceptor for update_worker_pool
 
         Override in a subclass to manipulate the request or metadata
@@ -486,7 +597,9 @@ class CloudBuildRestInterceptor:
         """
         return request, metadata
 
-    def post_update_worker_pool(self, response: operations_pb2.Operation) -> operations_pb2.Operation:
+    def post_update_worker_pool(
+        self, response: operations_pb2.Operation
+    ) -> operations_pb2.Operation:
         """Post-rpc interceptor for update_worker_pool
 
         Override in a subclass to manipulate the response
@@ -523,20 +636,21 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
     """
 
-    def __init__(self, *,
-            host: str = 'cloudbuild.googleapis.com',
-            credentials: Optional[ga_credentials.Credentials] = None,
-            credentials_file: Optional[str] = None,
-            scopes: Optional[Sequence[str]] = None,
-            client_cert_source_for_mtls: Optional[Callable[[
-                ], Tuple[bytes, bytes]]] = None,
-            quota_project_id: Optional[str] = None,
-            client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
-            always_use_jwt_access: Optional[bool] = False,
-            url_scheme: str = 'https',
-            interceptor: Optional[CloudBuildRestInterceptor] = None,
-            api_audience: Optional[str] = None,
-            ) -> None:
+    def __init__(
+        self,
+        *,
+        host: str = "cloudbuild.googleapis.com",
+        credentials: Optional[ga_credentials.Credentials] = None,
+        credentials_file: Optional[str] = None,
+        scopes: Optional[Sequence[str]] = None,
+        client_cert_source_for_mtls: Optional[Callable[[], Tuple[bytes, bytes]]] = None,
+        quota_project_id: Optional[str] = None,
+        client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
+        always_use_jwt_access: Optional[bool] = False,
+        url_scheme: str = "https",
+        interceptor: Optional[CloudBuildRestInterceptor] = None,
+        api_audience: Optional[str] = None,
+    ) -> None:
         """Instantiate the transport.
 
         Args:
@@ -575,7 +689,9 @@ class CloudBuildRestTransport(CloudBuildTransport):
         # credentials object
         maybe_url_match = re.match("^(?P<scheme>http(?:s)?://)?(?P<host>.*)$", host)
         if maybe_url_match is None:
-            raise ValueError(f"Unexpected hostname structure: {host}")  # pragma: NO COVER
+            raise ValueError(
+                f"Unexpected hostname structure: {host}"
+            )  # pragma: NO COVER
 
         url_match_items = maybe_url_match.groupdict()
 
@@ -586,10 +702,11 @@ class CloudBuildRestTransport(CloudBuildTransport):
             credentials=credentials,
             client_info=client_info,
             always_use_jwt_access=always_use_jwt_access,
-            api_audience=api_audience
+            api_audience=api_audience,
         )
         self._session = AuthorizedSession(
-            self._credentials, default_host=self.DEFAULT_HOST)
+            self._credentials, default_host=self.DEFAULT_HOST
+        )
         self._operations_client: Optional[operations_v1.AbstractOperationsClient] = None
         if client_cert_source_for_mtls:
             self._session.configure_mtls_channel(client_cert_source_for_mtls)
@@ -605,18 +722,20 @@ class CloudBuildRestTransport(CloudBuildTransport):
         """
         # Only create a new client if we do not already have one.
         if self._operations_client is None:
-            http_options: Dict[str, List[Dict[str, str]]] = {
-            }
+            http_options: Dict[str, List[Dict[str, str]]] = {}
 
             rest_transport = operations_v1.OperationsRestTransport(
-                    host=self._host,
-                    # use the credentials which are saved
-                    credentials=self._credentials,
-                    scopes=self._scopes,
-                    http_options=http_options,
-                    path_prefix="v1")
+                host=self._host,
+                # use the credentials which are saved
+                credentials=self._credentials,
+                scopes=self._scopes,
+                http_options=http_options,
+                path_prefix="v1",
+            )
 
-            self._operations_client = operations_v1.AbstractOperationsClient(transport=rest_transport)
+            self._operations_client = operations_v1.AbstractOperationsClient(
+                transport=rest_transport
+            )
 
         # Return the client from cache.
         return self._operations_client
@@ -625,19 +744,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("ApproveBuild")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.ApproveBuildRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> operations_pb2.Operation:
+        def __call__(
+            self,
+            request: cloudbuild.ApproveBuildRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> operations_pb2.Operation:
             r"""Call the approve build method over HTTP.
 
             Args:
@@ -659,16 +783,17 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'post',
-                'uri': '/v1/{name=projects/*/builds/*}:approve',
-                'body': '*',
-            },
-{
-                'method': 'post',
-                'uri': '/v1/{name=projects/*/locations/*/builds/*}:approve',
-                'body': '*',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "post",
+                    "uri": "/v1/{name=projects/*/builds/*}:approve",
+                    "body": "*",
+                },
+                {
+                    "method": "post",
+                    "uri": "/v1/{name=projects/*/locations/*/builds/*}:approve",
+                    "body": "*",
+                },
             ]
             request, metadata = self._interceptor.pre_approve_build(request, metadata)
             pb_request = cloudbuild.ApproveBuildRequest.pb(request)
@@ -677,33 +802,35 @@ class CloudBuildRestTransport(CloudBuildTransport):
             # Jsonify the request body
 
             body = json_format.MessageToJson(
-                transcoded_request['body'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True
-            )
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
-
-            # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
+                transcoded_request["body"],
                 including_default_value_fields=False,
                 use_integers_for_enums=True,
-            ))
+            )
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
+
+            # Jsonify the query params
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
                 data=body,
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -720,19 +847,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("CancelBuild")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.CancelBuildRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> cloudbuild.Build:
+        def __call__(
+            self,
+            request: cloudbuild.CancelBuildRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> cloudbuild.Build:
             r"""Call the cancel build method over HTTP.
 
             Args:
@@ -772,16 +904,17 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'post',
-                'uri': '/v1/projects/{project_id}/builds/{id}:cancel',
-                'body': '*',
-            },
-{
-                'method': 'post',
-                'uri': '/v1/{name=projects/*/locations/*/builds/*}:cancel',
-                'body': '*',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "post",
+                    "uri": "/v1/projects/{project_id}/builds/{id}:cancel",
+                    "body": "*",
+                },
+                {
+                    "method": "post",
+                    "uri": "/v1/{name=projects/*/locations/*/builds/*}:cancel",
+                    "body": "*",
+                },
             ]
             request, metadata = self._interceptor.pre_cancel_build(request, metadata)
             pb_request = cloudbuild.CancelBuildRequest.pb(request)
@@ -790,33 +923,35 @@ class CloudBuildRestTransport(CloudBuildTransport):
             # Jsonify the request body
 
             body = json_format.MessageToJson(
-                transcoded_request['body'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True
-            )
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
-
-            # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
+                transcoded_request["body"],
                 including_default_value_fields=False,
                 use_integers_for_enums=True,
-            ))
+            )
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
+
+            # Jsonify the query params
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
                 data=body,
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -835,19 +970,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("CreateBuild")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.CreateBuildRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> operations_pb2.Operation:
+        def __call__(
+            self,
+            request: cloudbuild.CreateBuildRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> operations_pb2.Operation:
             r"""Call the create build method over HTTP.
 
             Args:
@@ -867,16 +1007,17 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'post',
-                'uri': '/v1/projects/{project_id}/builds',
-                'body': 'build',
-            },
-{
-                'method': 'post',
-                'uri': '/v1/{parent=projects/*/locations/*}/builds',
-                'body': 'build',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "post",
+                    "uri": "/v1/projects/{project_id}/builds",
+                    "body": "build",
+                },
+                {
+                    "method": "post",
+                    "uri": "/v1/{parent=projects/*/locations/*}/builds",
+                    "body": "build",
+                },
             ]
             request, metadata = self._interceptor.pre_create_build(request, metadata)
             pb_request = cloudbuild.CreateBuildRequest.pb(request)
@@ -885,33 +1026,35 @@ class CloudBuildRestTransport(CloudBuildTransport):
             # Jsonify the request body
 
             body = json_format.MessageToJson(
-                transcoded_request['body'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True
-            )
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
-
-            # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
+                transcoded_request["body"],
                 including_default_value_fields=False,
                 use_integers_for_enums=True,
-            ))
+            )
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
+
+            # Jsonify the query params
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
                 data=body,
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -928,19 +1071,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("CreateBuildTrigger")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.CreateBuildTriggerRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> cloudbuild.BuildTrigger:
+        def __call__(
+            self,
+            request: cloudbuild.CreateBuildTriggerRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> cloudbuild.BuildTrigger:
             r"""Call the create build trigger method over HTTP.
 
             Args:
@@ -960,51 +1108,56 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'post',
-                'uri': '/v1/projects/{project_id}/triggers',
-                'body': 'trigger',
-            },
-{
-                'method': 'post',
-                'uri': '/v1/{parent=projects/*/locations/*}/triggers',
-                'body': 'trigger',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "post",
+                    "uri": "/v1/projects/{project_id}/triggers",
+                    "body": "trigger",
+                },
+                {
+                    "method": "post",
+                    "uri": "/v1/{parent=projects/*/locations/*}/triggers",
+                    "body": "trigger",
+                },
             ]
-            request, metadata = self._interceptor.pre_create_build_trigger(request, metadata)
+            request, metadata = self._interceptor.pre_create_build_trigger(
+                request, metadata
+            )
             pb_request = cloudbuild.CreateBuildTriggerRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
             # Jsonify the request body
 
             body = json_format.MessageToJson(
-                transcoded_request['body'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True
-            )
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
-
-            # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
+                transcoded_request["body"],
                 including_default_value_fields=False,
                 use_integers_for_enums=True,
-            ))
+            )
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
+
+            # Jsonify the query params
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
                 data=body,
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -1023,19 +1176,26 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("CreateWorkerPool")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-            "workerPoolId" : "",        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {
+            "workerPoolId": "",
+        }
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.CreateWorkerPoolRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> operations_pb2.Operation:
+        def __call__(
+            self,
+            request: cloudbuild.CreateWorkerPoolRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> operations_pb2.Operation:
             r"""Call the create worker pool method over HTTP.
 
             Args:
@@ -1055,46 +1215,51 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'post',
-                'uri': '/v1/{parent=projects/*/locations/*}/workerPools',
-                'body': 'worker_pool',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "post",
+                    "uri": "/v1/{parent=projects/*/locations/*}/workerPools",
+                    "body": "worker_pool",
+                },
             ]
-            request, metadata = self._interceptor.pre_create_worker_pool(request, metadata)
+            request, metadata = self._interceptor.pre_create_worker_pool(
+                request, metadata
+            )
             pb_request = cloudbuild.CreateWorkerPoolRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
             # Jsonify the request body
 
             body = json_format.MessageToJson(
-                transcoded_request['body'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True
-            )
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
-
-            # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
+                transcoded_request["body"],
                 including_default_value_fields=False,
                 use_integers_for_enums=True,
-            ))
+            )
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
+
+            # Jsonify the query params
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
                 data=body,
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -1111,19 +1276,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("DeleteBuildTrigger")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.DeleteBuildTriggerRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ):
+        def __call__(
+            self,
+            request: cloudbuild.DeleteBuildTriggerRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ):
             r"""Call the delete build trigger method over HTTP.
 
             Args:
@@ -1136,41 +1306,46 @@ class CloudBuildRestTransport(CloudBuildTransport):
                     sent along with the request as metadata.
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'delete',
-                'uri': '/v1/projects/{project_id}/triggers/{trigger_id}',
-            },
-{
-                'method': 'delete',
-                'uri': '/v1/{name=projects/*/locations/*/triggers/*}',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "delete",
+                    "uri": "/v1/projects/{project_id}/triggers/{trigger_id}",
+                },
+                {
+                    "method": "delete",
+                    "uri": "/v1/{name=projects/*/locations/*/triggers/*}",
+                },
             ]
-            request, metadata = self._interceptor.pre_delete_build_trigger(request, metadata)
+            request, metadata = self._interceptor.pre_delete_build_trigger(
+                request, metadata
+            )
             pb_request = cloudbuild.DeleteBuildTriggerRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
 
             # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True,
-            ))
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -1181,19 +1356,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("DeleteWorkerPool")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.DeleteWorkerPoolRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> operations_pb2.Operation:
+        def __call__(
+            self,
+            request: cloudbuild.DeleteWorkerPoolRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> operations_pb2.Operation:
             r"""Call the delete worker pool method over HTTP.
 
             Args:
@@ -1213,37 +1393,42 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'delete',
-                'uri': '/v1/{name=projects/*/locations/*/workerPools/*}',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "delete",
+                    "uri": "/v1/{name=projects/*/locations/*/workerPools/*}",
+                },
             ]
-            request, metadata = self._interceptor.pre_delete_worker_pool(request, metadata)
+            request, metadata = self._interceptor.pre_delete_worker_pool(
+                request, metadata
+            )
             pb_request = cloudbuild.DeleteWorkerPoolRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
 
             # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True,
-            ))
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -1260,19 +1445,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("GetBuild")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.GetBuildRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> cloudbuild.Build:
+        def __call__(
+            self,
+            request: cloudbuild.GetBuildRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> cloudbuild.Build:
             r"""Call the get build method over HTTP.
 
             Args:
@@ -1312,41 +1502,44 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'get',
-                'uri': '/v1/projects/{project_id}/builds/{id}',
-            },
-{
-                'method': 'get',
-                'uri': '/v1/{name=projects/*/locations/*/builds/*}',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "get",
+                    "uri": "/v1/projects/{project_id}/builds/{id}",
+                },
+                {
+                    "method": "get",
+                    "uri": "/v1/{name=projects/*/locations/*/builds/*}",
+                },
             ]
             request, metadata = self._interceptor.pre_get_build(request, metadata)
             pb_request = cloudbuild.GetBuildRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
 
             # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True,
-            ))
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -1365,19 +1558,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("GetBuildTrigger")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.GetBuildTriggerRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> cloudbuild.BuildTrigger:
+        def __call__(
+            self,
+            request: cloudbuild.GetBuildTriggerRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> cloudbuild.BuildTrigger:
             r"""Call the get build trigger method over HTTP.
 
             Args:
@@ -1397,41 +1595,46 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'get',
-                'uri': '/v1/projects/{project_id}/triggers/{trigger_id}',
-            },
-{
-                'method': 'get',
-                'uri': '/v1/{name=projects/*/locations/*/triggers/*}',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "get",
+                    "uri": "/v1/projects/{project_id}/triggers/{trigger_id}",
+                },
+                {
+                    "method": "get",
+                    "uri": "/v1/{name=projects/*/locations/*/triggers/*}",
+                },
             ]
-            request, metadata = self._interceptor.pre_get_build_trigger(request, metadata)
+            request, metadata = self._interceptor.pre_get_build_trigger(
+                request, metadata
+            )
             pb_request = cloudbuild.GetBuildTriggerRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
 
             # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True,
-            ))
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -1450,19 +1653,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("GetWorkerPool")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.GetWorkerPoolRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> cloudbuild.WorkerPool:
+        def __call__(
+            self,
+            request: cloudbuild.GetWorkerPoolRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> cloudbuild.WorkerPool:
             r"""Call the get worker pool method over HTTP.
 
             Args:
@@ -1494,37 +1702,40 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'get',
-                'uri': '/v1/{name=projects/*/locations/*/workerPools/*}',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "get",
+                    "uri": "/v1/{name=projects/*/locations/*/workerPools/*}",
+                },
             ]
             request, metadata = self._interceptor.pre_get_worker_pool(request, metadata)
             pb_request = cloudbuild.GetWorkerPoolRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
 
             # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True,
-            ))
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -1543,19 +1754,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("ListBuilds")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.ListBuildsRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> cloudbuild.ListBuildsResponse:
+        def __call__(
+            self,
+            request: cloudbuild.ListBuildsRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> cloudbuild.ListBuildsResponse:
             r"""Call the list builds method over HTTP.
 
             Args:
@@ -1572,41 +1788,44 @@ class CloudBuildRestTransport(CloudBuildTransport):
                     Response including listed builds.
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'get',
-                'uri': '/v1/projects/{project_id}/builds',
-            },
-{
-                'method': 'get',
-                'uri': '/v1/{parent=projects/*/locations/*}/builds',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "get",
+                    "uri": "/v1/projects/{project_id}/builds",
+                },
+                {
+                    "method": "get",
+                    "uri": "/v1/{parent=projects/*/locations/*}/builds",
+                },
             ]
             request, metadata = self._interceptor.pre_list_builds(request, metadata)
             pb_request = cloudbuild.ListBuildsRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
 
             # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True,
-            ))
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -1625,19 +1844,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("ListBuildTriggers")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.ListBuildTriggersRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> cloudbuild.ListBuildTriggersResponse:
+        def __call__(
+            self,
+            request: cloudbuild.ListBuildTriggersRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> cloudbuild.ListBuildTriggersResponse:
             r"""Call the list build triggers method over HTTP.
 
             Args:
@@ -1654,41 +1878,46 @@ class CloudBuildRestTransport(CloudBuildTransport):
                     Response containing existing ``BuildTriggers``.
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'get',
-                'uri': '/v1/projects/{project_id}/triggers',
-            },
-{
-                'method': 'get',
-                'uri': '/v1/{parent=projects/*/locations/*}/triggers',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "get",
+                    "uri": "/v1/projects/{project_id}/triggers",
+                },
+                {
+                    "method": "get",
+                    "uri": "/v1/{parent=projects/*/locations/*}/triggers",
+                },
             ]
-            request, metadata = self._interceptor.pre_list_build_triggers(request, metadata)
+            request, metadata = self._interceptor.pre_list_build_triggers(
+                request, metadata
+            )
             pb_request = cloudbuild.ListBuildTriggersRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
 
             # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True,
-            ))
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -1707,19 +1936,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("ListWorkerPools")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.ListWorkerPoolsRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> cloudbuild.ListWorkerPoolsResponse:
+        def __call__(
+            self,
+            request: cloudbuild.ListWorkerPoolsRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> cloudbuild.ListWorkerPoolsResponse:
             r"""Call the list worker pools method over HTTP.
 
             Args:
@@ -1736,37 +1970,42 @@ class CloudBuildRestTransport(CloudBuildTransport):
                     Response containing existing ``WorkerPools``.
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'get',
-                'uri': '/v1/{parent=projects/*/locations/*}/workerPools',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "get",
+                    "uri": "/v1/{parent=projects/*/locations/*}/workerPools",
+                },
             ]
-            request, metadata = self._interceptor.pre_list_worker_pools(request, metadata)
+            request, metadata = self._interceptor.pre_list_worker_pools(
+                request, metadata
+            )
             pb_request = cloudbuild.ListWorkerPoolsRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
 
             # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True,
-            ))
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -1785,12 +2024,14 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("ReceiveTriggerWebhook")
 
-        def __call__(self,
-                request: cloudbuild.ReceiveTriggerWebhookRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> cloudbuild.ReceiveTriggerWebhookResponse:
+        def __call__(
+            self,
+            request: cloudbuild.ReceiveTriggerWebhookRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> cloudbuild.ReceiveTriggerWebhookResponse:
             r"""Call the receive trigger webhook method over HTTP.
 
             Args:
@@ -1812,50 +2053,55 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'post',
-                'uri': '/v1/projects/{project_id}/triggers/{trigger}:webhook',
-                'body': 'body',
-            },
-{
-                'method': 'post',
-                'uri': '/v1/{name=projects/*/locations/*/triggers/*}:webhook',
-                'body': 'body',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "post",
+                    "uri": "/v1/projects/{project_id}/triggers/{trigger}:webhook",
+                    "body": "body",
+                },
+                {
+                    "method": "post",
+                    "uri": "/v1/{name=projects/*/locations/*/triggers/*}:webhook",
+                    "body": "body",
+                },
             ]
-            request, metadata = self._interceptor.pre_receive_trigger_webhook(request, metadata)
+            request, metadata = self._interceptor.pre_receive_trigger_webhook(
+                request, metadata
+            )
             pb_request = cloudbuild.ReceiveTriggerWebhookRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
             # Jsonify the request body
 
             body = json_format.MessageToJson(
-                transcoded_request['body'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True
-            )
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
-
-            # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
+                transcoded_request["body"],
                 including_default_value_fields=False,
                 use_integers_for_enums=True,
-            ))
+            )
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
+
+            # Jsonify the query params
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
                 data=body,
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -1874,19 +2120,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("RetryBuild")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.RetryBuildRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> operations_pb2.Operation:
+        def __call__(
+            self,
+            request: cloudbuild.RetryBuildRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> operations_pb2.Operation:
             r"""Call the retry build method over HTTP.
 
             Args:
@@ -1906,16 +2157,17 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'post',
-                'uri': '/v1/projects/{project_id}/builds/{id}:retry',
-                'body': '*',
-            },
-{
-                'method': 'post',
-                'uri': '/v1/{name=projects/*/locations/*/builds/*}:retry',
-                'body': '*',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "post",
+                    "uri": "/v1/projects/{project_id}/builds/{id}:retry",
+                    "body": "*",
+                },
+                {
+                    "method": "post",
+                    "uri": "/v1/{name=projects/*/locations/*/builds/*}:retry",
+                    "body": "*",
+                },
             ]
             request, metadata = self._interceptor.pre_retry_build(request, metadata)
             pb_request = cloudbuild.RetryBuildRequest.pb(request)
@@ -1924,33 +2176,35 @@ class CloudBuildRestTransport(CloudBuildTransport):
             # Jsonify the request body
 
             body = json_format.MessageToJson(
-                transcoded_request['body'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True
-            )
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
-
-            # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
+                transcoded_request["body"],
                 including_default_value_fields=False,
                 use_integers_for_enums=True,
-            ))
+            )
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
+
+            # Jsonify the query params
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
                 data=body,
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -1967,19 +2221,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("RunBuildTrigger")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.RunBuildTriggerRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> operations_pb2.Operation:
+        def __call__(
+            self,
+            request: cloudbuild.RunBuildTriggerRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> operations_pb2.Operation:
             r"""Call the run build trigger method over HTTP.
 
             Args:
@@ -2001,51 +2260,56 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'post',
-                'uri': '/v1/projects/{project_id}/triggers/{trigger_id}:run',
-                'body': 'source',
-            },
-{
-                'method': 'post',
-                'uri': '/v1/{name=projects/*/locations/*/triggers/*}:run',
-                'body': '*',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "post",
+                    "uri": "/v1/projects/{project_id}/triggers/{trigger_id}:run",
+                    "body": "source",
+                },
+                {
+                    "method": "post",
+                    "uri": "/v1/{name=projects/*/locations/*/triggers/*}:run",
+                    "body": "*",
+                },
             ]
-            request, metadata = self._interceptor.pre_run_build_trigger(request, metadata)
+            request, metadata = self._interceptor.pre_run_build_trigger(
+                request, metadata
+            )
             pb_request = cloudbuild.RunBuildTriggerRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
             # Jsonify the request body
 
             body = json_format.MessageToJson(
-                transcoded_request['body'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True
-            )
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
-
-            # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
+                transcoded_request["body"],
                 including_default_value_fields=False,
                 use_integers_for_enums=True,
-            ))
+            )
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
+
+            # Jsonify the query params
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
                 data=body,
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -2062,19 +2326,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("UpdateBuildTrigger")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.UpdateBuildTriggerRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> cloudbuild.BuildTrigger:
+        def __call__(
+            self,
+            request: cloudbuild.UpdateBuildTriggerRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> cloudbuild.BuildTrigger:
             r"""Call the update build trigger method over HTTP.
 
             Args:
@@ -2094,51 +2363,56 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'patch',
-                'uri': '/v1/projects/{project_id}/triggers/{trigger_id}',
-                'body': 'trigger',
-            },
-{
-                'method': 'patch',
-                'uri': '/v1/{trigger.resource_name=projects/*/locations/*/triggers/*}',
-                'body': 'trigger',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "patch",
+                    "uri": "/v1/projects/{project_id}/triggers/{trigger_id}",
+                    "body": "trigger",
+                },
+                {
+                    "method": "patch",
+                    "uri": "/v1/{trigger.resource_name=projects/*/locations/*/triggers/*}",
+                    "body": "trigger",
+                },
             ]
-            request, metadata = self._interceptor.pre_update_build_trigger(request, metadata)
+            request, metadata = self._interceptor.pre_update_build_trigger(
+                request, metadata
+            )
             pb_request = cloudbuild.UpdateBuildTriggerRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
             # Jsonify the request body
 
             body = json_format.MessageToJson(
-                transcoded_request['body'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True
-            )
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
-
-            # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
+                transcoded_request["body"],
                 including_default_value_fields=False,
                 use_integers_for_enums=True,
-            ))
+            )
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
+
+            # Jsonify the query params
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
                 data=body,
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -2157,19 +2431,24 @@ class CloudBuildRestTransport(CloudBuildTransport):
         def __hash__(self):
             return hash("UpdateWorkerPool")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] =  {
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, str] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
-            return {k: v for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items() if k not in message_dict}
+            return {
+                k: v
+                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
+                if k not in message_dict
+            }
 
-        def __call__(self,
-                request: cloudbuild.UpdateWorkerPoolRequest, *,
-                retry: OptionalRetry=gapic_v1.method.DEFAULT,
-                timeout: Optional[float]=None,
-                metadata: Sequence[Tuple[str, str]]=(),
-                ) -> operations_pb2.Operation:
+        def __call__(
+            self,
+            request: cloudbuild.UpdateWorkerPoolRequest,
+            *,
+            retry: OptionalRetry = gapic_v1.method.DEFAULT,
+            timeout: Optional[float] = None,
+            metadata: Sequence[Tuple[str, str]] = (),
+        ) -> operations_pb2.Operation:
             r"""Call the update worker pool method over HTTP.
 
             Args:
@@ -2189,46 +2468,51 @@ class CloudBuildRestTransport(CloudBuildTransport):
 
             """
 
-            http_options: List[Dict[str, str]] = [{
-                'method': 'patch',
-                'uri': '/v1/{worker_pool.name=projects/*/locations/*/workerPools/*}',
-                'body': 'worker_pool',
-            },
+            http_options: List[Dict[str, str]] = [
+                {
+                    "method": "patch",
+                    "uri": "/v1/{worker_pool.name=projects/*/locations/*/workerPools/*}",
+                    "body": "worker_pool",
+                },
             ]
-            request, metadata = self._interceptor.pre_update_worker_pool(request, metadata)
+            request, metadata = self._interceptor.pre_update_worker_pool(
+                request, metadata
+            )
             pb_request = cloudbuild.UpdateWorkerPoolRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
             # Jsonify the request body
 
             body = json_format.MessageToJson(
-                transcoded_request['body'],
-                including_default_value_fields=False,
-                use_integers_for_enums=True
-            )
-            uri = transcoded_request['uri']
-            method = transcoded_request['method']
-
-            # Jsonify the query params
-            query_params = json.loads(json_format.MessageToJson(
-                transcoded_request['query_params'],
+                transcoded_request["body"],
                 including_default_value_fields=False,
                 use_integers_for_enums=True,
-            ))
+            )
+            uri = transcoded_request["uri"]
+            method = transcoded_request["method"]
+
+            # Jsonify the query params
+            query_params = json.loads(
+                json_format.MessageToJson(
+                    transcoded_request["query_params"],
+                    including_default_value_fields=False,
+                    use_integers_for_enums=True,
+                )
+            )
             query_params.update(self._get_unset_required_fields(query_params))
 
             query_params["$alt"] = "json;enum-encoding=int"
 
             # Send the request
             headers = dict(metadata)
-            headers['Content-Type'] = 'application/json'
+            headers["Content-Type"] = "application/json"
             response = getattr(self._session, method)(
                 "{host}{uri}".format(host=self._host, uri=uri),
                 timeout=timeout,
                 headers=headers,
                 params=rest_helpers.flatten_query_params(query_params, strict=True),
                 data=body,
-                )
+            )
 
             # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
             # subclass.
@@ -2242,148 +2526,153 @@ class CloudBuildRestTransport(CloudBuildTransport):
             return resp
 
     @property
-    def approve_build(self) -> Callable[
-            [cloudbuild.ApproveBuildRequest],
-            operations_pb2.Operation]:
+    def approve_build(
+        self,
+    ) -> Callable[[cloudbuild.ApproveBuildRequest], operations_pb2.Operation]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._ApproveBuild(self._session, self._host, self._interceptor) # type: ignore
+        return self._ApproveBuild(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def cancel_build(self) -> Callable[
-            [cloudbuild.CancelBuildRequest],
-            cloudbuild.Build]:
+    def cancel_build(
+        self,
+    ) -> Callable[[cloudbuild.CancelBuildRequest], cloudbuild.Build]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._CancelBuild(self._session, self._host, self._interceptor) # type: ignore
+        return self._CancelBuild(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def create_build(self) -> Callable[
-            [cloudbuild.CreateBuildRequest],
-            operations_pb2.Operation]:
+    def create_build(
+        self,
+    ) -> Callable[[cloudbuild.CreateBuildRequest], operations_pb2.Operation]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._CreateBuild(self._session, self._host, self._interceptor) # type: ignore
+        return self._CreateBuild(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def create_build_trigger(self) -> Callable[
-            [cloudbuild.CreateBuildTriggerRequest],
-            cloudbuild.BuildTrigger]:
+    def create_build_trigger(
+        self,
+    ) -> Callable[[cloudbuild.CreateBuildTriggerRequest], cloudbuild.BuildTrigger]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._CreateBuildTrigger(self._session, self._host, self._interceptor) # type: ignore
+        return self._CreateBuildTrigger(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def create_worker_pool(self) -> Callable[
-            [cloudbuild.CreateWorkerPoolRequest],
-            operations_pb2.Operation]:
+    def create_worker_pool(
+        self,
+    ) -> Callable[[cloudbuild.CreateWorkerPoolRequest], operations_pb2.Operation]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._CreateWorkerPool(self._session, self._host, self._interceptor) # type: ignore
+        return self._CreateWorkerPool(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def delete_build_trigger(self) -> Callable[
-            [cloudbuild.DeleteBuildTriggerRequest],
-            empty_pb2.Empty]:
+    def delete_build_trigger(
+        self,
+    ) -> Callable[[cloudbuild.DeleteBuildTriggerRequest], empty_pb2.Empty]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._DeleteBuildTrigger(self._session, self._host, self._interceptor) # type: ignore
+        return self._DeleteBuildTrigger(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def delete_worker_pool(self) -> Callable[
-            [cloudbuild.DeleteWorkerPoolRequest],
-            operations_pb2.Operation]:
+    def delete_worker_pool(
+        self,
+    ) -> Callable[[cloudbuild.DeleteWorkerPoolRequest], operations_pb2.Operation]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._DeleteWorkerPool(self._session, self._host, self._interceptor) # type: ignore
+        return self._DeleteWorkerPool(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def get_build(self) -> Callable[
-            [cloudbuild.GetBuildRequest],
-            cloudbuild.Build]:
+    def get_build(self) -> Callable[[cloudbuild.GetBuildRequest], cloudbuild.Build]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._GetBuild(self._session, self._host, self._interceptor) # type: ignore
+        return self._GetBuild(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def get_build_trigger(self) -> Callable[
-            [cloudbuild.GetBuildTriggerRequest],
-            cloudbuild.BuildTrigger]:
+    def get_build_trigger(
+        self,
+    ) -> Callable[[cloudbuild.GetBuildTriggerRequest], cloudbuild.BuildTrigger]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._GetBuildTrigger(self._session, self._host, self._interceptor) # type: ignore
+        return self._GetBuildTrigger(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def get_worker_pool(self) -> Callable[
-            [cloudbuild.GetWorkerPoolRequest],
-            cloudbuild.WorkerPool]:
+    def get_worker_pool(
+        self,
+    ) -> Callable[[cloudbuild.GetWorkerPoolRequest], cloudbuild.WorkerPool]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._GetWorkerPool(self._session, self._host, self._interceptor) # type: ignore
+        return self._GetWorkerPool(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def list_builds(self) -> Callable[
-            [cloudbuild.ListBuildsRequest],
-            cloudbuild.ListBuildsResponse]:
+    def list_builds(
+        self,
+    ) -> Callable[[cloudbuild.ListBuildsRequest], cloudbuild.ListBuildsResponse]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._ListBuilds(self._session, self._host, self._interceptor) # type: ignore
+        return self._ListBuilds(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def list_build_triggers(self) -> Callable[
-            [cloudbuild.ListBuildTriggersRequest],
-            cloudbuild.ListBuildTriggersResponse]:
+    def list_build_triggers(
+        self,
+    ) -> Callable[
+        [cloudbuild.ListBuildTriggersRequest], cloudbuild.ListBuildTriggersResponse
+    ]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._ListBuildTriggers(self._session, self._host, self._interceptor) # type: ignore
+        return self._ListBuildTriggers(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def list_worker_pools(self) -> Callable[
-            [cloudbuild.ListWorkerPoolsRequest],
-            cloudbuild.ListWorkerPoolsResponse]:
+    def list_worker_pools(
+        self,
+    ) -> Callable[
+        [cloudbuild.ListWorkerPoolsRequest], cloudbuild.ListWorkerPoolsResponse
+    ]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._ListWorkerPools(self._session, self._host, self._interceptor) # type: ignore
+        return self._ListWorkerPools(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def receive_trigger_webhook(self) -> Callable[
-            [cloudbuild.ReceiveTriggerWebhookRequest],
-            cloudbuild.ReceiveTriggerWebhookResponse]:
+    def receive_trigger_webhook(
+        self,
+    ) -> Callable[
+        [cloudbuild.ReceiveTriggerWebhookRequest],
+        cloudbuild.ReceiveTriggerWebhookResponse,
+    ]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._ReceiveTriggerWebhook(self._session, self._host, self._interceptor) # type: ignore
+        return self._ReceiveTriggerWebhook(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def retry_build(self) -> Callable[
-            [cloudbuild.RetryBuildRequest],
-            operations_pb2.Operation]:
+    def retry_build(
+        self,
+    ) -> Callable[[cloudbuild.RetryBuildRequest], operations_pb2.Operation]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._RetryBuild(self._session, self._host, self._interceptor) # type: ignore
+        return self._RetryBuild(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def run_build_trigger(self) -> Callable[
-            [cloudbuild.RunBuildTriggerRequest],
-            operations_pb2.Operation]:
+    def run_build_trigger(
+        self,
+    ) -> Callable[[cloudbuild.RunBuildTriggerRequest], operations_pb2.Operation]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._RunBuildTrigger(self._session, self._host, self._interceptor) # type: ignore
+        return self._RunBuildTrigger(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def update_build_trigger(self) -> Callable[
-            [cloudbuild.UpdateBuildTriggerRequest],
-            cloudbuild.BuildTrigger]:
+    def update_build_trigger(
+        self,
+    ) -> Callable[[cloudbuild.UpdateBuildTriggerRequest], cloudbuild.BuildTrigger]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._UpdateBuildTrigger(self._session, self._host, self._interceptor) # type: ignore
+        return self._UpdateBuildTrigger(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def update_worker_pool(self) -> Callable[
-            [cloudbuild.UpdateWorkerPoolRequest],
-            operations_pb2.Operation]:
+    def update_worker_pool(
+        self,
+    ) -> Callable[[cloudbuild.UpdateWorkerPoolRequest], operations_pb2.Operation]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._UpdateWorkerPool(self._session, self._host, self._interceptor) # type: ignore
+        return self._UpdateWorkerPool(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
     def kind(self) -> str:
@@ -2393,6 +2682,4 @@ class CloudBuildRestTransport(CloudBuildTransport):
         self._session.close()
 
 
-__all__=(
-    'CloudBuildRestTransport',
-)
+__all__ = ("CloudBuildRestTransport",)
