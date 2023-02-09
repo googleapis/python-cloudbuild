@@ -22,7 +22,7 @@ def quickstart(transport: str = None):
     """
     Create and execute a simple Google Cloud Build configuration,
     print the in-progress status and print the completed status.
-    
+
     Args:
         transport(str): The transport to use. For example, "grpc"
             or "rest". If set to None, a transport is chosen automatically.
