@@ -4,6 +4,56 @@
 
 [1]: https://pypi.org/project/google-cloud-build/#history
 
+## [3.14.0](https://github.com/googleapis/python-cloudbuild/compare/v3.13.0...v3.14.0) (2023-03-23)
+
+
+### Features
+
+* Add DefaultLogsBucketBehavior to BuildOptions ([#391](https://github.com/googleapis/python-cloudbuild/issues/391)) ([599c938](https://github.com/googleapis/python-cloudbuild/commit/599c9385af35940b077b9094cd4bcd6ab88c0c5c))
+
+
+### Documentation
+
+* Fix formatting of request arg in docstring ([#397](https://github.com/googleapis/python-cloudbuild/issues/397)) ([1c7725f](https://github.com/googleapis/python-cloudbuild/commit/1c7725fb41eb4278b3db661cae9fc6d9630e704c))
+
+## [3.13.0](https://github.com/googleapis/python-cloudbuild/compare/v3.12.0...v3.13.0) (2023-02-17)
+
+
+### Features
+
+* Enable "rest" transport in Python for services supporting numeric enums ([0c4d84f](https://github.com/googleapis/python-cloudbuild/commit/0c4d84f6bec2e1097b140ad167785236ff52d11c))
+
+
+### Bug Fixes
+
+* Remove empty v2.CloudBuild definition ([0c4d84f](https://github.com/googleapis/python-cloudbuild/commit/0c4d84f6bec2e1097b140ad167785236ff52d11c))
+
+## [3.12.0](https://github.com/googleapis/python-cloudbuild/compare/v3.11.1...v3.12.0) (2023-02-04)
+
+
+### Features
+
+* Client libraries for Cloud Build Repositories (preview) ([#376](https://github.com/googleapis/python-cloudbuild/issues/376)) ([9b53646](https://github.com/googleapis/python-cloudbuild/commit/9b5364663ffd818e6f9cc27097ec9c56ef604915))
+
+## [3.11.1](https://github.com/googleapis/python-cloudbuild/compare/v3.11.0...v3.11.1) (2023-01-20)
+
+
+### Bug Fixes
+
+* Add context manager return types ([51b64ba](https://github.com/googleapis/python-cloudbuild/commit/51b64baa1d53e83a1fbe77c6c127c81c0c3fa75e))
+
+
+### Documentation
+
+* Add documentation for enums ([51b64ba](https://github.com/googleapis/python-cloudbuild/commit/51b64baa1d53e83a1fbe77c6c127c81c0c3fa75e))
+
+## [3.11.0](https://github.com/googleapis/python-cloudbuild/compare/v3.10.0...v3.11.0) (2023-01-10)
+
+
+### Features
+
+* Add support for python 3.11 ([#367](https://github.com/googleapis/python-cloudbuild/issues/367)) ([40e3315](https://github.com/googleapis/python-cloudbuild/commit/40e33155b3814517fc08c30a0f0f3f5c2c4c6bba))
+
 ## [3.10.0](https://github.com/googleapis/python-cloudbuild/compare/v3.9.3...v3.10.0) (2022-12-15)
 
 
