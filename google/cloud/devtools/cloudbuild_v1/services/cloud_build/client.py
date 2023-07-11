@@ -208,18 +208,23 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
     @staticmethod
     def build_trigger_path(
         project: str,
+        location: str,
         trigger: str,
     ) -> str:
         """Returns a fully-qualified build_trigger string."""
-        return "projects/{project}/triggers/{trigger}".format(
+        return "projects/{project}/locations/{location}/triggers/{trigger}".format(
             project=project,
+            location=location,
             trigger=trigger,
         )
 
     @staticmethod
     def parse_build_trigger_path(path: str) -> Dict[str, str]:
         """Parses a build_trigger path into its component segments."""
-        m = re.match(r"^projects/(?P<project>.+?)/triggers/(?P<trigger>.+?)$", path)
+        m = re.match(
+            r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/triggers/(?P<trigger>.+?)$",
+            path,
+        )
         return m.groupdict() if m else {}
 
     @staticmethod
@@ -759,13 +764,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.create_build]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (("project_id", request.project_id),)
-            ),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)$"
         )
+        regex_match = routing_param_regex.match(request.parent)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -903,16 +914,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.get_build]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (
-                    ("project_id", request.project_id),
-                    ("id", request.id),
-                )
-            ),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)/builds/[^/]+$"
         )
+        regex_match = routing_param_regex.match(request.name)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -1022,13 +1036,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.list_builds]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (("project_id", request.project_id),)
-            ),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)$"
         )
+        regex_match = routing_param_regex.match(request.parent)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -1163,16 +1183,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.cancel_build]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (
-                    ("project_id", request.project_id),
-                    ("id", request.id),
-                )
-            ),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)/builds/[^/]+$"
         )
+        regex_match = routing_param_regex.match(request.name)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -1216,7 +1239,7 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
 
         For builds that specify ``StorageSource``:
 
-        -  If the original build pulled source from Google Cloud Storage
+        -  If the original build pulled source from Cloud Storage
            without specifying the generation of the object, the new
            build will use the current object, which may be different
            from the original build source.
@@ -1337,16 +1360,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.retry_build]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (
-                    ("project_id", request.project_id),
-                    ("id", request.id),
-                )
-            ),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)/builds/[^/]+$"
         )
+        regex_match = routing_param_regex.match(request.name)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -1494,11 +1520,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.approve_build]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)/builds/[^/]+$"
         )
+        regex_match = routing_param_regex.match(request.name)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -1618,13 +1652,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.create_build_trigger]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (("project_id", request.project_id),)
-            ),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)$"
         )
+        regex_match = routing_param_regex.match(request.parent)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -1735,16 +1775,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.get_build_trigger]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (
-                    ("project_id", request.project_id),
-                    ("trigger_id", request.trigger_id),
-                )
-            ),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)/triggers/[^/]+$"
         )
+        regex_match = routing_param_regex.match(request.name)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -1846,13 +1889,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.list_build_triggers]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (("project_id", request.project_id),)
-            ),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)$"
         )
+        regex_match = routing_param_regex.match(request.parent)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -1960,16 +2009,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.delete_build_trigger]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (
-                    ("project_id", request.project_id),
-                    ("trigger_id", request.trigger_id),
-                )
-            ),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)/triggers/[^/]+$"
         )
+        regex_match = routing_param_regex.match(request.name)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         rpc(
@@ -2087,16 +2139,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.update_build_trigger]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (
-                    ("project_id", request.project_id),
-                    ("trigger_id", request.trigger_id),
-                )
-            ),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)/triggers/[^/]+$"
         )
+        regex_match = routing_param_regex.match(request.trigger.resource_name)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -2121,6 +2176,12 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Runs a ``BuildTrigger`` at a particular source revision.
+
+        To run a regional or global trigger, use the POST request that
+        includes the location endpoint in the path (ex.
+        v1/projects/{projectId}/locations/{region}/triggers/{triggerId}:run).
+        The POST request that does not include the location endpoint in
+        the path can only be used when running global triggers.
 
         .. code-block:: python
 
@@ -2169,6 +2230,9 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
                 should not be set.
             source (google.cloud.devtools.cloudbuild_v1.types.RepoSource):
                 Source to build against this trigger.
+                Branch and tag names cannot consist of
+                regular expressions.
+
                 This corresponds to the ``source`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
@@ -2239,16 +2303,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.run_build_trigger]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (
-                    ("project_id", request.project_id),
-                    ("trigger_id", request.trigger_id),
-                )
-            ),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)/triggers/[^/]+$"
         )
+        regex_match = routing_param_regex.match(request.name)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -2485,11 +2552,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.create_worker_pool]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("parent", request.parent),)),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)$"
         )
+        regex_match = routing_param_regex.match(request.parent)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -2608,11 +2683,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.get_worker_pool]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)/workerPools/[^/]+$"
         )
+        regex_match = routing_param_regex.match(request.name)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -2724,11 +2807,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.delete_worker_pool]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("name", request.name),)),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)/workerPools/[^/]+$"
         )
+        regex_match = routing_param_regex.match(request.name)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -2866,13 +2957,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.update_worker_pool]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata(
-                (("worker_pool.name", request.worker_pool.name),)
-            ),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)/workerPools/[^/]+$"
         )
+        regex_match = routing_param_regex.match(request.worker_pool.name)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
@@ -2981,11 +3078,19 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
         # and friendly error handling.
         rpc = self._transport._wrapped_methods[self._transport.list_worker_pools]
 
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("parent", request.parent),)),
+        header_params = {}
+
+        routing_param_regex = re.compile(
+            "^projects/[^/]+/locations/(?P<location>[^/]+)$"
         )
+        regex_match = routing_param_regex.match(request.parent)
+        if regex_match and regex_match.group("location"):
+            header_params["location"] = regex_match.group("location")
+
+        if header_params:
+            metadata = tuple(metadata) + (
+                gapic_v1.routing_header.to_grpc_metadata(header_params),
+            )
 
         # Send the request.
         response = rpc(
