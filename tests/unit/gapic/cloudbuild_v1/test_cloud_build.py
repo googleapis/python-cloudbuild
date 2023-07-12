@@ -12380,22 +12380,19 @@ def test_parse_build_path():
 
 def test_build_trigger_path():
     project = "oyster"
-    location = "nudibranch"
-    trigger = "cuttlefish"
-    expected = "projects/{project}/locations/{location}/triggers/{trigger}".format(
+    trigger = "nudibranch"
+    expected = "projects/{project}/triggers/{trigger}".format(
         project=project,
-        location=location,
         trigger=trigger,
     )
-    actual = CloudBuildClient.build_trigger_path(project, location, trigger)
+    actual = CloudBuildClient.build_trigger_path(project, trigger)
     assert expected == actual
 
 
 def test_parse_build_trigger_path():
     expected = {
-        "project": "mussel",
-        "location": "winkle",
-        "trigger": "nautilus",
+        "project": "cuttlefish",
+        "trigger": "mussel",
     }
     path = CloudBuildClient.build_trigger_path(**expected)
 
@@ -12405,10 +12402,10 @@ def test_parse_build_trigger_path():
 
 
 def test_crypto_key_path():
-    project = "scallop"
-    location = "abalone"
-    keyring = "squid"
-    key = "clam"
+    project = "winkle"
+    location = "nautilus"
+    keyring = "scallop"
+    key = "abalone"
     expected = "projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}".format(
         project=project,
         location=location,
@@ -12421,10 +12418,10 @@ def test_crypto_key_path():
 
 def test_parse_crypto_key_path():
     expected = {
-        "project": "whelk",
-        "location": "octopus",
-        "keyring": "oyster",
-        "key": "nudibranch",
+        "project": "squid",
+        "location": "clam",
+        "keyring": "whelk",
+        "key": "octopus",
     }
     path = CloudBuildClient.crypto_key_path(**expected)
 
@@ -12434,8 +12431,8 @@ def test_parse_crypto_key_path():
 
 
 def test_network_path():
-    project = "cuttlefish"
-    network = "mussel"
+    project = "oyster"
+    network = "nudibranch"
     expected = "projects/{project}/global/networks/{network}".format(
         project=project,
         network=network,
@@ -12446,8 +12443,8 @@ def test_network_path():
 
 def test_parse_network_path():
     expected = {
-        "project": "winkle",
-        "network": "nautilus",
+        "project": "cuttlefish",
+        "network": "mussel",
     }
     path = CloudBuildClient.network_path(**expected)
 
@@ -12457,10 +12454,10 @@ def test_parse_network_path():
 
 
 def test_repository_path():
-    project = "scallop"
-    location = "abalone"
-    connection = "squid"
-    repository = "clam"
+    project = "winkle"
+    location = "nautilus"
+    connection = "scallop"
+    repository = "abalone"
     expected = "projects/{project}/locations/{location}/connections/{connection}/repositories/{repository}".format(
         project=project,
         location=location,
@@ -12473,10 +12470,10 @@ def test_repository_path():
 
 def test_parse_repository_path():
     expected = {
-        "project": "whelk",
-        "location": "octopus",
-        "connection": "oyster",
-        "repository": "nudibranch",
+        "project": "squid",
+        "location": "clam",
+        "connection": "whelk",
+        "repository": "octopus",
     }
     path = CloudBuildClient.repository_path(**expected)
 
@@ -12486,9 +12483,9 @@ def test_parse_repository_path():
 
 
 def test_secret_version_path():
-    project = "cuttlefish"
-    secret = "mussel"
-    version = "winkle"
+    project = "oyster"
+    secret = "nudibranch"
+    version = "cuttlefish"
     expected = "projects/{project}/secrets/{secret}/versions/{version}".format(
         project=project,
         secret=secret,
@@ -12500,9 +12497,9 @@ def test_secret_version_path():
 
 def test_parse_secret_version_path():
     expected = {
-        "project": "nautilus",
-        "secret": "scallop",
-        "version": "abalone",
+        "project": "mussel",
+        "secret": "winkle",
+        "version": "nautilus",
     }
     path = CloudBuildClient.secret_version_path(**expected)
 
@@ -12512,8 +12509,8 @@ def test_parse_secret_version_path():
 
 
 def test_service_account_path():
-    project = "squid"
-    service_account = "clam"
+    project = "scallop"
+    service_account = "abalone"
     expected = "projects/{project}/serviceAccounts/{service_account}".format(
         project=project,
         service_account=service_account,
@@ -12524,8 +12521,8 @@ def test_service_account_path():
 
 def test_parse_service_account_path():
     expected = {
-        "project": "whelk",
-        "service_account": "octopus",
+        "project": "squid",
+        "service_account": "clam",
     }
     path = CloudBuildClient.service_account_path(**expected)
 
@@ -12535,8 +12532,8 @@ def test_parse_service_account_path():
 
 
 def test_subscription_path():
-    project = "oyster"
-    subscription = "nudibranch"
+    project = "whelk"
+    subscription = "octopus"
     expected = "projects/{project}/subscriptions/{subscription}".format(
         project=project,
         subscription=subscription,
@@ -12547,8 +12544,8 @@ def test_subscription_path():
 
 def test_parse_subscription_path():
     expected = {
-        "project": "cuttlefish",
-        "subscription": "mussel",
+        "project": "oyster",
+        "subscription": "nudibranch",
     }
     path = CloudBuildClient.subscription_path(**expected)
 
@@ -12558,8 +12555,8 @@ def test_parse_subscription_path():
 
 
 def test_topic_path():
-    project = "winkle"
-    topic = "nautilus"
+    project = "cuttlefish"
+    topic = "mussel"
     expected = "projects/{project}/topics/{topic}".format(
         project=project,
         topic=topic,
@@ -12570,8 +12567,8 @@ def test_topic_path():
 
 def test_parse_topic_path():
     expected = {
-        "project": "scallop",
-        "topic": "abalone",
+        "project": "winkle",
+        "topic": "nautilus",
     }
     path = CloudBuildClient.topic_path(**expected)
 
@@ -12581,9 +12578,9 @@ def test_parse_topic_path():
 
 
 def test_worker_pool_path():
-    project = "squid"
-    location = "clam"
-    worker_pool = "whelk"
+    project = "scallop"
+    location = "abalone"
+    worker_pool = "squid"
     expected = (
         "projects/{project}/locations/{location}/workerPools/{worker_pool}".format(
             project=project,
@@ -12597,9 +12594,9 @@ def test_worker_pool_path():
 
 def test_parse_worker_pool_path():
     expected = {
-        "project": "octopus",
-        "location": "oyster",
-        "worker_pool": "nudibranch",
+        "project": "clam",
+        "location": "whelk",
+        "worker_pool": "octopus",
     }
     path = CloudBuildClient.worker_pool_path(**expected)
 
@@ -12609,7 +12606,7 @@ def test_parse_worker_pool_path():
 
 
 def test_common_billing_account_path():
-    billing_account = "cuttlefish"
+    billing_account = "oyster"
     expected = "billingAccounts/{billing_account}".format(
         billing_account=billing_account,
     )
@@ -12619,7 +12616,7 @@ def test_common_billing_account_path():
 
 def test_parse_common_billing_account_path():
     expected = {
-        "billing_account": "mussel",
+        "billing_account": "nudibranch",
     }
     path = CloudBuildClient.common_billing_account_path(**expected)
 
@@ -12629,7 +12626,7 @@ def test_parse_common_billing_account_path():
 
 
 def test_common_folder_path():
-    folder = "winkle"
+    folder = "cuttlefish"
     expected = "folders/{folder}".format(
         folder=folder,
     )
@@ -12639,7 +12636,7 @@ def test_common_folder_path():
 
 def test_parse_common_folder_path():
     expected = {
-        "folder": "nautilus",
+        "folder": "mussel",
     }
     path = CloudBuildClient.common_folder_path(**expected)
 
@@ -12649,7 +12646,7 @@ def test_parse_common_folder_path():
 
 
 def test_common_organization_path():
-    organization = "scallop"
+    organization = "winkle"
     expected = "organizations/{organization}".format(
         organization=organization,
     )
@@ -12659,7 +12656,7 @@ def test_common_organization_path():
 
 def test_parse_common_organization_path():
     expected = {
-        "organization": "abalone",
+        "organization": "nautilus",
     }
     path = CloudBuildClient.common_organization_path(**expected)
 
@@ -12669,7 +12666,7 @@ def test_parse_common_organization_path():
 
 
 def test_common_project_path():
-    project = "squid"
+    project = "scallop"
     expected = "projects/{project}".format(
         project=project,
     )
@@ -12679,7 +12676,7 @@ def test_common_project_path():
 
 def test_parse_common_project_path():
     expected = {
-        "project": "clam",
+        "project": "abalone",
     }
     path = CloudBuildClient.common_project_path(**expected)
 
@@ -12689,8 +12686,8 @@ def test_parse_common_project_path():
 
 
 def test_common_location_path():
-    project = "whelk"
-    location = "octopus"
+    project = "squid"
+    location = "clam"
     expected = "projects/{project}/locations/{location}".format(
         project=project,
         location=location,
@@ -12701,8 +12698,8 @@ def test_common_location_path():
 
 def test_parse_common_location_path():
     expected = {
-        "project": "oyster",
-        "location": "nudibranch",
+        "project": "whelk",
+        "location": "octopus",
     }
     path = CloudBuildClient.common_location_path(**expected)
 

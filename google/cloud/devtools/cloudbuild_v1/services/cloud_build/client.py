@@ -208,23 +208,18 @@ class CloudBuildClient(metaclass=CloudBuildClientMeta):
     @staticmethod
     def build_trigger_path(
         project: str,
-        location: str,
         trigger: str,
     ) -> str:
         """Returns a fully-qualified build_trigger string."""
-        return "projects/{project}/locations/{location}/triggers/{trigger}".format(
+        return "projects/{project}/triggers/{trigger}".format(
             project=project,
-            location=location,
             trigger=trigger,
         )
 
     @staticmethod
     def parse_build_trigger_path(path: str) -> Dict[str, str]:
         """Parses a build_trigger path into its component segments."""
-        m = re.match(
-            r"^projects/(?P<project>.+?)/locations/(?P<location>.+?)/triggers/(?P<trigger>.+?)$",
-            path,
-        )
+        m = re.match(r"^projects/(?P<project>.+?)/triggers/(?P<trigger>.+?)$", path)
         return m.groupdict() if m else {}
 
     @staticmethod
