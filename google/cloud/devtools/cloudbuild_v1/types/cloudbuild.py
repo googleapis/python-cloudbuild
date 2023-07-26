@@ -538,6 +538,8 @@ class UploadedNpmPackage(proto.Message):
 class BuildStep(proto.Message):
     r"""A step in the build pipeline.
 
+    .. _oneof: https://proto-plus-python.readthedocs.io/en/stable/fields.html#oneofs-mutually-exclusive-fields
+
     Attributes:
         name (str):
             Required. The name of the container image that will run this
@@ -649,6 +651,13 @@ class BuildStep(proto.Message):
             A shell script to be executed in the step.
             When script is provided, the user cannot specify
             the entrypoint or args.
+        automap_substitutions (bool):
+            Option to include built-in and custom
+            substitutions as env variables for this build
+            step. This option will override the global
+            option in BuildOption.
+
+            This field is a member of `oneof`_ ``_automap_substitutions``.
     """
 
     name: str = proto.Field(
@@ -723,6 +732,11 @@ class BuildStep(proto.Message):
     script: str = proto.Field(
         proto.STRING,
         number=19,
+    )
+    automap_substitutions: bool = proto.Field(
+        proto.BOOL,
+        number=20,
+        optional=True,
     )
 
 
@@ -3044,6 +3058,10 @@ class BuildOptions(proto.Message):
             NOTE: this is always enabled for triggered
             builds and cannot be overridden in the build
             configuration file.
+        automap_substitutions (bool):
+            Option to include built-in and custom
+            substitutions as env variables for all build
+            steps.
         log_streaming_option (google.cloud.devtools.cloudbuild_v1.types.BuildOptions.LogStreamingOption):
             Option to define build log streaming behavior
             to Cloud Storage.
@@ -3269,6 +3287,10 @@ class BuildOptions(proto.Message):
     dynamic_substitutions: bool = proto.Field(
         proto.BOOL,
         number=17,
+    )
+    automap_substitutions: bool = proto.Field(
+        proto.BOOL,
+        number=22,
     )
     log_streaming_option: LogStreamingOption = proto.Field(
         proto.ENUM,

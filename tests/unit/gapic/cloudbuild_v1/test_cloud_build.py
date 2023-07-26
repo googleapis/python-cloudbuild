@@ -5294,6 +5294,7 @@ def test_create_build_rest(request_type):
                 "exit_code": 948,
                 "allow_exit_codes": [1702, 1703],
                 "script": "script_value",
+                "automap_substitutions": True,
             }
         ],
         "results": {
@@ -5374,6 +5375,7 @@ def test_create_build_rest(request_type):
             "disk_size_gb": 1261,
             "substitution_option": 1,
             "dynamic_substitutions": True,
+            "automap_substitutions": True,
             "log_streaming_option": 1,
             "worker_pool": "worker_pool_value",
             "pool": {"name": "name_value"},
@@ -5644,6 +5646,7 @@ def test_create_build_rest_bad_request(
                 "exit_code": 948,
                 "allow_exit_codes": [1702, 1703],
                 "script": "script_value",
+                "automap_substitutions": True,
             }
         ],
         "results": {
@@ -5724,6 +5727,7 @@ def test_create_build_rest_bad_request(
             "disk_size_gb": 1261,
             "substitution_option": 1,
             "dynamic_substitutions": True,
+            "automap_substitutions": True,
             "log_streaming_option": 1,
             "worker_pool": "worker_pool_value",
             "pool": {"name": "name_value"},
@@ -7403,6 +7407,7 @@ def test_create_build_trigger_rest(request_type):
                     "exit_code": 948,
                     "allow_exit_codes": [1702, 1703],
                     "script": "script_value",
+                    "automap_substitutions": True,
                 }
             ],
             "results": {
@@ -7486,6 +7491,7 @@ def test_create_build_trigger_rest(request_type):
                 "disk_size_gb": 1261,
                 "substitution_option": 1,
                 "dynamic_substitutions": True,
+                "automap_substitutions": True,
                 "log_streaming_option": 1,
                 "worker_pool": "worker_pool_value",
                 "pool": {"name": "name_value"},
@@ -7843,6 +7849,7 @@ def test_create_build_trigger_rest_bad_request(
                     "exit_code": 948,
                     "allow_exit_codes": [1702, 1703],
                     "script": "script_value",
+                    "automap_substitutions": True,
                 }
             ],
             "results": {
@@ -7926,6 +7933,7 @@ def test_create_build_trigger_rest_bad_request(
                 "disk_size_gb": 1261,
                 "substitution_option": 1,
                 "dynamic_substitutions": True,
+                "automap_substitutions": True,
                 "log_streaming_option": 1,
                 "worker_pool": "worker_pool_value",
                 "pool": {"name": "name_value"},
@@ -9079,6 +9087,7 @@ def test_update_build_trigger_rest(request_type):
                     "exit_code": 948,
                     "allow_exit_codes": [1702, 1703],
                     "script": "script_value",
+                    "automap_substitutions": True,
                 }
             ],
             "results": {
@@ -9162,6 +9171,7 @@ def test_update_build_trigger_rest(request_type):
                 "disk_size_gb": 1261,
                 "substitution_option": 1,
                 "dynamic_substitutions": True,
+                "automap_substitutions": True,
                 "log_streaming_option": 1,
                 "worker_pool": "worker_pool_value",
                 "pool": {"name": "name_value"},
@@ -9522,6 +9532,7 @@ def test_update_build_trigger_rest_bad_request(
                     "exit_code": 948,
                     "allow_exit_codes": [1702, 1703],
                     "script": "script_value",
+                    "automap_substitutions": True,
                 }
             ],
             "results": {
@@ -9605,6 +9616,7 @@ def test_update_build_trigger_rest_bad_request(
                 "disk_size_gb": 1261,
                 "substitution_option": 1,
                 "dynamic_substitutions": True,
+                "automap_substitutions": True,
                 "log_streaming_option": 1,
                 "worker_pool": "worker_pool_value",
                 "pool": {"name": "name_value"},
