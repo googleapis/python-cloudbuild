@@ -9313,6 +9313,8 @@ def test_update_build_trigger_rest_required_fields(
     unset_fields = transport_class(
         credentials=ga_credentials.AnonymousCredentials()
     ).update_build_trigger._get_unset_required_fields(jsonified_request)
+    # Check that path parameters and body parameters are not mixing in.
+    assert not set(unset_fields) - set(("update_mask",))
     jsonified_request.update(unset_fields)
 
     # verify required fields with non-default values are left alone
@@ -9369,7 +9371,7 @@ def test_update_build_trigger_rest_unset_required_fields():
 
     unset_fields = transport.update_build_trigger._get_unset_required_fields({})
     assert set(unset_fields) == (
-        set(())
+        set(("updateMask",))
         & set(
             (
                 "projectId",

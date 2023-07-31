@@ -3008,6 +3008,11 @@ class UpdateBuildTriggerRequest(proto.Message):
             Required. ID of the ``BuildTrigger`` to update.
         trigger (google.cloud.devtools.cloudbuild_v1.types.BuildTrigger):
             Required. ``BuildTrigger`` to update.
+        update_mask (google.protobuf.field_mask_pb2.FieldMask):
+            Update mask for the resource. If this is set,
+            the server will only update the fields specified
+            in the field mask. Otherwise, a full update of
+            the mutable resource fields will be performed.
     """
 
     project_id: str = proto.Field(
@@ -3022,6 +3027,11 @@ class UpdateBuildTriggerRequest(proto.Message):
         proto.MESSAGE,
         number=3,
         message="BuildTrigger",
+    )
+    update_mask: field_mask_pb2.FieldMask = proto.Field(
+        proto.MESSAGE,
+        number=5,
+        message=field_mask_pb2.FieldMask,
     )
 
 
