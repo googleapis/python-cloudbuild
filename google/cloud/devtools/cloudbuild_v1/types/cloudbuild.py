@@ -2283,9 +2283,10 @@ class BuildTrigger(proto.Message):
             meet the following requirements:
 
             + They must contain only alphanumeric characters
-            and dashes. + They can be 1-64 characters long.
+              and dashes.
+            + They can be 1-64 characters long.
             + They must begin and end with an alphanumeric
-            character.
+              character.
         tags (MutableSequence[str]):
             Tags for annotation of a ``BuildTrigger``
         trigger_template (google.cloud.devtools.cloudbuild_v1.types.RepoSource):
